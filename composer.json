@@ -7,7 +7,9 @@
 		"laravel/framework": "4.1.*"
 	},
 	"require-dev": {
-         "way/generators": "2.*"
+         "way/generators": "2.*",
+         // "raahul/larryfour": "1.*",
+        //  "barryvdh/laravel-migration-generator": "dev-master"
     } ,
 	"autoload": {
 		"classmap": [

@@ -57,7 +57,7 @@ return array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			 'unix_socket' => '/Applications/xampp/xamppfiles/var/mysql/mysql.sock',
-			'database'  => 'bhongtong_lar',
+			'database'  => 'btdb',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',
