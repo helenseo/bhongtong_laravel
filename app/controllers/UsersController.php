@@ -1,4 +1,5 @@
 <?php
+use Faker\Factory as Faker;
 
 class UsersController extends \BaseController {
 
@@ -9,10 +10,38 @@ class UsersController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		
 		$users = Users::paginate(10);
         return View::make('users.index', compact('users'));
-	}
+      
+      return View::make('users.faker', compact('users'));
+
+     }
+     public function fake()
+     {
+     	$faker = Faker::create('en_US');
+        $i=0;
+
+        while($i<10) {
+        $users[$i]['username'] = $faker->username;
+        $users[$i]['password'] = Hash::make("password");
+        $users[$i]['email'] = $faker->email;
+        $users[$i]['phone']=$faker->phoneNumber;
+        $users[$i]['name']=$faker->name;  
+        $users[$i]['bio']=$faker->text(50); 
+         $i++;
+        }
+
+        $users = json_decode(json_encode($users), FALSE);
+/*
+        foreach ($users as $user) {
+        	echo $user->username."<br />";
+        	echo $user->email."<br />";
+        }
+        */
+
+      return View::make('users.faker', compact('users'));
+     }
 
 	/**
 	 * Show the form for creating a new resource.

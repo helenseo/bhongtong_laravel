@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(E_ALL | E_STRICT);
-ini_set('short_open_tag', false);
+ini_set('short_open_tag', true);
 
 if ('cli' !== php_sapi_name()) {
     die('This script is designed for running on the command line.');

@@ -17,3 +17,4 @@ Route::get('/', function()
 });
 Route::get('contact', 'contact@index');
 Route::resource('users', 'userscontroller');
+Route::resource('fake', 'userscontroller@fake');
