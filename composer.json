@@ -4,12 +4,12 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.1.*"
+		"laravel/framework": "4.1.*",
+		"fzaninotto/faker" : "dev-master"
 	},
 	"require-dev": {
          "way/generators": "2.*",
-         // "raahul/larryfour": "1.*",
-        //  "barryvdh/laravel-migration-generator": "dev-master"
+         "raahul/larryfour": "1.*"
     } ,
 	"autoload": {
 		"classmap": [
