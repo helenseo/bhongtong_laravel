@@ -28,7 +28,7 @@ Route::get('users/resetpassword/{token}', 'userscontroller@getResetpassword');
 //Route::get('dashboard','userscontroller@getdashboard');
 
 Route::controller('users', 'UsersController');
-Route::controller('password', 'RemindersController');
+//Route::controller('password', 'RemindersController');
 
 //Route::controller('users', 'UsersController',array('only'=>array('login')));
 //Route::resource('users', 'Userscontroller', array('only' => array('edit','show','create', 'store', 'update', 'destroy')));
