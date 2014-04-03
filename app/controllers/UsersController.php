@@ -265,7 +265,7 @@ class UsersController extends \BaseController {
 
               //return Redirect::to('users/login')->with('message', 'Please check your email to reset your account password!');
              
-            return View::make('emails.auth.reminder',array('token'=>$forgot_pw_token));
+            return View::make('emails.auth.reminder',array('token'=>$forgot_pw_token,'username'=>$user->username));
           	}
           } else { // invalid username or email
             return Redirect::to('users/forgotpassword')
@@ -327,8 +327,8 @@ class UsersController extends \BaseController {
 		);
 
          $rules = array(
-			'password'              => 'required|min:6',
-            'password_confirm'      => 'required|confirmed'
+			'password' =>'Required|AlphaNum|Between:6,12',
+            'password_confirm' =>'Required|AlphaNum|Between:6,12|same:password'
 		);
 
         $validator = Validator::make($inputdata, $rules);
