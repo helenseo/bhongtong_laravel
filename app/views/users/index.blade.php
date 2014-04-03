@@ -26,10 +26,10 @@
           <td>{{ $user->phone }}</td>
           <td>{{ $user->name }}</td>
                     <td>{{ link_to_route('users.edit', 'Edit',
- array($user->id), array('class' => 'btn btn-info')) }}</td>
+ array($user->user_id), array('class' => 'btn btn-info')) }}</td>
                     <td>
           {{ Form::open(array('method' 
-=> 'DELETE', 'route' => array('users.destroy', $user->id))) }}                       
+=> 'DELETE', 'route' => array('users.destroy', $user->user_id))) }}                       
                             {{ Form::submit('Delete', array('class'
  => 'btn btn-danger')) }}
                         {{ Form::close() }}

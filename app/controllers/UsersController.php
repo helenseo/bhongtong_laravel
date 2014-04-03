@@ -8,15 +8,18 @@ class UsersController extends \BaseController {
 	 *
 	 * @return Response
 	 */
+   protected $layout = "layouts.main";
+
+    public function __construct() {
+		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout')));
+	}
 	public function index()
 	{
 		
 		$users = Users::paginate(10);
         return View::make('users.index', compact('users'));
-      
-      return View::make('users.faker', compact('users'));
 
-     }
+       }
      public function fake()
      {
      	$faker = Faker::create('en_US');
@@ -63,7 +66,7 @@ class UsersController extends \BaseController {
 	{
 		//
 		$input = Input::all();
-        $validation = Validator::make($input, User::$rules);
+        $validation = Validator::make($input, Users::$rules);
 
         if ($validation->passes())
         {
@@ -74,7 +77,7 @@ class UsersController extends \BaseController {
            
             );
            */
-           User::create($input);
+           Users::create($input);
 
         	//DB::table('users')->insert($input['username']);
 
@@ -110,7 +113,7 @@ class UsersController extends \BaseController {
 	public function edit($id)
 	{
 		//
-		$user = User::find($id);
+		$user = Users::find($id);
         if (is_null($user))
         {
             return Redirect::route('users.index');
@@ -128,10 +131,10 @@ class UsersController extends \BaseController {
 	{
 		//
 		$input = Input::all();
-        $validation = Validator::make($input, User::$rules);
+        $validation = Validator::make($input, Users::$rules);
         if ($validation->passes())
         {
-            $user = User::find($id);
+            $user = Users::find($id);
             $user->update($input);
             return Redirect::route('users.show', $id);
         }
@@ -150,8 +153,64 @@ class UsersController extends \BaseController {
 	public function destroy($id)
 	{
 		//
-		User::find($id)->delete();
+		Users::find($id)->delete();
         return Redirect::route('users.index');
 	}
+
+	
+
+	public function getLogin() {
+		$this->layout->content = View::make('users.login');
+		//return View::make('users.login');
+		//return View::make('users.create');
+	}
+
+	public function postSignin() {
+       //set data from input
+       $inputdata= array(
+			'username' => Input::get('username'),
+			'password' => Input::get('password')
+		);
+	
+	// Declare the rules for the form validation.
+		$rules = array(
+			'username'  => 'Required',
+			'password'	=> 'Required'
+		);
+
+		// Validate the inputs.
+		$validator = Validator::make($inputdata, $rules);
+
+        if ($validator->passes())
+		{
+		 if (Auth::attempt($inputdata,true)) {
+			return Redirect::to('users/dashboard')->with('message', 'You are now logged in!');
+	    	} else {
+
+           
+			return Redirect::to('users/login')
+				->with('message', 'Your username/password combination was incorrect')
+				->withInput(Input::except('password'));
+		    }
+		  } else {
+		  	return Redirect::to('users/login')
+            ->withInput()
+            ->withErrors($validator)
+            ->with('message', 'There were validation errors.');
+		  	//return Redirect::to('users/login')->with('error')->withInput(Input::except('password'));
+		  }
+	}
+
+	public function getDashboard() {
+	    $this->layout->content = View::make('users.dashboard');
+		//return View::make('users.create');
+	}
+
+	public function getLogout() {
+		Auth::logout();
+		return Redirect::to('users/login')->with('message', 'Your are now logged out!');
+	}
+        
+
 
 }

@@ -5,14 +5,18 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class Users extends Eloquent implements UserInterface, RemindableInterface {
 
-    protected $guarded = array('id');
-    protected $fillable = array('name', 'email','username','password','phone');
+    protected $guarded = array('user_id');
+    protected $primaryKey = 'user_id';
+    //protected $fillable = array('name', 'email','username','password','phone'); // We can define which fields we allow to insert in DB, Por
     public $timestamps = false;
 
+    /*
      public static $rules = array(
-    'name' => 'required|min:5',
-    'email' => 'required|email'
+    'username' => 'required',
+    'password' => 'required'
      );
+     */
+
 	/**
 	 * The database table used by the model.
 	 *
@@ -56,5 +60,6 @@ class Users extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->email;
 	}
+       
 
 }

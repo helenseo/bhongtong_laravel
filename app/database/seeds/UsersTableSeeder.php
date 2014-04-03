@@ -7,7 +7,7 @@ class UsersTableSeeder extends Seeder {
 
 	public function run()
 	{
-		$faker = Faker::create('zh_CN');
+		$faker = Faker::create('en_US');
 
 		//DB::table('users')->delete();
 		 

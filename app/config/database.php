@@ -56,10 +56,10 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			 'unix_socket' => '/Applications/xampp/xamppfiles/var/mysql/mysql.sock',
+			 'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock',
 			'database'  => 'btdb',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => 'root',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

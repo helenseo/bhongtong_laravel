@@ -4,7 +4,7 @@
 
 <h1>Edit User</h1>
 {{ Form::model($user, array('method' => 'PATCH', 'route' =>
- array('users.update', $user->id))) }}
+ array('users.update', $user->user_id))) }}
     <ul>
         <li>
             {{ Form::label('username', 'Username:') }}
