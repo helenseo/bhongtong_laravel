@@ -160,9 +160,12 @@ class UsersController extends \BaseController {
 	
 
 	public function getLogin() {
+	  if(!Auth::check()) {
 		$this->layout->content = View::make('users.login');
-		//return View::make('users.login');
-		//return View::make('users.create');
+		$this->layout->title = "User Login";
+	   } else {
+	   	return Redirect::to('users/dashboard');
+	   }
 	}
 
 	public function postSignin() {
@@ -183,7 +186,9 @@ class UsersController extends \BaseController {
 
         if ($validator->passes())
 		{
-		 if (Auth::attempt($inputdata,true)) {
+		 $isremember=(Input::has('remember')) ? true : false;
+
+		 if (Auth::attempt($inputdata,$isremember)) {
 			return Redirect::to('users/dashboard')->with('message', 'You are now logged in!');
 	    	} else {
 
@@ -194,7 +199,7 @@ class UsersController extends \BaseController {
 		    }
 		  } else {
 		  	return Redirect::to('users/login')
-            ->withInput()
+            ->withInput(Input::except('password'))
             ->withErrors($validator)
             ->with('message', 'There were validation errors.');
 		  	//return Redirect::to('users/login')->with('error')->withInput(Input::except('password'));
@@ -203,14 +208,153 @@ class UsersController extends \BaseController {
 
 	public function getDashboard() {
 	    $this->layout->content = View::make('users.dashboard');
-		//return View::make('users.create');
+	    $this->layout->title = "User Dashboard";
 	}
 
 	public function getLogout() {
 		Auth::logout();
 		return Redirect::to('users/login')->with('message', 'Your are now logged out!');
 	}
-        
 
+	public function getForgotpassword(){
+		$this->layout->content = View::make('users.forgotpassword');
+		$this->layout->title = "Forgot your password?";
+	}
+    
+    public function postForgotpassword(){
+    	 //set data from input
+       $input_user  =  Input::get('username');
+       $input_email =  Input::get('email');
+
+       if(!empty($input_user) || !empty($input_email))
+       {
+         $inputdata= array(
+			'username' => $input_user,
+			'email' => $input_email
+		);
+		// Declare the rules for the form validation.
+		$rules = array(
+			'email'=>'email'
+		);
+
+		// Validate the inputs.
+		$validator = Validator::make($inputdata, $rules);
+
+		if($validator->passes()) {
+          $user_query = Users::where('email','=',$input_email)
+                        ->where('username','=',$input_user,'OR');
+          if($user_query->count()) {
+          	 $user            = $user_query->first();
+          	 $user_id         = $user->user_id;
+          	 $forgot_pw_token = str_random(60);
+
+          	if(Forgot_pass_token::create([
+                                "user_id"     => $user_id,
+                                "token"       => $forgot_pw_token,
+                                "added_date"  => date("Y-m-d H:i:s",time())
+                                ]) ) {
+
+              /* Now, We cannot send email via local host
+              Mail::send('emails.auth.reminder',array('token'=>$forgot_pw_token), function($message) use ($user) 
+              { 
+              	$message->from('admin@iporz.com','Bht');
+              	$message->to($user->email,$user->username)->subject('Reset new password!');
+              }
+                );
+              */
+
+              //return Redirect::to('users/login')->with('message', 'Please check your email to reset your account password!');
+             
+            return View::make('emails.auth.reminder',array('token'=>$forgot_pw_token));
+          	}
+          } else { // invalid username or email
+            return Redirect::to('users/forgotpassword')
+            ->with('message', 'Invalid username or email')
+            ->withInput();
+           }
+
+		} else {
+			return Redirect::to('users/forgotpassword')
+            ->withErrors($validator)
+            ->with('message', 'There were validation errors.')
+            ->withInput();
+		}
+
+	   }// if have at lest 1 value from username or email field 
+	   else {
+	   	return Redirect::to('users/forgotpassword')
+               ->with('message', 'Please fill your username or email')
+               ->withInput();
+	   }
+	}
+	public function getResetpassword($token){
+		// $forgot_pass_query = Forgot_pass_token::where('token','=',$token)
+		                         // ->where('added_date','>','DATE_SUB(NOW(), INTERVAL 1 HOUR)','AND');
+
+		$forgot_pass_query = Forgot_pass_token::whereraw('added_date >= DATE_SUB(NOW(), INTERVAL 2 HOUR) and token=?',array($token));
+
+		 if($forgot_pass_query->count()) {
+		 	Session::put('forgot_pass_token', $token);
+		 	$this->layout->content = View::make('users.resetpassword');
+		 } else {
+		 	return Redirect::to('users/login')
+            ->with('message', 'The token is invalid');
+		 }
+       
+
+    }
+
+    public function postResetpassword() {
+         $token = Session::get('forgot_pass_token');
+         if($token) {
+         
+         $forgot_pass_query = Forgot_pass_token::where('token','=',$token);
+
+         if(!$forgot_pass_query->count()) {
+         	return Redirect::to('users/login')
+                    ->with('message', 'The token is invalid');
+         }
+         //if token is valid
+         $f_pw_id = $forgot_pass_query->first()->f_pw_id;
+         $user_id = $forgot_pass_query->first()->user_id;
+
+         $password          = Input::get('password');
+         $password_confirm =  Input::get('password-confirm');
+
+         $inputdata= array(
+			'password'         => $password,
+			'password_confirm' => $password_confirm
+		);
+
+         $rules = array(
+			'password'              => 'required|min:6',
+            'password_confirm'      => 'required|confirmed'
+		);
+
+        $validator = Validator::make($inputdata, $rules);
+
+        if($validator->passes()) {
+        	$user = Users::find($user_id);
+            $user->update(array('password'=>Hash::make($password)));
+
+            Forgot_pass_token::find($f_pw_id)->delete();
+
+            return Redirect::to('users/login')
+            ->with('message', 'Your password has been changed!');
+
+        } else {
+        	return Redirect::to('users/resetpassword/'.$token)
+            ->withErrors($validator)
+            ->with('message', 'There were validation errors.')
+            ->withInput();
+        }
+    }
+    //if have token in session 
+   else {
+     return Redirect::to('users/login')
+                    ->with('message', 'The token is invalid');
+   }
+           
+  }
 
 }

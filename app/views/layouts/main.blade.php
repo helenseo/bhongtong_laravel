@@ -30,7 +30,7 @@
 					<ul class="nav navbar-nav">  
 						 <li><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
 						@if(!Auth::check())
-						 <li><a href="login"><i class="glyphicon glyphicon-lock"></i> Login</a></li>
+						 <li><a href="{{URL::to('users/login')}}"><i class="glyphicon glyphicon-lock"></i> Login</a></li>
 					    @endif 
 					</ul>  
 					<!--
@@ -44,7 +44,7 @@
                             <li><a href="#"><i class="icon-cog"></i> Preferences</a></li>
                             <li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>
                             <li class="divider"></li>
-                            <li><a href="logout"><i class="icon-off"></i> Logout</a></li>
+                            <li><a href="{{URL::to('users/logout')}}"><i class="icon-off"></i> Logout</a></li>
                            </ul>
                         </li>
                        </ul>
