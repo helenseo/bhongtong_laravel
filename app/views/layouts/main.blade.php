@@ -4,7 +4,7 @@
     	<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    	<title></title>
+    	<title>{{@$title}}</title>
 
     	{{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
     	  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
