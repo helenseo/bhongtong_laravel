@@ -327,8 +327,8 @@ class UsersController extends \BaseController {
 		);
 
          $rules = array(
-			'password' =>'Required|AlphaNum|Between:6,12',
-            'password_confirm' =>'Required|AlphaNum|Between:6,12|same:password'
+			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
+            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
 		);
 
         $validator = Validator::make($inputdata, $rules);
