@@ -7,9 +7,9 @@
     	<title>{{@$title}}</title>
 
     	{{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
-    	  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        {{ HTML::style('packages/bootstrap/css/styles.css') }}
+        {{ HTML::script('//code.jquery.com/jquery-1.10.2.min.js') }}
     	{{ HTML::script('packages/bootstrap/js/bootstrap.min.js') }}
-
 
   	</head>
 
