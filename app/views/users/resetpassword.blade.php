@@ -16,6 +16,9 @@
   	         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 	        {{ Form::password('password-confirm',array( 'id'=>'reset-password-confirm', 'class'=>'form-control', 'placeholder'=>'Confirm password')) }}
           </div>
+          <div>
+          <p class="bg-success"><b>Note:</b> รูปแบบของ Password ประกอบด้วย ตัวเลข (0-9) และ ตัวอักษร (a-z A-Z) อย่างน้อย 1ตัว สามารถใช้อักขระพิเศษ (!@#$%) ได้</p>
+          </div>
           
 	      {{ Form::submit('Submit', array('class'=>'btn btn-large btn-primary btn-block'))}}
           {{ Form::close() }}
