@@ -4,7 +4,7 @@
     	<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    	<title>{{@$title}}</title>
+    	<title>{{{@$title}}}</title>
 
     	{{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
         {{ HTML::style('packages/bootstrap/css/styles.css') }}
@@ -60,15 +60,20 @@
        <div class="wrapper">
 	    <div class="container">
 	    	@if(Session::has('message'))
-	    	    <div class="alert alert-danger col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+	    	    <div class="alert alert-{{Session::has('message-type') ? Session::get('message-type') : 'success' }} col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <p>{{ Session::get('message') }}</p>
-                    @if($errors->has())
+            </div>
+			@endif
+
+       @if($errors->has())
+            <div class="alert alert-danger col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     @foreach ($errors->all() as $error)
                     <p>{{ $error }}</p>
                     @endforeach
-                    @endif
-                </div>
-			@endif
+            </div>
+         @endif
 	    </div>
 	    <div class="container">
             {{ @$content }}

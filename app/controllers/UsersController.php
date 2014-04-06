@@ -11,6 +11,7 @@ class UsersController extends \BaseController {
    protected $layout = "layouts.main";
 
     public function __construct() {
+    	$this->beforeFilter('csrf', array('on'=>'post'));
 		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout')));
 	}
 	public function index()
@@ -89,8 +90,7 @@ class UsersController extends \BaseController {
 
         return Redirect::route('users.create')
             ->withInput()
-            ->withErrors($validation)
-            ->with('message', 'There were validation errors.');
+            ->withErrors($validation);
 	}
 
 	/**
@@ -140,8 +140,7 @@ class UsersController extends \BaseController {
         }
         return Redirect::route('users.edit', $id)
             ->withInput()
-            ->withErrors($validation)
-            ->with('message', 'There were validation errors.');
+            ->withErrors($validation);
 	}
 
 	/**
@@ -190,18 +189,18 @@ class UsersController extends \BaseController {
 
 		 if (Auth::attempt($inputdata,$isremember)) {
 			return Redirect::to('users/dashboard')->with('message', 'You are now logged in!');
+			                                      //->with('message-type','warning');
 	    	} else {
 
            
 			return Redirect::to('users/login')
-				->with('message', 'Your username/password combination was incorrect')
+				->withErrors(array('Your username or password is incorrect'))
 				->withInput(Input::except('password'));
 		    }
 		  } else {
 		  	return Redirect::to('users/login')
-            ->withInput(Input::except('password'))
-            ->withErrors($validator)
-            ->with('message', 'There were validation errors.');
+            ->withInput()
+            ->withErrors($validator);
 		  	//return Redirect::to('users/login')->with('error')->withInput(Input::except('password'));
 		  }
 	}
@@ -213,7 +212,8 @@ class UsersController extends \BaseController {
 
 	public function getLogout() {
 		Auth::logout();
-		return Redirect::to('users/login')->with('message', 'Your are now logged out!');
+		return Redirect::to('users/login')->with('message', 'You are now logged out!')
+		                                  ->with('message-type','warning');
 	}
 
 	public function getForgotpassword(){
@@ -269,21 +269,20 @@ class UsersController extends \BaseController {
           	}
           } else { // invalid username or email
             return Redirect::to('users/forgotpassword')
-            ->with('message', 'Invalid username or email')
+            ->withErrors(array('Invalid username or email'))
             ->withInput();
            }
 
 		} else {
 			return Redirect::to('users/forgotpassword')
             ->withErrors($validator)
-            ->with('message', 'There were validation errors.')
             ->withInput();
 		}
 
 	   }// if have at lest 1 value from username or email field 
 	   else {
 	   	return Redirect::to('users/forgotpassword')
-               ->with('message', 'Please fill your username or email')
+               ->withErrors(array('Please fill your username or email'))
                ->withInput();
 	   }
 	}
@@ -298,7 +297,7 @@ class UsersController extends \BaseController {
 		 	$this->layout->content = View::make('users.resetpassword');
 		 } else {
 		 	return Redirect::to('users/login')
-            ->with('message', 'The token is invalid');
+            ->withErrors(array('The token is invalid'));
 		 }
        
 
@@ -312,7 +311,7 @@ class UsersController extends \BaseController {
 
          if(!$forgot_pass_query->count()) {
          	return Redirect::to('users/login')
-                    ->with('message', 'The token is invalid');
+                    ->withErrors(array('The token is invalid'));
          }
          //if token is valid
          $f_pw_id = $forgot_pass_query->first()->f_pw_id;
@@ -345,16 +344,19 @@ class UsersController extends \BaseController {
         } else {
         	return Redirect::to('users/resetpassword/'.$token)
             ->withErrors($validator)
-            ->with('message', 'There were validation errors.')
-            ->withInput();
+            ->withInput(Input::except('password'));
         }
     }
     //if have token in session 
    else {
      return Redirect::to('users/login')
-                    ->with('message', 'The token is invalid');
+                    ->withErrors(array('The token is invalid'));
    }
            
+  }
+
+  public function getSettings() {
+
   }
 
 }
