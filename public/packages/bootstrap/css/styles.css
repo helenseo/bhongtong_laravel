@@ -2,3 +2,20 @@
 .bg-success {
 	padding:15px !important;
 }
+.form-register .input-group-addon {
+min-width: 170px;
+max-width: 256px;
+text-align: left;
+}
+.wrapper-form {
+ padding-top:30px;
+}
+.wrapper-form .input-group {
+ margin-bottom: 25px;
+}
+.forgot-password-div {
+ float:right; 
+ font-size: 80%; 
+ position: relative; 
+ top:-10px;
+}

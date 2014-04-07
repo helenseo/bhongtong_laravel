@@ -161,7 +161,7 @@ class UsersController extends \BaseController {
 	public function getLogin() {
 	  if(!Auth::check()) {
 		$this->layout->content = View::make('users.login');
-		$this->layout->title = "User Login";
+		//$this->layout->title = "User Login";
 	   } else {
 	   	return Redirect::to('users/dashboard');
 	   }
@@ -357,6 +357,10 @@ class UsersController extends \BaseController {
 
   public function getSettings() {
 
+  }
+
+  public function getRegister() {
+  	$this->layout->content = View::make('users.register');
   }
 
 }

@@ -31,6 +31,7 @@
 						 <li><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
 						@if(!Auth::check())
 						 <li><a href="{{URL::to('users/login')}}"><i class="glyphicon glyphicon-lock"></i> Login</a></li>
+             <li><a href="{{URL::to('users/register')}}"><i class="glyphicon glyphicon-pencil"></i> Register</a></li>
 					    @endif 
 					</ul>  
 					<!--

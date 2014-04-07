@@ -3,17 +3,16 @@
     <div class="panel panel-info" >
         <div class="panel-heading">
            <div class="panel-title">Log In</div>
-           <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="{{URL::to('users/forgotpassword')}}">Forgot password?</a></div>
+           <div class="forgot-password-div"><a href="{{URL::to('users/forgotpassword')}}">Forgot password?</a></div>
         </div>     
 
-        <div style="padding-top:30px" class="panel-body" >
-           <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+        <div class="wrapper-form panel-body" >
            {{ Form::open(array('url'=>'users/signin', 'class'=>'form-signin')) }}
-             <div style="margin-bottom: 25px" class="input-group">
+             <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 	         {{ Form::text('username', null, array('id'=>'login-username','class'=>'form-control', 'placeholder'=>'Username')) }}
            </div>
-           <div style="margin-bottom: 25px" class="input-group">
+           <div class="input-group">
   	         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 	        {{ Form::password('password', array( 'id'=>'login-password', 'class'=>'form-control', 'placeholder'=>'Password')) }}
           </div>
