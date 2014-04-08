@@ -163,7 +163,8 @@ class UsersController extends \BaseController {
 			'firstname' => 'required',
 			'username' => 'required|unique:users',
 			'email' => 'required|unique:users|email',
-			'password' => 'required'
+			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
+            'password_confirm' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
 			);
 
 		$v = Validator::make($input, $rules);
@@ -360,8 +361,8 @@ class UsersController extends \BaseController {
 		);
 
          $rules = array(
-			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
-            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
+			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
+            'password_confirm' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
 		);
 
         $validator = Validator::make($inputdata, $rules);
