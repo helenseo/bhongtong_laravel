@@ -156,7 +156,41 @@ class UsersController extends \BaseController {
         return Redirect::route('users.index');
 	}
 
-	
+	public function postRegister(){
+		$input = Input::all();
+
+		$rules = array(
+			'firstname' => 'required',
+			'username' => 'required|unique:users',
+			'email' => 'required|unique:users|email',
+			'password' => 'required'
+			);
+
+		$v = Validator::make($input, $rules);
+
+		if($v->passes()){
+			$password = $input['password'];
+			$password = Hash::make($password);
+
+			$user = new Users();
+			$user->firstname = $input['firstname'];
+			$user->lastname = $input['lastname'];
+			$user->email = $input['email'];
+			$user->username = $input['username'];
+			$user->password = $password;
+			$user->address = $input['address'];
+			$user->tel = $input['tel'];
+			$user->province_id = $input['province'];
+			$user->save();
+
+			return Redirect::to('users/login');
+
+		}else{
+
+			return Redirect::to('users/register')->withInput()->withErrors($v);
+
+		}
+	}
 
 	public function getLogin() {
 	  if(!Auth::check()) {
