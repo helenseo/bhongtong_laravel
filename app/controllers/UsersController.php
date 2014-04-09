@@ -163,7 +163,8 @@ class UsersController extends \BaseController {
 			'firstname' => 'required',
 			'username' => 'required|unique:users',
 			'email' => 'required|unique:users|email',
-			'password' => 'required'
+			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
+            'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
 			);
 
 		$v = Validator::make($input, $rules);

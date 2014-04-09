@@ -8,11 +8,11 @@
            {{ Form::open(array('url'=>'users/register', 'class'=>'form-register')) }}
              <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i> ชื่อ / First Name:</span>
-           {{ Form::text('Fname', null, array('id'=>'Fname','class'=>'form-control', 'placeholder'=>'ชื่อ / First Name')) }}
+           {{ Form::text('firstname', null, array('id'=>'Fname','class'=>'form-control', 'placeholder'=>'ชื่อ / First Name')) }}
            </div>
            <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i> นามสกุล / Last Name:</span>
-          {{ Form::text('Lname', null,  array('id'=>'Lname', 'class'=>'form-control', 'placeholder'=>'นามสกุล / Last Name')) }}
+          {{ Form::text('lastname', null,  array('id'=>'Lname', 'class'=>'form-control', 'placeholder'=>'นามสกุล / Last Name')) }}
           </div>
           <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i> อีเมล / Email:</span>
