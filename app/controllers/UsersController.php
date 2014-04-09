@@ -12,7 +12,7 @@ class UsersController extends \BaseController {
 
     public function __construct() {
     	$this->beforeFilter('csrf', array('on'=>'post'));
-		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout')));
+		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout',/*'getSettings'*/)));
 	}
 	public function index()
 	{
@@ -391,11 +391,50 @@ class UsersController extends \BaseController {
   }
 
   public function getSettings() {
+   $user_id = Auth::user()->user_id;
+   $user = Users::find($user_id);
 
+   if($user->count() >0) {
+   	
+   $setting_id= $user->setting_id;
+
+   if($setting_id) {
+   
+   $settings = Settings::find($setting_id);
+   $setting_value = $settings->setting_value;
+
+
+   $this->layout->content = View::make('users.settings',array('setting_value'=>$setting_value));
+   
+    } else {
+    	$this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
+    }
+
+  } else {
+  	echo "No user";
+  } 
+
+   //$this->layout->content = View::make('users.settings');
+   //$this->layout->title   = "User Settings";
+  }
+  public function postSettings() {
+  	$inputs = Input::all();
+  	$user_setting = json_encode(array('msg_opt'=>$inputs['msg-opt'],'newsletter_opt'=>$inputs['newsletter-opt']));
+  	$user_id = Auth::user()->user_id;
+
+  	$settings = new Settings();
+  	$settings->setting_name = "Test";
+  	$settings->setting_value = $user_setting;
+  	$settings->setting_updated = date("Y-m-d H:i:s",time());
+  	if($settings->save()) {
+  		 return Redirect::to('users/settings')
+            ->with('message', 'Your settings have been saved!');
+  	}
   }
 
   public function getRegister() {
   	$this->layout->content = View::make('users.register');
+  	$this->layout->title   = "Registration";
   }
 
 }
