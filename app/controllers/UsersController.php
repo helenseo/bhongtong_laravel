@@ -12,7 +12,7 @@ class UsersController extends \BaseController {
 
     public function __construct() {
     	$this->beforeFilter('csrf', array('on'=>'post'));
-		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout',/*'getSettings'*/)));
+		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout')));
 	}
 	public function index()
 	{
@@ -163,8 +163,43 @@ class UsersController extends \BaseController {
 			'firstname' => 'required',
 			'username' => 'required|unique:users',
 			'email' => 'required|unique:users|email',
-			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
-            'password_confirm' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
+			'password' => 'required'
+			);
+
+		$v = Validator::make($input, $rules);
+
+		if($v->passes()){
+			$password = $input['password'];
+			$password = Hash::make($password);
+
+			$user = new Users();
+			$user->firstname = $input['firstname'];
+			$user->lastname = $input['lastname'];
+			$user->email = $input['email'];
+			$user->username = $input['username'];
+			$user->password = $password;
+			$user->address = $input['address'];
+			$user->tel = $input['tel'];
+			$user->province_id = $input['province'];
+			$user->save();
+
+			return Redirect::to('users/login');
+
+		}else{
+
+			return Redirect::to('users/register')->withInput()->withErrors($v);
+
+		}
+	}
+
+	public function postUpdateprofile(){
+		$input = Input::all();
+
+		$rules = array(
+			'firstname' => 'required',
+			'username' => 'required|unique:users',
+			'email' => 'required|unique:users|email',
+			'password' => 'required'
 			);
 
 		$v = Validator::make($input, $rules);
@@ -361,8 +396,8 @@ class UsersController extends \BaseController {
 		);
 
          $rules = array(
-			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
-            'password_confirm' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
+			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
+            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
 		);
 
         $validator = Validator::make($inputdata, $rules);
@@ -391,50 +426,11 @@ class UsersController extends \BaseController {
   }
 
   public function getSettings() {
-   $user_id = Auth::user()->user_id;
-   $user = Users::find($user_id);
 
-   if($user->count() >0) {
-   	
-   $setting_id= $user->setting_id;
-
-   if($setting_id) {
-   
-   $settings = Settings::find($setting_id);
-   $setting_value = $settings->setting_value;
-
-
-   $this->layout->content = View::make('users.settings',array('setting_value'=>$setting_value));
-   
-    } else {
-    	$this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
-    }
-
-  } else {
-  	echo "No user";
-  } 
-
-   //$this->layout->content = View::make('users.settings');
-   //$this->layout->title   = "User Settings";
-  }
-  public function postSettings() {
-  	$inputs = Input::all();
-  	$user_setting = json_encode(array('msg_opt'=>$inputs['msg-opt'],'newsletter_opt'=>$inputs['newsletter-opt']));
-  	$user_id = Auth::user()->user_id;
-
-  	$settings = new Settings();
-  	$settings->setting_name = "Test";
-  	$settings->setting_value = $user_setting;
-  	$settings->setting_updated = date("Y-m-d H:i:s",time());
-  	if($settings->save()) {
-  		 return Redirect::to('users/settings')
-            ->with('message', 'Your settings have been saved!');
-  	}
   }
 
   public function getRegister() {
   	$this->layout->content = View::make('users.register');
-  	$this->layout->title   = "Registration";
   }
 
 }
