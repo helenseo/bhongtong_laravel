@@ -40,16 +40,9 @@
           </div>
            <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i> จังหวัด / Province:</span>
-          {{ Form::select('province', 
-            array('0' => 'เลือกจังหวัด / select province',
-              'ภาคเหนือ' => array('เชียงราย' => 'เชียงราย','เชียงใหม่' => 'เชียงใหม่','น่าน' => 'น่าน','พะเยา' => 'พะเยา','แพร่' => 'แพร่','แม่ฮ่องสอน' => 'แม่ฮ่องสอน','ลำปาง' => 'ลำปาง','ลำพูน' => 'ลำพูน','อุตรดิตถ์' => 'อุตรดิตถ์'),
-              'ภาคตะวันออกเฉียงเหนือ' => array('spaniel' => 'Spaniel'),
-              'ภาคกลาง' => array('leopard' => 'Leopard1','Leopard2','Leopard3'),
-              'ภาคตะวันออก' => array('spaniel' => 'Spaniel'),
-              'ภาคตะวันตก' => array('leopard' => 'Leopard1','Leopard2','Leopard3'),
-              'ภาคใต้' => array('spaniel' => 'Spaniel')),
-            'เลือกจังหวัด / select province',
-            array('class'=>'form-control'))}}
+          
+
+            {{ Form::select('province', $province, 'เลือกจังหวัด / select province',array('class'=>'form-control')) }}
           </div>
           <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i> ข้อตกลงในการให้บริการ</span>

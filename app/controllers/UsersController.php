@@ -432,7 +432,11 @@ class UsersController extends \BaseController {
   }
 
   public function getRegister() {
-  	$this->layout->content = View::make('users.register');
+    $province = Provinces::makeProvinceRegion();
+
+  	$this->layout->content = View::make('users.register',compact('province'));
+  	//print_r($province);
   }
+  
 
 }
