@@ -164,7 +164,8 @@ class UsersController extends \BaseController {
 			'username' => 'required|unique:users',
 			'email' => 'required|unique:users|email',
 			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
-            'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
+            'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password',
+            'recaptcha_response_field' => 'required|recaptcha'
 			);
 
 		$v = Validator::make($input, $rules);

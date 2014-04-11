@@ -107,7 +107,8 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
-		'Raahul\LarryFour\LarryFourServiceProvider'
+		'Raahul\LarryFour\LarryFourServiceProvider',
+		'Greggilbert\Recaptcha\RecaptchaServiceProvider'
 		//'Barryvdh\MigrationGenerator\MigrationGeneratorServiceProvider',
 
 	),

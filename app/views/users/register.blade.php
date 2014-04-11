@@ -59,6 +59,9 @@
               ,'class'=>'form-control'
           ))}}
           </div>
+          <div class="input-group">
+           {{Form::captcha()}}
+          </div>
         {{ Form::submit('Register', array('class'=>'btn btn-large btn-primary btn-block'))}}
           {{ Form::close() }}
     </div>

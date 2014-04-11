@@ -15,17 +15,9 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
-Route::get('users', 'userscontroller@index');
-Route::get('users/resetpassword/{token}', 'userscontroller@getResetpassword');
+//Route::get('users', 'userscontroller@index');
 
-//Route::get('users/login', 'userscontroller@getlogin');
-//Route::resource('users/signin', 'userscontroller@postsignin');
-//Route::resource('users/dashboard', 'userscontroller@getdashboard');
-//Route::resource('users/logout', 'userscontroller@getlogout');
 
-//Route::resource('users', 'userscontroller', array('except' => array('login', 'signin', 'logout', 'dashboard')));
-//Route::get('authen','userscontroller@authenticateAction');
-//Route::get('dashboard','userscontroller@getdashboard');
 
 Route::controller('users', 'UsersController');
 //Route::controller('password', 'RemindersController');
