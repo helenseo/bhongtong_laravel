@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<p><b></b><a class="btn btn-primary btn-lg" role="button">Edit your profile</a></p><br/>
+<p><b></b><a href="{{URL::to('users/editprofile')}}" class="btn btn-primary btn-lg" role="button">Edit your profile</a></p><br/>
 
 
 <!-- Update profile pic
@@ -42,4 +42,3 @@
  {{ Form::submit('Update', array('class'=>'btn btn-large btn-primary btn-block'))}}
  {{ Form::close() }}
  -->
-
