@@ -75,4 +75,3 @@
 </div>
 
 <p><b></b><a class="btn btn-primary btn-lg" role="button">Edit your profile</a></p><br/>
-
