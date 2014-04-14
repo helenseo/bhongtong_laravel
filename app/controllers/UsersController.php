@@ -281,6 +281,11 @@ class UsersController extends \BaseController {
 	    $this->layout->content = View::make('users.dashboard');
 	    $this->layout->title = "User Dashboard";
 	}
+	
+	public function getEditprofile() {
+	    $this->layout->content = View::make('users.editprofile');
+	    $this->layout->title = "Editprofile";
+	}
 
 	public function getLogout() {
 		Auth::logout();
