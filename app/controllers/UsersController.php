@@ -12,7 +12,7 @@ class UsersController extends \BaseController {
 
     public function __construct() {
     	$this->beforeFilter('csrf', array('on'=>'post'));
-		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout')));
+		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile')));
 	}
 	public function index()
 	{
@@ -197,35 +197,50 @@ class UsersController extends \BaseController {
 	public function postUpdateprofile(){
 		$input = Input::all();
 
-		$rules = array(
-			'firstname' => 'required',
-			'username' => 'required|unique:users',
-			'email' => 'required|unique:users|email',
-			'password' => 'required'
-			);
+		$password = $input['password'];
 
-		$v = Validator::make($input, $rules);
+		$rules['firstname'] = 'required';
+		$rules['address'] = 'required';
+        
+        if($input['email']!=Auth::user()->email) {
+        	$rules['email'] = 'unique:users|email';
+        }
+        
+        if($password !="" || !empty($password)) {
+         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
+        }
+
+        $v = Validator::make($input, $rules);
 
 		if($v->passes()){
-			$password = $input['password'];
-			$password = Hash::make($password);
+			$user = Users::find(Auth::user()->user_id);
 
-			$user = new Users();
+			if($password !="" || !empty($password)) {
+			$password = Hash::make($password);
+           
 			$user->firstname = $input['firstname'];
 			$user->lastname = $input['lastname'];
 			$user->email = $input['email'];
-			$user->username = $input['username'];
 			$user->password = $password;
 			$user->address = $input['address'];
 			$user->tel = $input['tel'];
-			$user->province_id = $input['province'];
-			$user->save();
 
-			return Redirect::to('users/login');
+			
+		    } else {
+            $user->firstname = $input['firstname'];
+			$user->lastname = $input['lastname'];
+			$user->email = $input['email'];
+			$user->address = $input['address'];
+			$user->tel = $input['tel'];
+		    }
+
+		    $user->update();
+
+			return Redirect::to('users/dashboard');
 
 		}else{
 
-			return Redirect::to('users/register')->withInput()->withErrors($v);
+			return Redirect::to('users/editprofile')->withInput()->withErrors($v);
 
 		}
 	}
