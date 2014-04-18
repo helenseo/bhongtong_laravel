@@ -108,7 +108,9 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Raahul\LarryFour\LarryFourServiceProvider',
-		'Greggilbert\Recaptcha\RecaptchaServiceProvider'
+		'Greggilbert\Recaptcha\RecaptchaServiceProvider',
+		'Intervention\Image\ImageServiceProvider'
+
 		//'Barryvdh\MigrationGenerator\MigrationGeneratorServiceProvider',
 
 	),
@@ -177,6 +179,7 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+		'Image'           => 'Intervention\Image\Facades\Image'
 
 	),
 

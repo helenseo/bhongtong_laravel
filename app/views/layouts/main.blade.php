@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="app" lang="en">
  	<head>
     	<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,11 @@
     	<title>{{{@($title) ? $title : "บ่องตง Bhongtong.com"}}}</title>
 
     	{{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
-        {{ HTML::style('packages/bootstrap/css/styles.css') }}
-        {{ HTML::script('//code.jquery.com/jquery-1.10.2.min.js') }}
+      {{ HTML::style('packages/bootstrap/css/styles.css') }}
+      {{ HTML::script('//code.jquery.com/jquery-1.10.2.min.js') }}
     	{{ HTML::script('packages/bootstrap/js/bootstrap.min.js') }}
 
+      
   	</head>
 
   	<body>

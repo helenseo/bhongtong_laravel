@@ -209,30 +209,24 @@ class UsersController extends \BaseController {
         if($password !="" || !empty($password)) {
          $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
         }
+        
 
         $v = Validator::make($input, $rules);
 
 		if($v->passes()){
 			$user = Users::find(Auth::user()->user_id);
 
-			if($password !="" || !empty($password)) {
-			$password = Hash::make($password);
-           
 			$user->firstname = $input['firstname'];
 			$user->lastname = $input['lastname'];
 			$user->email = $input['email'];
-			$user->password = $password;
-			$user->address = $input['address'];
 			$user->tel = $input['tel'];
+			$user->address = $input['address'];
+			$user->profile_image = $input['profile_image'];
 
-			
-		    } else {
-            $user->firstname = $input['firstname'];
-			$user->lastname = $input['lastname'];
-			$user->email = $input['email'];
-			$user->address = $input['address'];
-			$user->tel = $input['tel'];
-		    }
+			if($password !="" || !empty($password)) {
+			$password = Hash::make($password);
+			$user->password = $password;
+		    } 
 
 		    $user->update();
 

@@ -16,11 +16,11 @@ abstract class Text extends \Faker\Provider\Base
      * possible following words as the value.
      *
      * @example 'Alice, swallowing down her flamingo, and began by taking the little golden key'
-     * @param integer $maxNbChars Maximum number of characters the text should contain (minimum: 10)
-     * @param integer $indexSize  Determines how many words are considered for the generation of the next word.
-     *                            The minimum is 1, and it produces the higher level of randomness, although the
-     *                            generated text usually doesn't make sense. Higher index sizes (up to 5)
-     *                            produce more correct text, at the price of less randomness.
+     * @param  integer $maxNbChars Maximum number of characters the text should contain (minimum: 10)
+     * @param  integer $indexSize  Determines how many words are considered for the generation of the next word.
+     *                             The minimum is 1, and it produces the higher level of randomness, although the
+     *                             generated text usually doesn't make sense. Higher index sizes (up to 5)
+     *                             produce more correct text, at the price of less randomness.
      * @return string
      */
     public function realText($maxNbChars = 200, $indexSize = 2)
@@ -53,7 +53,9 @@ abstract class Text extends \Faker\Provider\Base
             $next = implode(' ', $currentWords);
 
             // ensure text starts with an uppercase letter
-            if ($resultLength == 0 && !preg_match('/^\p{Lu}/u', $word)) continue;
+            if ($resultLength == 0 && !preg_match('/^\p{Lu}/u', $word)) {
+                continue;
+            }
 
             // append the element
             $result[] = $word;
@@ -78,7 +80,7 @@ abstract class Text extends \Faker\Provider\Base
             for ($i = 0; $i < $indexSize; $i++) {
                 $index[] = array_shift($parts);
             }
-            $size = count($parts);
+            
             for ($i = 0, $count = count($parts); $i < $count; $i++) {
                 $stringIndex = implode(' ', $index);
                 if (!isset($words[$stringIndex])) {

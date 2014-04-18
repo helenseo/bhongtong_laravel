@@ -19,3 +19,8 @@ text-align: left;
  position: relative; 
  top:-10px;
 }
+.profile-pic {
+ max-width: 200px;
+ max-height: 200px;
+ width:100%;
+}

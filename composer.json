@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.1.*",
 		"fzaninotto/faker" : "dev-master",
-		"greggilbert/recaptcha": "dev-master"
+		"greggilbert/recaptcha": "dev-master",
+		"intervention/image": "1.*"
 	},
 	"require-dev": {
          "way/generators": "2.*",
