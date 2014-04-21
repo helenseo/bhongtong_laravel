@@ -1,9 +1,10 @@
 <!-- Stare Date Picker -->
 <link href="css/datepicker.css" rel="stylesheet">
 
-      <script src="js/google-code-prettify/prettify.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-  <script>
+      <script type="text/javascript" src="js/google-code-prettify/prettify.js"></script>
+      <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+
+ <script type="text/javascript">
   if (top.location != location) {
     top.location.href = document.location.href ;
   }
@@ -11,6 +12,12 @@
       window.prettyPrint && prettyPrint();
       $('#dp1').datepicker({
         format: 'mm-dd-yyyy'
+      });
+      $('#dp01').datepicker({
+        format: 'yyyy-mm-dd'
+      });
+      $('#dp02').datepicker({
+        format: 'yyyy-mm-dd'
       });
       $('#dp2').datepicker();
       $('#dp3').datepicker();
@@ -47,23 +54,25 @@
         // disabling dates
         var nowTemp = new Date();
         var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-
+         
         var checkin = $('#dpd1').datepicker({
           onRender: function(date) {
-            return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            return nowTemp.valueOf() < now.valueOf() ? 'disabled' : '';
           }
         }).on('changeDate', function(ev) {
-          if (ev.date.valueOf() > checkout.date.valueOf()) {
+
+          //if (ev.date.valueOf() > checkout.date.valueOf()) {
             var newDate = new Date(ev.date)
-            newDate.setDate(newDate.getDate() + 1);
+            newDate.setDate(newDate.getDate());
             checkout.setValue(newDate);
-          }
+          //}
           checkin.hide();
+
           $('#dpd2')[0].focus();
         }).data('datepicker');
         var checkout = $('#dpd2').datepicker({
           onRender: function(date) {
-            return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+            return date.valueOf() < checkin.date.valueOf() ? 'disabled' : '';
           }
         }).on('changeDate', function(ev) {
           checkout.hide();
@@ -90,25 +99,30 @@
              <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-send"></i> Newsletter</span>
               <div class="btn-group" data-toggle="buttons">
-                  <label class="btn btn-primary">
-                    {{ Form::radio('newsletter-opt', '1', (Input::old('newsletter-opt') == '1') ? true : false, array('id'=>'option1', 'class'=>'radio')) }}On
+
+                  <label class="btn btn-primary {{$setting_value->newsletter_opt == 1 ? 'active' :''}} ">
+                     {{ Form::radio('newsletter_opt', '1', $setting_value->newsletter_opt == 1 ? true : false, array('id'=>'option1', 'class'=>'radio')) }}On
+                  
                   </label>
-                  <label class="btn btn-primary active">
-                    {{ Form::radio('newsletter-opt', '0', (Input::old('newsletter-opt') == '0') ? true : false, array('id'=>'option2', 'class'=>'radio')) }}Off
+                  <label class="btn btn-primary {{$setting_value->newsletter_opt != 1 ? 'active' :''}} ">
+                  {{ Form::radio('newsletter_opt', '0', $setting_value->newsletter_opt != 1 ? true : false, array('id'=>'option2', 'class'=>'radio')) }}Off
+                 
                   </label>
-  
               </div>
            </div>
            <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i> Message&nbsp;&nbsp;</span>
               <div class="btn-group" data-toggle="buttons">
-                  <label class="btn btn-primary">
-                    {{ Form::radio('msg-opt', '1', (Input::old('msg-opt') == '1') ? true : false, array('id'=>'option1', 'class'=>'radio')) }}On
+
+                   <label class="btn btn-primary {{$setting_value->msg_opt == 1 ? 'active' :''}} ">
+                     {{ Form::radio('msg_opt', '1', $setting_value->msg_opt == 1 ? true : false, array('id'=>'option1', 'class'=>'radio')) }}On
+                  
                   </label>
-                  <label class="btn btn-primary active">
-                    {{ Form::radio('msg-opt', '0', (Input::old('msg-opt') == '0') ? true : false, array('id'=>'option2', 'class'=>'radio')) }}Off
+                  <label class="btn btn-primary {{$setting_value->msg_opt != 1 ? 'active' :''}} ">
+                  {{ Form::radio('msg_opt', '0', $setting_value->msg_opt != 1 ? true : false, array('id'=>'option2', 'class'=>'radio')) }}Off
+                 
                   </label>
-  
+
               </div>
           </div>
        
@@ -124,9 +138,9 @@
          <div class="wrapper-form panel-body" >
        {{ Form::open(array('url'=>'users/settings', 'class'=>'form-user-settings','id'=>'tab2')) }}
             <div class="well">
-            <div><h4>Purchase History</h4></div>  
-              <div style="display:inline-block; width:40%;">Start date {{ Form::text('start_date', null,  array('id'=>'dpd1', 'class'=>'span2')) }}</div>
-              <div style="display:inline-block; width:40%;">End date {{ Form::text('end_date', null,  array('id'=>'dpd2', 'class'=>'span2')) }}</div>  
+             <div><h4>Purchase History</h4></div>  
+              <div class="phist-start-d"><b>Start date:</b> {{ Form::text('start_date', null,  array('id'=>'dpd1', 'class'=>'span2')) }}</div>
+              <div class="phist-end-d"><b>End date:</b> {{ Form::text('end_date', null,  array('id'=>'dpd2', 'class'=>'span2')) }}</div>  
             </div>
 
             <div>0 Results</div><br/>
@@ -136,7 +150,6 @@
               </div>
             </div>  
       <!-- End payments -->
-
 
 
         <!-- Start social -->

@@ -58,21 +58,9 @@
                     <div class="row">
                         <div class="span3">
                             <div id="validation-errors"></div>
-                             <input name="image" type="file"  />
-                </div>
-                <div class="row">
-                <div class="span8">
-                    
-                     
-                        </div>
-                        <div class="span5">
-                            <div id="output" style="display:none">
-                            </div>
-                        </div>
+                             {{Form::file('image')}}
+                       </div>
                     </div>
-                </div>
-            </div>
-
             </div>
         </div>
     </div>

@@ -230,18 +230,25 @@ class UsersController extends \BaseController {
 			$password = Hash::make($password);
 			$user->password = $password;
 		    } 
-
+       /*If have uploaded image */
+       if($file_uploaded) {
 		    $upload_img = UploadController::upload($file_uploaded,'profile',null,null,'/uploads/profiles/');
-
 		    $upload_img = json_decode($upload_img);
+
+       
 
 		    if($upload_img->filename && !empty($upload_img->filename)) {
 		      $user->profile_image = $upload_img->filename;
-              $user->update();
-              return Redirect::to('users/dashboard');
+              
 		    } else {
               return Redirect::to('users/editprofile')->withInput()->withErrors($upload_img->status);
 		    }
+      }   /* End have uploaded image */
+   
+          /* Update profile */
+              $user->update();
+              return Redirect::to('users/dashboard');
+          /* End update profile */
 
 		}else{
 

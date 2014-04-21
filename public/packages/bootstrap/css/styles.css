@@ -24,3 +24,7 @@ text-align: left;
  max-height: 200px;
  width:100%;
 }
+.phist-start-d, .phist-end-d {
+  display: inline-block;
+  width: 40%;
+}
