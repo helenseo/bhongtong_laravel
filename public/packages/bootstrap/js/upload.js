@@ -1,25 +1,40 @@
+$(function()
+{
+	// Variable to store your files
+	var files;
+    var allowtypes = ['gif','jpg','jpeg','png'];
+    var maxsize = 2000*1024;
 
-function sendFile(file) {
-  $.ajax({
-    type: 'post',
-    url: '/targeturl?name=' + file.fileName,
-    data: file,
-    success: function () {
-      // do something
-    },
-    xhrFields: {
-      // add listener to XMLHTTPRequest object directly for progress (jquery doesn't have this yet)
-      onprogress: function (progress) {
-        // calculate upload progress
-        var percentage = Math.floor((progress.total / progress.totalSize) * 100);
-        // log upload progress to console
-        console.log('progress', percentage);
-        if (percentage === 100) {
-          console.log('DONE!');
-        }
+	// Add events
+	$('input[type=file]').on('change', prepareUpload);
+	$('#upload').on('click', uploadFiles);
+
+	// Grab the files and set them to our variable
+	function prepareUpload(event)
+	{
+		files = event.target.files;
+        size  = files[0]['size'];
+        type  = files[0]['type'];
+
+        sp_type = files[0]['type'].split('image/').pop().toLowerCase();
+
+        if(jQuery.inArray(sp_type, allowtypes)!=-1 && size<=maxsize) {
+
+       
+       if (files && files[0]) {
+               var reader = new FileReader();
+               reader.onload = function(e) {
+                   $('#uploadimg').attr('src', e.target.result);
+               }
+ 
+               reader.readAsDataURL(event.target.files[0]);
+           }
+       // $("#uploadimg").attr('src',files);
+       
+      } else {
+         alert("Image type should be jpg, jpeg, gif, or png. and Image size should be less or equal 2MB");
       }
-    },
-    processData: false,
-    contentType: file.type
-  });
-}
+	}
+
+   
+});

@@ -1,32 +1,6 @@
  <!-- For Image uploading -->
-      {{ HTML::style('packages/jupload/css/uploadfile.css') }}
-      {{ HTML::script('packages/jupload/js/jquery.uploadfile.js') }}
-      <script type="text/javascript">
-       $().ready(function()
-       {
-         $("#profile_image_upload").uploadFile({
-         url:"{{ URL::to('upload', array('profile')) }}",
-         allowedTypes:"png,gif,jpg,jpeg",
-         fileName:"uploaded_img",
-         multiple:false,
-         maxfilesize: 204800,
-         showprogress:false,
-         showStatusAfterSuccess:false,
-         onSuccess:function(files,data,xhr)
-         {
-          data= $.parseJSON(data); // yse parseJSON here
-          if(data.error){
-          alert(data.error);
-          } else {
-         //there is no error
-         fileName = data['fileName'];
-         $('#profile_image').val(fileName);
-         $("#uploadimg").attr('src',fileName);
-           }
-        }
-       });
-      });
-    </script>
+      {{ HTML::script('packages/bootstrap/js/upload.js') }}
+     
 <!-- End Image uploading -->
   
 <h1>Editprofile</h1>
@@ -84,20 +58,7 @@
                     <div class="row">
                         <div class="span3">
                             <div id="validation-errors"></div>
-                             <div id="profile_image_upload">Upload</div>
-                             <input type="hidden" name="profile_image" id="profile_image"/>
-                            <!--
-                            <form class="form-horizontal" id="upload" enctype="multipart/form-data" method="post" action="{{ url('upload/image') }}" autocomplete="off">
-                               
-                           <input name="image" type="file"  />
-
-                           <input class="btn btn-primary btn-sm" role="button" id="upload" type="button" value="Update Profile Picture" /> 
-                           <!--\
-                            </form>
-                           -->
-                            <br/>
-                    
-
+                             <input name="image" type="file"  />
                 </div>
                 <div class="row">
                 <div class="span8">

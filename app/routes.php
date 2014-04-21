@@ -17,7 +17,7 @@ Route::get('/', function()
 });
 //Route::get('users', 'userscontroller@index');
 
-Route::post('upload/{type}',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
+//Route::post('upload/{type}',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
 
 Route::controller('users', 'UsersController');
 //Route::controller('password', 'RemindersController');

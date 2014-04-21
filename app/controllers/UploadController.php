@@ -3,15 +3,24 @@
     {
     public $restful=true;
     
-    public function index($type) {
-
+    public static function Upload($file,$type,$valid_exts,$max_size,$path_uploaded) {
+   
+    if(empty($valid_exts) || !$valid_exts) {
     $valid_exts = array('jpeg', 'jpg', 'png', 'gif'); // valid extensions
+    }
+
+    if(empty($max_size) || !$max_size) {
     $max_size = 2000 * 1024; // max file size (200kb)
-    $path = public_path() . '/uploads/'; // upload directory
+    }
+    if(empty($path) || !$path) {
+    $path ='/uploads/'; // upload directory
+    } 
+
+    $path =  public_path() . $path_uploaded;
+
     $fileName = NULL;
-    if ( $_SERVER['REQUEST_METHOD'] === 'POST' )
+    if ($file)
     {
-    $file = Input::file('uploaded_img');
     // get uploaded file extension
     //$ext = $file['extension'];
     $ext = $file->guessClientExtension();
@@ -31,7 +40,7 @@
     if ($image_uploaded)
     {
     $status = 'Image successfully uploaded!';
-    $fileName = $name;
+    $fileName = $path_uploaded.$name;
     }
     else {
     $status = 'Upload Fail: Unknown error occurred!';
@@ -45,7 +54,9 @@
     $status = 'Bad request!';
     }
     // echo out json encoded status
-    return header('Content-type: application/json') . json_encode(array('status' => $status,
-    'fileName' => '/uploads/'.$fileName));
-    }
+    //return header('Content-type: application/json') . json_encode(array('status' => $status,
+    //'fileName' => '/uploads/'.$fileName));
+
+    return json_encode(array('status' => $status,'filename' => $fileName));
+     }
     }

@@ -210,6 +210,9 @@ class UsersController extends \BaseController {
          $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
         }
         
+       // echo Input::file('image');
+
+        //die();
 
         $v = Validator::make($input, $rules);
 
@@ -221,16 +224,24 @@ class UsersController extends \BaseController {
 			$user->email = $input['email'];
 			$user->tel = $input['tel'];
 			$user->address = $input['address'];
-			$user->profile_image = $input['profile_image'];
-
+			//$user->profile_image = $input['profile_image'];
+			$file_uploaded = Input::file('image');
 			if($password !="" || !empty($password)) {
 			$password = Hash::make($password);
 			$user->password = $password;
 		    } 
 
-		    $user->update();
+		    $upload_img = UploadController::upload($file_uploaded,'profile',null,null,'/uploads/profiles/');
 
-			return Redirect::to('users/dashboard');
+		    $upload_img = json_decode($upload_img);
+
+		    if($upload_img->filename && !empty($upload_img->filename)) {
+		      $user->profile_image = $upload_img->filename;
+              $user->update();
+              return Redirect::to('users/dashboard');
+		    } else {
+              return Redirect::to('users/editprofile')->withInput()->withErrors($upload_img->status);
+		    }
 
 		}else{
 
@@ -441,16 +452,90 @@ class UsersController extends \BaseController {
            
   }
 
-  public function getSettings() {
-
-  }
-
   public function getRegister() {
     $province = Provinces::makeProvinceRegion();
 
   	$this->layout->content = View::make('users.register',compact('province'));
   	//print_r($province);
   }
+
+    public function getSettings() {
+   $user_id = Auth::user()->user_id;
+   $user =  Users::where('user_id', '=', $user_id);
+
+   if($user->count()) {
+   $user = $user->first();
+   $setting_id= $user->setting_id;
+
+   if($setting_id) {
+   
+   $settings = Settings::where('setting_id', '=', $setting_id);
+
+   if($settings->count()) {
+   $settings = $settings->first();
+   $setting_value = $settings->setting_value;
+
+
+   $this->layout->content = View::make('users.settings',array('setting_value'=>json_decode($setting_value)));
+
+       } else {
+       $this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
+     }
+   
+    } else {
+    	$this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
+    }
+
+  } else {
+  	echo "No user";
+  } 
+
+   //$this->layout->content = View::make('users.settings');
+   //$this->layout->title   = "User Settings";
+  }
+
+   public function postSettings() {
+  	$inputs = Input::all();
+  	$user_setting = json_encode(array('msg_opt'=>$inputs['msg_opt'],'newsletter_opt'=>$inputs['newsletter_opt']));
+  	$user_id = Auth::user()->user_id;
+
+  	$user =  Users::where('user_id', '=', $user_id);
+
+    if($user->count()) {
+   	$user = $user->first();
+    $setting_id= $user->setting_id;
+
+  	$settings = Settings::where('setting_id', '=', $setting_id);
+
+  	if($settings->count()) {
+    $settings = Settings::find($setting_id);
+  	$settings->setting_name = "User Settings";
+  	$settings->setting_value = $user_setting;
+  	$settings->setting_updated = date("Y-m-d H:i:s",time());
+  	if($settings->save()) {
+  		 return Redirect::to('users/settings')
+            ->with('message', 'Your settings have been saved!');
+  	 }
+    } else {
+    $settings = New  Settings();
+    $settings->setting_name = "User Settings";
+  	$settings->setting_value = $user_setting;
+  	$settings->setting_updated = date("Y-m-d H:i:s",time());
+
+  	if($settings->save()) {
+  		 $user = Users::find($user_id);
+  	     $user->setting_id = $settings->setting_id;
+  	     if($user->save()) {
+  		 return Redirect::to('users/settings')
+            ->with('message', 'Your settings have been saved!');
+          }
+  	 }
+    }
+   } else {
+   	echo "No user";
+   }
+  }
+
   
 
 }
