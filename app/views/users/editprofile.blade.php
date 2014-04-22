@@ -49,7 +49,11 @@
                         ))}}
                             </div>
                         </p>
-                        
+                        <p><b><i class="glyphicon glyphicon-map-marker"></i></i> จังหวัด:</b>
+                            <div class="input-group">
+                            {{ Form::select('province', $province, Auth::user()->province_id ? Auth::user()->province_id: 'เลือกจังหวัด / select province',array('class'=>'form-control')) }}
+                            </div>
+                        </p>
                 <!-- Start Profile Pic -->    
                 </div>
                 <div class="col-sm-6 col-md-6">

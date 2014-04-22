@@ -26,4 +26,15 @@ class Provinces extends \Eloquent {
     return $province_selector;
    }
 
+   public static function provinceName($province_id) {
+    
+     $province_query=  self::where('province_id', '=', $province_id);
+
+    if($province_query->count()) {
+       return $province_query->first()->province_name;
+     } else {
+      return false;
+     }
+  }
+
 }

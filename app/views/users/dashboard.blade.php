@@ -1,3 +1,9 @@
+{{--*/ 
+
+ $province_name = Provinces::provinceName(Auth::user()->province_id);
+ $user_type_name = User_types::userTypeName(Auth::user()->user_type_id);
+  
+ /*--}}
 <h1>Dashboard</h1>
 
 <p><b>This is your dashboard</b></p>
@@ -14,13 +20,13 @@
                         {{Auth::user()->firstname}}</h4>
                     
                         <p><b><i class="glyphicon glyphicon-user"></i></i> Username:</b> {{Auth::user()->username}}</p>
-						<p><b><i class="glyphicon glyphicon-bookmark"></i> User Type:</b> {{Auth::user()->user_type_id}}</p>
+						<p><b><i class="glyphicon glyphicon-bookmark"></i> User Type:</b> {{$user_type_name ? $user_type_name : 'Member'}}</p>
 						<p><b>Firstname:</b> {{Auth::user()->firstname}}</p>
 						<p><b>Lastname:</b> {{Auth::user()->lastname}}</p>
 						<p><b><i class="glyphicon glyphicon-envelope"></i> Email:</b> {{Auth::user()->email}}</p>
 						<p><b><i class="glyphicon glyphicon-earphone"></i> Tel:</b> {{Auth::user()->tel}}</p>
 						<p><b><cite title="{{Auth::user()->address}}"><i class="glyphicon glyphicon-map-marker"></i>Address:</b> {{Auth::user()->address}}</p>
-						<p><b><i class="glyphicon glyphicon-home"></i> Province:</b> {{Auth::user()->province_id}}</p>
+						<p><b><i class="glyphicon glyphicon-home"></i> Province:</b> {{$province_name ? $province_name : '-'}}</p>
                     
                 </div>
             </div>

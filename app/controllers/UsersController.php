@@ -12,7 +12,7 @@ class UsersController extends \BaseController {
 
     public function __construct() {
     	$this->beforeFilter('csrf', array('on'=>'post'));
-		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile')));
+		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile','postUpdateprofile','getSettings','postSettings')));
 	}
 	public function index()
 	{
@@ -183,6 +183,7 @@ class UsersController extends \BaseController {
 			$user->address = $input['address'];
 			$user->tel = $input['tel'];
 			$user->province_id = $input['province'];
+      $user->user_type_id = 1;
 			$user->save();
 
 			return Redirect::to('users/login');
@@ -201,6 +202,7 @@ class UsersController extends \BaseController {
 
 		$rules['firstname'] = 'required';
 		$rules['address'] = 'required';
+    $rules['province'] ='required';
         
         if($input['email']!=Auth::user()->email) {
         	$rules['email'] = 'unique:users|email';
@@ -224,6 +226,7 @@ class UsersController extends \BaseController {
 			$user->email = $input['email'];
 			$user->tel = $input['tel'];
 			$user->address = $input['address'];
+      $user->province_id = $input['province'];
 			//$user->profile_image = $input['profile_image'];
 			$file_uploaded = Input::file('image');
 			if($password !="" || !empty($password)) {
@@ -310,7 +313,9 @@ class UsersController extends \BaseController {
 	}
 	
 	public function getEditprofile() {
-	    $this->layout->content = View::make('users.editprofile');
+      $province = Provinces::makeProvinceRegion();
+
+	    $this->layout->content = View::make('users.editprofile',compact('province'));
 	    $this->layout->title = "Editprofile";
 	}
 
