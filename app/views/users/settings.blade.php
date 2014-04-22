@@ -100,12 +100,12 @@
              <span class="input-group-addon"><i class="glyphicon glyphicon-send"></i> Newsletter</span>
               <div class="btn-group" data-toggle="buttons">
 
-                  <label class="btn btn-primary {{$setting_value->newsletter_opt == 1 ? 'active' :''}} ">
-                     {{ Form::radio('newsletter_opt', '1', $setting_value->newsletter_opt == 1 ? true : false, array('id'=>'option1', 'class'=>'radio')) }}On
+                  <label class="btn btn-primary {{@$setting_value->newsletter_opt == 1 ? 'active' :''}} ">
+                     {{ Form::radio('newsletter_opt', '1', @$setting_value->newsletter_opt == 1 ? true : false, array('id'=>'option1', 'class'=>'radio')) }}On
                   
                   </label>
-                  <label class="btn btn-primary {{$setting_value->newsletter_opt != 1 ? 'active' :''}} ">
-                  {{ Form::radio('newsletter_opt', '0', $setting_value->newsletter_opt != 1 ? true : false, array('id'=>'option2', 'class'=>'radio')) }}Off
+                  <label class="btn btn-primary {{@$setting_value->newsletter_opt != 1 ? 'active' :''}} ">
+                  {{ Form::radio('newsletter_opt', '0', @$setting_value->newsletter_opt != 1 ? true : false, array('id'=>'option2', 'class'=>'radio')) }}Off
                  
                   </label>
               </div>
@@ -114,12 +114,12 @@
              <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i> Message&nbsp;&nbsp;</span>
               <div class="btn-group" data-toggle="buttons">
 
-                   <label class="btn btn-primary {{$setting_value->msg_opt == 1 ? 'active' :''}} ">
-                     {{ Form::radio('msg_opt', '1', $setting_value->msg_opt == 1 ? true : false, array('id'=>'option1', 'class'=>'radio')) }}On
+                   <label class="btn btn-primary {{@$setting_value->msg_opt == 1 ? 'active' :''}} ">
+                     {{ Form::radio('msg_opt', '1', @$setting_value->msg_opt == 1 ? true : false, array('id'=>'option1', 'class'=>'radio')) }}On
                   
                   </label>
-                  <label class="btn btn-primary {{$setting_value->msg_opt != 1 ? 'active' :''}} ">
-                  {{ Form::radio('msg_opt', '0', $setting_value->msg_opt != 1 ? true : false, array('id'=>'option2', 'class'=>'radio')) }}Off
+                  <label class="btn btn-primary {{@$setting_value->msg_opt != 1 ? 'active' :''}} ">
+                  {{ Form::radio('msg_opt', '0', @$setting_value->msg_opt != 1 ? true : false, array('id'=>'option2', 'class'=>'radio')) }}Off
                  
                   </label>
 
