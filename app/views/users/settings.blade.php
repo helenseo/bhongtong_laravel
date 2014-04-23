@@ -8,45 +8,6 @@ jQuery(document).ready(function() {
   });
 });
 </script>
-<style type="text/css"> 
-body {
-  margin: 20px auto;
-  font: 12px Verdana,Arial, Helvetica, sans-serif;
-}
-.layer1 {
-margin: 0;
-padding: 0;
-width: 500px;
-}
- 
-.heading {
-margin: 1px;
-color: #fff;
-padding: 1% 2%;
-border-radius: 4px;
-cursor: pointer;
-position: relative;
-background-color:#428bca;
-}
-.content {
-padding: 5px 10px;
-background-color:#fafafa;
-}
-p { padding: 5px 0; }
-
-.content input[type="submit"] {
-  text-align:center;
-  width: 55%;
-  margin: auto;
-}
-.input-group-addon{
-  width: 30%;
-}
-.input-group .form-control {
-  width: 74% !important;
-}
-</style>
-
 <!-- Stare Date Picker -->
 <link href="css/datepicker.css" rel="stylesheet">
 
@@ -132,7 +93,7 @@ p { padding: 5px 0; }
       <!-- End Date Picker -->
 
 
-<div class="well">
+<div class="settings-page well">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#home" data-toggle="tab">General</a></li>
       <li><a href="#payments" data-toggle="tab">Payments</a></li>
@@ -188,7 +149,7 @@ p { padding: 5px 0; }
 
       <!-- Start payments option -->
 <div class="well">
-            <div><br><h4>Payment method</h4></div>
+            <div><h4>Payment method</h4></div>
  
     <!-- Start Bank Tranfer -->
     <p class="heading">Bank Tranfer</p> 
@@ -264,8 +225,8 @@ p { padding: 5px 0; }
        {{ Form::open(array('url'=>'users/settings', 'class'=>'form-user-settings','id'=>'tab2')) }}
             <div class="well">
              <div><br/><h4>Purchase History</h4></div>  
-              <div class="phist-start-d"><b>Start date:</b> {{ Form::text('start_date', null,  array('id'=>'dpd1', 'class'=>'span2')) }}</div>
-              <div class="phist-end-d"><b>End date:</b> {{ Form::text('end_date', null,  array('id'=>'dpd2', 'class'=>'span2')) }}</div>  
+              <div class="phist-start-d"><b>Start date:</b> {{ Form::text('start_date', null,  array('id'=>'dpd1', 'class'=>'form-control')) }}</div>
+              <div class="phist-end-d"><b>End date:</b> {{ Form::text('end_date', null,  array('id'=>'dpd2', 'class'=>'form-control')) }}</div>  
             </div>
 
             <div>0 Results</div><br/>

@@ -28,3 +28,81 @@ text-align: left;
   display: inline-block;
   width: 40%;
 }
+
+.nav-tabs>li>a {
+  background-color: #eee;
+}
+
+/*Setting page */
+.settings-page .layer1 {
+margin: 0;
+padding: 0;
+width: 500px;
+}
+ 
+.settings-page .heading {
+margin: 1px;
+color: #fff;
+padding: 1% 2%;
+border-radius: 4px;
+cursor: pointer;
+position: relative;
+background-color:#428bca;
+}
+.settings-page .content {
+padding: 5px 10px;
+background-color:#fafafa;
+}
+.settings-page p { padding: 5px 0; }
+
+.settings-page .content input[type="submit"] {
+  text-align:center;
+  width: 55%;
+  margin: auto;
+}
+.settings-page .input-group-addon{
+  width: 30%;
+}
+.settings-page .input-group .form-control {
+  width: 70%;
+}
+/* End Setting page */
+@media only screen and (max-width : 640px) {
+ .input-group {
+ 	display: block !important;
+    clear: both;
+ }
+ .input-group .form-control {
+ 	width:100% !important;
+ 	border-radius:4px !important;
+ 	margin-top:10px;
+ 	margin-bottom:20px;
+ }
+ .input-group-addon:first-child{
+ 	border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+
+ }
+ .input-group-addon {
+ 	width: 100% !important; 
+    display: block;
+    margin-bottom: 5px;
+    min-width: 100% !important; 
+    max-width: 100% !important; 
+    font-size:12px;
+ }
+ .phist-start-d, .phist-end-d {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+ }
+ .btn-group, .btn-group-vertical {
+ 	width:100%;
+ }
+ .nav-tabs>li {
+ 	float:none;
+ 	margin-bottom: 10px;
+ }
+
+
+}
