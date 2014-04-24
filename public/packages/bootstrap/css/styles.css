@@ -34,13 +34,13 @@ text-align: left;
 }
 
 /*Setting page */
-.settings-page .layer1 {
+.settings-page .layer1,.payment-shop .layer1 {
 margin: 0;
 padding: 0;
 width: 500px;
 }
  
-.settings-page .heading {
+.settings-page .heading,.payment-shop .heading {
 margin: 1px;
 color: #fff;
 padding: 1% 2%;
@@ -49,21 +49,21 @@ cursor: pointer;
 position: relative;
 background-color:#428bca;
 }
-.settings-page .content {
+.settings-page .content, .payment-shop .content {
 padding: 5px 10px;
 background-color:#fafafa;
 }
-.settings-page p { padding: 5px 0; }
+.settings-page p, .payment-shop p { padding: 5px 0; }
 
-.settings-page .content input[type="submit"] {
+.settings-page .content input[type="submit"], .payment-shop .content input[type="submit"] {
   text-align:center;
   width: 55%;
   margin: auto;
 }
-.settings-page .input-group-addon{
+.settings-page .input-group-addon, .payment-shop .input-group-addon{
   width: 30%;
 }
-.settings-page .input-group .form-control {
+.settings-page .input-group .form-control, .payment-shop .input-group .form-control {
   width: 70%;
 }
 /* End Setting page */
@@ -103,6 +103,12 @@ background-color:#fafafa;
  	float:none;
  	margin-bottom: 10px;
  }
-
+ .select-expiry-month, .select-expiry-year {
+  width:100%;
+  display:block;
+  clear:both;
+  margin-top:5px;
+  margin-bottom:5px;
+ }
 
 }
