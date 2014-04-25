@@ -146,6 +146,7 @@ return array(
     'Transactions' => $baseDir . '/app/models/Transactions.php',
     'UploadController' => $baseDir . '/app/controllers/UploadController.php',
     'User_have_shops' => $baseDir . '/app/models/User_have_shops.php',
+    'User_settings' => $baseDir . '/app/models/User_settings.php',
     'User_socials' => $baseDir . '/app/models/User_socials.php',
     'User_types' => $baseDir . '/app/models/User_types.php',
     'User_typesTableSeeder' => $baseDir . '/app/database/seeds/User_typesTableSeeder.php',

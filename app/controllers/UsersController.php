@@ -476,27 +476,37 @@ class UsersController extends \BaseController {
    $user =  Users::where('user_id', '=', $user_id);
 
    if($user->count()) {
-   $user = $user->first();
-   $setting_id= $user->setting_id;
+   $settings = User_settings::where('user_id','=',$user_id);
 
-   if($setting_id) {
-   
-   $settings = Settings::where('setting_id', '=', $setting_id);
 
    if($settings->count()) {
-   $settings = $settings->first();
-   $setting_value = $settings->setting_value;
+   $settings = $settings->get(array('users_setting_key','users_setting_value'));
+ 
+   $setting_value = new stdClass();
+   foreach($settings as $setting) {
+    $k = $setting->users_setting_key;
+    $v = $setting->users_setting_value;
 
+    if (is_object(json_decode($v))) 
+    { 
+      $setting_value->$k = json_decode($v);  
+    } else {
+      $setting_value->$k = $v;
+    }
+   // $setting_value->$k = json_decode($v);
+      
+   }
 
-   $this->layout->content = View::make('users.settings',array('setting_value'=>json_decode($setting_value)));
+ //  print_r($setting_value);
+  
+
+  $this->layout->content = View::make('users.settings',compact('setting_value'));
 
        } else {
-       $this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
+     $this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
      }
    
-    } else {
-    	$this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
-    }
+  
 
   } else {
   	echo "No user";
@@ -507,45 +517,103 @@ class UsersController extends \BaseController {
   }
 
    public function postSettings() {
+
   	$inputs = Input::all();
-  	$user_setting = json_encode(array('msg_opt'=>$inputs['msg_opt'],'newsletter_opt'=>$inputs['newsletter_opt']));
-  	$user_id = Auth::user()->user_id;
+  
+    $user_id = Auth::user()->user_id;
 
   	$user =  Users::where('user_id', '=', $user_id);
 
     if($user->count()) {
-   	$user = $user->first();
-    $setting_id= $user->setting_id;
+      $is_saved = true;
+      foreach($inputs as $key =>$value) {
+        if(is_array($inputs[$key])) {
+          //print_r($inputs[$key]);
+          $sub_a = $inputs[$key];
+          
+          $added_value = json_encode($sub_a);
 
-  	$settings = Settings::where('setting_id', '=', $setting_id);
+          $added_value = str_replace('\"','',$added_value);
 
-  	if($settings->count()) {
-    $settings = Settings::find($setting_id);
-  	$settings->setting_name = "User Settings";
-  	$settings->setting_value = $user_setting;
-  	$settings->setting_updated = date("Y-m-d H:i:s",time());
-  	if($settings->save()) {
-  		 return Redirect::to('users/settings')
-            ->with('message', 'Your settings have been saved!');
-  	 }
-    } else {
-    $settings = New  Settings();
-    $settings->setting_name = "User Settings";
-  	$settings->setting_value = $user_setting;
-  	$settings->setting_updated = date("Y-m-d H:i:s",time());
+        } else {
+          $added_value = $value;
+        }
 
-  	if($settings->save()) {
-  		 $user = Users::find($user_id);
-  	     $user->setting_id = $settings->setting_id;
-  	     if($user->save()) {
-  		 return Redirect::to('users/settings')
-            ->with('message', 'Your settings have been saved!');
+        //
+         
+          if($key!='_token') {
+
+          $q = User_settings::where('users_setting_key','=',$key)
+                               ->where('user_id','=',$user_id,'AND');
+
+          if($q->count()) {
+            $set_id = $q->first()->users_setting_id;
+            $user_settings = User_settings::find($set_id);
+            $user_settings->users_setting_value = $added_value;
+            
+          } //
+          else {
+            $user_settings = New User_settings();
+            $user_settings->users_setting_key = $key;
+            $user_settings->users_setting_value = $added_value;
+            $user_settings->user_id = $user_id;
           }
-  	 }
-    }
+
+          if(!$user_settings->save()) {
+            return Redirect::to('users/settings')
+            ->withErrors('Error!');
+
+            die();
+          } 
+        }
+       
+      }
+       return Redirect::to('users/settings')
+            ->with('message', 'Your settings have been saved!');
+  
    } else {
    	echo "No user";
    }
+  }
+
+  public function getSelectshop() {
+      $this->layout->content = View::make('users.selectshop');
+      $this->layout->title = "Selectshop";
+  }
+
+  public function getCreateshop() {
+      $this->layout->content = View::make('users.createShop');
+      $this->layout->title = "Create Shop";
+  }  
+
+  public function getCreateclassified() {
+      $this->layout->content = View::make('users.createclassified');
+      $this->layout->title = "Create classified Shop";
+  }  
+
+  public function postPaymentcreateshop() {
+      $this->layout->content = View::make('users.paymentcreateshop');
+      $this->layout->title = "Payment Create Shop";
+  }
+
+  public function getShop() {
+      $this->layout->content = View::make('users.shop');
+      $this->layout->title = "Shop Name";
+  }
+
+  public function getClassified() {
+      $this->layout->content = View::make('users.classified');
+      $this->layout->title = "Classified Name";
+  } 
+
+  public function getProducts() {
+      $this->layout->content = View::make('users.products');
+      $this->layout->title = "products Name";
+  } 
+
+  public function getServices() {
+      $this->layout->content = View::make('users.services');
+      $this->layout->title = "services Name";
   }
 
   
