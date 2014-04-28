@@ -11,6 +11,9 @@ class UsersController extends \BaseController {
    protected $layout = "layouts.main";
 
     public function __construct() {
+
+      Input::merge(array_map('trim', Input::all()));
+
     	$this->beforeFilter('csrf', array('on'=>'post'));
 		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile','postUpdateprofile','getSettings','postSettings')));
 	}
@@ -158,12 +161,12 @@ class UsersController extends \BaseController {
 
 	public function postRegister(){
 
-    Input::merge(array_map('trim', Input::all()));
+    //Input::merge(array_map('trim', Input::all()));
 		$input = Input::all();
 
 		$rules = array(
 			'firstname' => 'required',
-			'username' => 'required|unique:users',
+			'username' => 'required|regex:/^[A-Za-z][A-Za-z0-9.-_]{3,20}$/|unique:users',
 			'email' => 'required|unique:users|email',
 			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
             'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password',
