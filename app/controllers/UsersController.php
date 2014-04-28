@@ -168,9 +168,10 @@ class UsersController extends \BaseController {
 			'firstname' => 'required',
 			'username' => 'required|regex:/^[A-Za-z][A-Za-z0-9.-_]{3,20}$/|unique:users',
 			'email' => 'required|unique:users|email',
-			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
-            'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password',
-            'recaptcha_response_field' => 'required|recaptcha'
+			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/',
+      'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/|same:password',
+      'recaptcha_response_field' => 'required|recaptcha',
+      'tel' => 'regex:/^0[0-9]{8,9}$/i'
 			);
 
 		$v = Validator::make($input, $rules);
@@ -208,13 +209,15 @@ class UsersController extends \BaseController {
 		$rules['firstname'] = 'required';
 		$rules['address'] = 'required';
     $rules['province'] ='required';
+    $rules['tel'] = 'regex:/^0[0-9]{8,9}$/i';
+
         
         if($input['email']!=Auth::user()->email) {
         	$rules['email'] = 'unique:users|email';
         }
         
         if($password !="" || !empty($password)) {
-         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
+         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/';
         }
         
        // echo Input::file('image');
@@ -440,8 +443,8 @@ class UsersController extends \BaseController {
 		);
 
          $rules = array(
-			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
-            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
+			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/',
+            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/|same:password'
 		);
 
         $validator = Validator::make($inputdata, $rules);
