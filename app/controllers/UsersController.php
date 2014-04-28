@@ -157,6 +157,8 @@ class UsersController extends \BaseController {
 	}
 
 	public function postRegister(){
+
+    Input::merge(array_map('trim', Input::all()));
 		$input = Input::all();
 
 		$rules = array(
