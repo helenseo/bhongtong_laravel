@@ -465,10 +465,14 @@ class UsersController extends \BaseController {
   }
 
   public function getRegister() {
+
+    if(!Auth::check()) {
     $province = Provinces::makeProvinceRegion();
 
   	$this->layout->content = View::make('users.register',compact('province'));
-  	//print_r($province);
+    } else {
+     return Redirect::to('users/dashboard');
+    }
   }
 
     public function getSettings() {
@@ -576,7 +580,7 @@ class UsersController extends \BaseController {
    }
   }
 
-  public function getSelectshop() {
+ public function getSelectshop() {
       $this->layout->content = View::make('users.selectshop');
       $this->layout->title = "Selectshop";
   }
@@ -594,7 +598,12 @@ class UsersController extends \BaseController {
   public function postPaymentcreateshop() {
       $this->layout->content = View::make('users.paymentcreateshop');
       $this->layout->title = "Payment Create Shop";
-  }
+  } 
+
+  public function getShoptype() {
+      $this->layout->content = View::make('users.shoptype');
+      $this->layout->title = "Shoptype";
+  }  
 
   public function getShop() {
       $this->layout->content = View::make('users.shop');
@@ -615,7 +624,6 @@ class UsersController extends \BaseController {
       $this->layout->content = View::make('users.services');
       $this->layout->title = "services Name";
   }
-
   
 
 }
