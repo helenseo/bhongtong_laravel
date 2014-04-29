@@ -10,6 +10,12 @@ class UsersController extends \BaseController {
 	 */
    protected $layout = "layouts.main";
 
+   public $error_messages= array(
+    'password.regex' => 'Password ต้องขึ้นต้นด้วย A-Z หรือ a-z หรือ 0-9 และต้องประกอบด้วย A-Z หรือ a-z หรือ 0-9 หรืออักขระพิเศษ !@#$%-_[ ] โดยมีความยาวขั้นต่ำ 6 ตัวอักษร แต่ไม่เกิน 12 ตัวอักษร ',
+    'repassword.regex' => 'Password ต้องขึ้นต้นด้วย A-Z หรือ a-z หรือ 0-9 และต้องประกอบด้วย A-Z หรือ a-z หรือ 0-9 หรืออักขระพิเศษ !@#$%-_[ ] โดยมีความยาวขั้นต่ำ 6 ตัวอักษร แต่ไม่เกิน 12 ตัวอักษร '
+    );
+
+
     public function __construct() {
 
       Input::merge(array_map('trim', Input::all()));
@@ -168,13 +174,15 @@ class UsersController extends \BaseController {
 			'firstname' => 'required',
 			'username' => 'required|regex:/^[A-Za-z][A-Za-z0-9.-_]{3,20}$/|unique:users',
 			'email' => 'required|unique:users|email',
-			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/',
-      'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/|same:password',
+			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/',
+      'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/|same:password',
       'recaptcha_response_field' => 'required|recaptcha',
       'tel' => 'regex:/^0[0-9]{8,9}$/i'
 			);
 
-		$v = Validator::make($input, $rules);
+    
+
+		$v = Validator::make($input, $rules, $this->error_messages);
 
 		if($v->passes()){
 			$password = $input['password'];
@@ -217,14 +225,14 @@ class UsersController extends \BaseController {
         }
         
         if($password !="" || !empty($password)) {
-         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/';
+         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/';
         }
         
        // echo Input::file('image');
 
         //die();
 
-        $v = Validator::make($input, $rules);
+        $v = Validator::make($input, $rules, $this->error_messages);
 
 		if($v->passes()){
 			$user = Users::find(Auth::user()->user_id);
@@ -443,11 +451,11 @@ class UsersController extends \BaseController {
 		);
 
          $rules = array(
-			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/',
-            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_]{6,12}$/|same:password'
+			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/',
+            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/|same:password'
 		);
 
-        $validator = Validator::make($inputdata, $rules);
+       Validator::make($input, $rules, $this->error_messages);
 
         if($validator->passes()) {
         	$user = Users::find($user_id);
