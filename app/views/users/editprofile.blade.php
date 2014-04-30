@@ -91,12 +91,12 @@
                 <div class="col-sm-6 col-md-6">
                     <img src="{{{ !empty(Auth::user()->profile_image) ? Auth::user()->profile_image : 'http://placehold.it/380x500'}}}" id="uploadimg" alt="" class="profile-pic img-rounded img-responsive" ><br/>
                     <!-- Post Footer -->
-                    <div class="row">
+                
                         <div class="span3">
                             <div id="validation-errors"></div>
                              {{Form::file('image')}}
                        </div>
-                    </div>
+                    
             </div>
         </div>
     </div>
