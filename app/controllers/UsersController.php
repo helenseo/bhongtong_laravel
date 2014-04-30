@@ -227,7 +227,7 @@ class UsersController extends \BaseController {
     $rules['firstname'] = 'required';
     $rules['address'] = 'required';
     $rules['province'] ='required';
-    $rultes['zipcode'] = 'required|size:5|regex:/\d{5}$/';
+    $rules['zipcode'] = 'required|size:5|regex:/\d{5}$/';
     $rules['tel'] = 'regex:/^0[0-9]{8,9}$/i';
     $rules['birthday'] = 'date_format:Y-m-d';
 

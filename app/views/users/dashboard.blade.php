@@ -24,8 +24,9 @@
 						<p><b>Firstname:</b> {{Auth::user()->firstname}}</p>
 						<p><b>Lastname:</b> {{Auth::user()->lastname}}</p>
 						<p><b><i class="glyphicon glyphicon-envelope"></i> Email:</b> {{@Auth::user()->email}}</p>
-						<p><b><i class="glyphicon glyphicon-earphone"></i> Tel:</b> {{@Auth::user()->tel}}</p>
-						<p><b><cite title="{{Auth::user()->address}}"><i class="glyphicon glyphicon-map-marker"></i>Address:</b> {{Auth::user()->address}}</p>
+						<p><b><i class="glyphicon glyphicon-calendar"></i> วันเกิด:</b> {{@Auth::user()->birthdate!='0000-00-00' ? Auth::user()->birthdate : '-' }}</p>
+                        <p><b><i class="glyphicon glyphicon-earphone"></i> Tel:</b> {{@Auth::user()->tel ? Auth::user()->tel : '-'}}</p>
+						<p><b><cite title="{{Auth::user()->address}}"><i class="glyphicon glyphicon-map-marker"></i>Address:</b> {{Auth::user()->address ? Auth::user()->address : '-'}}</p>
                         <p><b><i class="glyphicon glyphicon-map-marker"></i>Zipcode:</b> {{@Auth::user()->zipcode ? Auth::user()->zipcode : '-'  }}</p>
 						<p><b><i class="glyphicon glyphicon-home"></i> Province:</b> {{@$province_name ? $province_name : '-'}}</p>
                     
