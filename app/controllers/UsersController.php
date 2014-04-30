@@ -10,7 +10,16 @@ class UsersController extends \BaseController {
 	 */
    protected $layout = "layouts.main";
 
+   public $error_messages= array(
+    'password.regex' => 'Password ต้องขึ้นต้นด้วย A-Z หรือ a-z หรือ 0-9 และต้องประกอบด้วย A-Z หรือ a-z หรือ 0-9 หรืออักขระพิเศษ !@#$%-_[ ] โดยมีความยาวขั้นต่ำ 6 ตัวอักษร แต่ไม่เกิน 12 ตัวอักษร ',
+    'repassword.regex' => 'Password ต้องขึ้นต้นด้วย A-Z หรือ a-z หรือ 0-9 และต้องประกอบด้วย A-Z หรือ a-z หรือ 0-9 หรืออักขระพิเศษ !@#$%-_[ ] โดยมีความยาวขั้นต่ำ 6 ตัวอักษร แต่ไม่เกิน 12 ตัวอักษร '
+    );
+
+
     public function __construct() {
+
+      Input::merge(array_map('trim', Input::all()));
+
     	$this->beforeFilter('csrf', array('on'=>'post'));
 		$this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile','postUpdateprofile','getSettings','postSettings')));
 	}
@@ -158,19 +167,30 @@ class UsersController extends \BaseController {
 
 	public function postRegister(){
 
-    Input::merge(array_map('trim', Input::all()));
+    //Input::merge(array_map('trim', Input::all()));
 		$input = Input::all();
 
 		$rules = array(
 			'firstname' => 'required',
-			'username' => 'required|unique:users',
+			'username' => 'required|regex:/^[A-Za-z][A-Za-z0-9.-_]{3,20}$/|unique:users',
 			'email' => 'required|unique:users|email',
 			'password' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
-            'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password',
-            'recaptcha_response_field' => 'required|recaptcha'
+      'repassword' =>'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password',
+      'recaptcha_response_field' => 'required|recaptcha',
+      'tel' => 'regex:/^0[0-9]{8,9}$/i',
+      'zipcode' => 'size:5|regex:/\d{5}$/',
+      'birthday' => 'date_format:Y-m-d',
+      'agree' => 'required'
+
 			);
 
-		$v = Validator::make($input, $rules);
+    $this->error_messages = array(
+    'password.regex' => 'Password ต้องขึ้นต้นด้วย A-Z หรือ a-z หรือ 0-9 และต้องประกอบด้วย A-Z หรือ a-z หรือ 0-9 หรืออักขระพิเศษ !@#$%-_[ ] โดยมีความยาวขั้นต่ำ 6 ตัวอักษร แต่ไม่เกิน 12 ตัวอักษร ',
+    'repassword.regex' => 'Password ต้องขึ้นต้นด้วย A-Z หรือ a-z หรือ 0-9 และต้องประกอบด้วย A-Z หรือ a-z หรือ 0-9 หรืออักขระพิเศษ !@#$%-_[ ] โดยมีความยาวขั้นต่ำ 6 ตัวอักษร แต่ไม่เกิน 12 ตัวอักษร ',
+    'agree.required' => 'กรุณายอมรับข้อตกลง ก่อนสมัครสมาชิก'
+    );
+
+		$v = Validator::make($input, $rules, $this->error_messages);
 
 		if($v->passes()){
 			$password = $input['password'];
@@ -185,6 +205,8 @@ class UsersController extends \BaseController {
 			$user->address = $input['address'];
 			$user->tel = $input['tel'];
 			$user->province_id = $input['province'];
+      $user->zipcode = $input['zipcode'];
+      $user->birthdate = $input['birthday'];
       $user->user_type_id = 1;
 			$user->save();
 
@@ -192,7 +214,7 @@ class UsersController extends \BaseController {
 
 		}else{
 
-			return Redirect::to('users/register')->withInput()->withErrors($v);
+			return Redirect::to('users/register')->withInput(Input::except('agree,password,repassword'))->withErrors($v);
 
 		}
 	}
@@ -205,20 +227,24 @@ class UsersController extends \BaseController {
 		$rules['firstname'] = 'required';
 		$rules['address'] = 'required';
     $rules['province'] ='required';
+    $rultes['zipcode'] = 'required|size:5|regex:/\d{5}$/';
+    $rules['tel'] = 'regex:/^0[0-9]{8,9}$/i';
+    $rules['birthday'] = 'date_format:Y-m-d';
+
         
         if($input['email']!=Auth::user()->email) {
         	$rules['email'] = 'unique:users|email';
         }
         
         if($password !="" || !empty($password)) {
-         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
+         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/';
         }
         
        // echo Input::file('image');
 
         //die();
 
-        $v = Validator::make($input, $rules);
+        $v = Validator::make($input, $rules, $this->error_messages);
 
 		if($v->passes()){
 			$user = Users::find(Auth::user()->user_id);
@@ -229,6 +255,8 @@ class UsersController extends \BaseController {
 			$user->tel = $input['tel'];
 			$user->address = $input['address'];
       $user->province_id = $input['province'];
+      $user->zipcode = $input['zipcode'];
+      $user->birthdate = $input['birthday'];
 			//$user->profile_image = $input['profile_image'];
 			$file_uploaded = Input::file('image');
 			if($password !="" || !empty($password)) {
@@ -437,11 +465,11 @@ class UsersController extends \BaseController {
 		);
 
          $rules = array(
-			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
-            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
+			'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/',
+            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/|same:password'
 		);
 
-        $validator = Validator::make($inputdata, $rules);
+       Validator::make($input, $rules, $this->error_messages);
 
         if($validator->passes()) {
         	$user = Users::find($user_id);
