@@ -123,15 +123,15 @@ background-color:#fafafa;
 }
 
 @media (max-width: 444px) {
-    #recaptcha_area, #recaptcha_table {
-      width:100% !important;
+    div#recaptcha_area,table#recaptcha_table{
+      width: 100% !important;
     }
     .recaptchatable {
       background-color: #860400 !important;
     }
     .recaptchatable #recaptcha_image {
         margin: 0 !important;
-        width: 200px !important;
+        width: 100% !important;
         float:left !important;
     }
     .recaptchatable #recaptcha_image img {
@@ -139,5 +139,13 @@ background-color:#fafafa;
     }
     .recaptchatable .recaptcha_r1_c1, .recaptchatable .recaptcha_r3_c1, .recaptchatable .recaptcha_r3_c2, .recaptchatable .recaptcha_r7_c1, .recaptchatable .recaptcha_r8_c1, .recaptchatable .recaptcha_r3_c3, .recaptchatable .recaptcha_r2_c1, .recaptchatable .recaptcha_r4_c1, .recaptchatable .recaptcha_r4_c2, .recaptchatable .recaptcha_r4_c4, .recaptchatable .recaptcha_image_cell, .recaptchatable .recaptcha_r2_c2 {
         background: none !important;
+    }
+    .recaptchatable .recaptcha_r4_c1 {
+      background:none !important;
+      background-color:#FFDC73 !important;
+      width:80% !important;
+    }
+    .recaptchatable .recaptcha_r4_c4 {
+      display:none !important;
     }
 }
