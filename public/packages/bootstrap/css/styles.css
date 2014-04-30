@@ -33,6 +33,11 @@ text-align: left;
   background-color: #eee;
 }
 
+/* Register Page */
+textarea {
+    resize: none;
+}
+
 /*Setting page */
 .settings-page .layer1,.payment-shop .layer1 {
 margin: 0;
@@ -111,4 +116,28 @@ background-color:#fafafa;
   margin-bottom:5px;
  }
 
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  background-color:#fff;
+}
+
+@media (max-width: 444px) {
+    #recaptcha_area, #recaptcha_table {
+      width:100% !important;
+    }
+    .recaptchatable {
+      background-color: #860400 !important;
+    }
+    .recaptchatable #recaptcha_image {
+        margin: 0 !important;
+        width: 200px !important;
+        float:left !important;
+    }
+    .recaptchatable #recaptcha_image img {
+        max-width:100%;
+    }
+    .recaptchatable .recaptcha_r1_c1, .recaptchatable .recaptcha_r3_c1, .recaptchatable .recaptcha_r3_c2, .recaptchatable .recaptcha_r7_c1, .recaptchatable .recaptcha_r8_c1, .recaptchatable .recaptcha_r3_c3, .recaptchatable .recaptcha_r2_c1, .recaptchatable .recaptcha_r4_c1, .recaptchatable .recaptcha_r4_c2, .recaptchatable .recaptcha_r4_c4, .recaptchatable .recaptcha_image_cell, .recaptchatable .recaptcha_r2_c2 {
+        background: none !important;
+    }
 }
