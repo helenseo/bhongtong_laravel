@@ -1,4 +1,4 @@
-    <style type="text/css">
+        <style type="text/css">
     .thumbnail{
         margin-top: 20px;
         min-height: 280px;
@@ -11,8 +11,16 @@
     }
 
     </style>
-    
+
+<!-- Start location bar -->
     <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="dashboard">Home</a> <span class="divider"></span></li>
+            <li><a href="shoptype">Shoptype</a> <span class="divider"></span></li>
+            <li><b>shop</b> <span class="divider"></span></li>
+        </ul>
+<!-- End location bar -->
+
         <div class="row">
 
             <div class="col-md-3">
