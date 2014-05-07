@@ -36,9 +36,16 @@
                 <div class="col-sm-6 col-md-6">
                                       
                         <p><b><i class="glyphicon glyphicon-user"></i></i> Username:</b> {{Auth::user()->username}}</p>
-                        <p><b><i class="glyphicon glyphicon-lock"></i></i> Password:</b>
+                        
+                        <p><b><i class="glyphicon glyphicon-lock"></i></i> New Password:</b>
                          <div class="input-group">
-                          {{ Form::password('password',  array('id'=>'password', 'class'=>'form-control', 'placeholder'=>'รหัสผ่าน / Password')) }}
+                          {{ Form::password('password',  array('id'=>'password', 'class'=>'form-control', 'placeholder'=>'กรอกรหัสผ่านใหม่ที่ต้องการเปลี่ยน / New Password')) }}
+                         </div>
+                        </p>
+
+                        <p><b><i class="glyphicon glyphicon-lock"></i></i> Current Password:</b>
+                         <div class="input-group">
+                          {{ Form::password('current-password',  array('id'=>'current-password', 'class'=>'form-control', 'placeholder'=>'กรอกรหัสผ่านปัจจุบัน/ Current Password')) }}
                          </div>
                         </p>
                         <p><b> Firstname:</b>
@@ -76,7 +83,7 @@
                             </div>
                         </p>
                         <p><b><i class="glyphicon glyphicon-map-marker"></i></i> รหัสไปรษณีย์ / zipcode:</b>
-                        <div class="inpu t-group">
+                        <div class="input-group">
                             {{ Form::text('zipcode', $value = Auth::user()->zipcode,  array('id'=>'zipcode', 'class'=>'form-control', 'placeholder'=>'รหัสไปรษณีย์ / zipcode')) }}
                         </div>
                         </p>

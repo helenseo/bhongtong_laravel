@@ -223,6 +223,7 @@ class UsersController extends \BaseController {
     $input = Input::all();
 
     $password = $input['password'];
+    $current_password = $input['current-password'];
 
     $rules['firstname'] = 'required';
     $rules['address'] = 'required';
@@ -237,8 +238,10 @@ class UsersController extends \BaseController {
         }
         
         if($password !="" || !empty($password)) {
-         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/';
+         $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
+         $rules['current-password'] = 'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
         }
+
         
        // echo Input::file('image');
 
@@ -262,7 +265,18 @@ class UsersController extends \BaseController {
       if($password !="" || !empty($password)) {
       $password = Hash::make($password);
       $user->password = $password;
-        } 
+      } 
+
+      $current_password_auth = Auth::user()->password;
+
+        if($current_password || !empty($current_password)) {
+           if(!Hash::check($current_password, $current_password_auth))   {
+
+           return Redirect::to('users/editprofile')->withInput()->withErrors('Current Password is invalid / รหัสผ่านปัจจุบันไม่ถูกต้อง');
+           }
+        }
+
+
        /*If have uploaded image */
        if($file_uploaded) {
         $upload_img = UploadController::upload($file_uploaded,'profile',null,null,'/uploads/profiles/');
@@ -443,6 +457,8 @@ class UsersController extends \BaseController {
     }
 
     public function postResetpassword() {
+        $input = Input::all();
+
          $token = Session::get('forgot_pass_token');
          if($token) {
          
@@ -461,15 +477,15 @@ class UsersController extends \BaseController {
 
          $inputdata= array(
       'password'         => $password,
-      'password_confirm' => $password_confirm
+      'password-confirm' => $password_confirm
     );
 
          $rules = array(
-      'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/',
-            'password_confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%-_[]]{6,12}$/|same:password'
+      'password' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/',
+            'password-confirm' =>'Required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/|same:password'
     );
 
-       Validator::make($input, $rules, $this->error_messages);
+       $validator=Validator::make($input, $rules, $this->error_messages);
 
         if($validator->passes()) {
           $user = Users::find($user_id);
