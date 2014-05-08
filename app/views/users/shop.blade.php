@@ -1,17 +1,3 @@
-        <style type="text/css">
-    .thumbnail{
-        margin-top: 20px;
-        min-height: 280px;
-        padding: 1px 1px 1px 1px;
-    }
-
-    input[type=submit].btn-block, input[type=reset].btn-block, input[type=button].btn-block{
-        width: 96%;
-        margin: auto;
-    }
-
-    </style>
-
 <!-- Start location bar -->
     <div class="container">
         <ul class="breadcrumb">
@@ -36,7 +22,7 @@
             </div>
 
             <div class="col-md-9">
-                <div class="row">
+                <div class="products-list row">
                     <div class="col-md-12">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">

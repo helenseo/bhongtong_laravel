@@ -13,7 +13,7 @@
     </style>
     
     <div class="container">
-        <div class="row">
+        <div class="services-list row">
 
             <div class="col-md-3">
                 <p class="lead">Classified Name</p>

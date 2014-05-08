@@ -149,3 +149,31 @@ background-color:#fafafa;
       display:none !important;
     }
 }
+
+/* Shop */
+
+    .products-list  .thumbnail, .services-list .thumbnail{
+        margin-top: 20px;
+        padding: 1px 1px 1px 1px;
+    }
+    .products-list .thumbnail img, .services-list .thumbnail img {
+      min-width:100%;
+      max-width: 100%;
+    }
+
+    .products-list .thumbnail .caption, .services-list .thumbnail .caption {
+      min-height: 120px;
+    }
+
+    .products-list  .thumbnail .ratings, .services-list .thumbnail .ratings {
+      padding-bottom: 20px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .products-list input[type=submit].btn-block, .products-list input[type=reset].btn-block, .products-list input[type=button].btn-block, 
+    .services-list input[type=submit].btn-block, .services-list input[type=reset].btn-block, .services-list input[type=button].btn-block
+     {
+        width: 96%;
+        margin: auto;
+    }
