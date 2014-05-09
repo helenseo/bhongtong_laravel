@@ -27,8 +27,8 @@
 <h1>Editprofile</h1>
 
 <p><b>This is for edit your profile</b></p>
-{{ Form::open(array('url'=>'users/updateprofile', 'class'=>'form-updateprofile','ng-controller'=>'FileUploadCtrl','enctype'=>'multipart/form-data')) }}
 <div class="row">
+  {{ Form::open(array('url'=>'users/updateprofile', 'class'=>'form-updateprofile','ng-controller'=>'FileUploadCtrl','enctype'=>'multipart/form-data')) }}
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="well well-sm">
             <div class="row">
@@ -93,7 +93,7 @@
                             {{ Form::select('province', $province, Auth::user()->province_id ? Auth::user()->province_id: 'เลือกจังหวัด / select province',array('class'=>'form-control')) }}
                             </div>
                         </p>
-                <!-- Start Profile Pic -->    
+                       <!-- Start Profile Pic -->    
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <img src="{{{ !empty(Auth::user()->profile_image) ? Auth::user()->profile_image : 'http://placehold.it/380x500'}}}" id="uploadimg" alt="" class="profile-pic img-rounded img-responsive" ><br/>
@@ -104,13 +104,21 @@
                              {{Form::file('image')}}
                        </div>
                     
-            </div>
+                </div>
+
         </div>
+        <p>
+           <div class="input-group">{{ Form::submit('Edit your profile', array('class'=>'btn btn-primary btn-lg'))}}
+           </div>
+
+        </p>
     </div>
+  
+{{ Form::close() }}
+
 </div>
 
-<p>{{ Form::submit('Edit your profile', array('class'=>'btn btn-primary btn-lg'))}}</p><br/>
-{{ Form::close() }}
+</div>
 
 
 
