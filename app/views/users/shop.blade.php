@@ -16,9 +16,9 @@
                     <a href="#" class="list-group-item">Contact</a>
                     <a href="#" class="list-group-item">Products</a>
                     <a href="#" class="list-group-item">Promotions</a><br/>
-                    <h4>Map<h4/>
-                    <iframe width="100%" height="280" frameborder="1" scrolling="yes" marginheight="0" marginwidth="0" src=""></iframe>
-                </div>
+                    <h4>Map</h4>
+                     <iframe height="280" style="width:100%;"></iframe>
+               </div>
             </div>
 
             <div class="col-md-9">
@@ -58,7 +58,7 @@
                                 <h4 class="pull-right">฿ 100.00</h4>
                                 <h4><a href="products">First Product</a></h4>
                                 
-                                <p id="pname">Details for First Product</p>
+                                <p class="pdetail">Details for First Product</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="products">reviews</a></p>
@@ -83,7 +83,7 @@
                                 <h4 class="pull-right">฿ 100.00</h4>
                                 <h4><a href="products">Second Product</a></h4>
                                 
-                                <p id="pname">Details for Second Product</p>
+                                <p class="pdetail">Details for Second Product</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="products">reviews</a></p>
@@ -108,7 +108,7 @@
                                 <h4 class="pull-right">฿ 100.00</h4>
                                 <h4><a href="products">Third Product</a>
                                 </h4>
-                                <p id="pname">Details for Third Product</p>
+                                <p class="pdetail">Details for Third Product</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="products">reviews</a></p>
@@ -133,7 +133,7 @@
                                 <h4 class="pull-right">฿ 100.00</h4>
                                 <h4><a href="products">Fourth Product</a>
                                 </h4>
-                                <p id="pname">Details for Fourth Product</p>
+                                <p class="pdetail">Details for Fourth Product</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="products">reviews</a></p>
@@ -158,7 +158,7 @@
                                 <h4 class="pull-right">฿ 100.00</h4>
                                 <h4><a href="products">Fifth Product</a>
                                 </h4>
-                                <p id="pname">Details for Fifth Product</p>
+                                <p class="pdetail">Details for Fifth Product</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="products">reviews</a></p>
@@ -183,7 +183,7 @@
                                 <h4 class="pull-right">฿ 100.00</h4>
                                 <h4><a href="products">Sixth Product</a>
                                 </h4>
-                                <p id="pname">Details for Sixth Product</p>
+                                <p class="pdetail">Details for Sixth Product</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="products">reviews</a></p>
@@ -208,7 +208,7 @@
                                 <h4 class="pull-right">฿ 100.00</h4>
                                 <h4><a href="products">Seventh Product</a>
                                 </h4>
-                                <p id="pname">Details for Seventh Product</p>
+                                <p class="pdetail">Details for Seventh Product</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="products">reviews</a></p>

@@ -2,6 +2,7 @@
 <html lang="en-US">
 	<head>
 		<meta charset="utf-8">
+		<title>บ่องตง Bhongtong.com</title>
 		{{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
 	</head>
 	<body>

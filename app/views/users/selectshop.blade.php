@@ -1,5 +1,5 @@
 <div class="packages">&nbsp;</div>
-  <div class="container">
+  <div class="pricing-table-wrap container">
       <div class="pricing-table pricing-three-column row">
           <div class="plan col-sm-4 col-lg-4">
             <div class="plan-name-bronze">
@@ -25,9 +25,8 @@
           </div>
       </div>
   </div>
-<br/>
 
- <div class="container">
+ <div class="plan-wrap container">
     <div class="row">
         <div class="col-xs-12 col-sm-offset-4 col-sm-8">
             <div class="row">
@@ -122,7 +121,6 @@
     </div>
 
 </div>
-<br/>
 
 
 

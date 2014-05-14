@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app" lang="en">
+<html data-ng-app="app" lang="en">
  	<head>
     	<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
       {{ HTML::script('//code.jquery.com/jquery-1.10.2.min.js') }}
     	{{ HTML::script('packages/bootstrap/js/bootstrap.min.js') }}
 
-      
+      {{ HTML::style('users/css/datepicker.css') }}
   	</head>
 
   	<body>
@@ -43,7 +43,7 @@
                        <ul class="nav navbar-nav pull-right">
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, {{Auth::user()->username}} <b class="caret"></b></a>
                            <ul class="dropdown-menu">
-                            <li><a href="#"><i class="icon-cog"></i> Preferences</a></li>
+                            <li><a href="settings"><i class="icon-envelope"></i> User Settings</a></li>
                             <li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>
                             <li class="divider"></li>
                             <li><a href="{{URL::to('users/logout')}}"><i class="icon-off"></i> Logout</a></li>

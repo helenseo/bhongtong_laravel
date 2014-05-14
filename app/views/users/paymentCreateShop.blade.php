@@ -1,4 +1,4 @@
-<!-- Start payment -->
+<!-- Start JS -->
 <script type="text/javascript">
 jQuery(document).ready(function() {
   jQuery(".content").hide();
@@ -10,13 +10,13 @@ jQuery(document).ready(function() {
 });
 </script>
 
-<!-- End payment -->
+<!-- End JS -->
 
-        <div class="tab-pane" id="payments">
-         <div class="wrapper-form panel-body" >
+  <div class="tab-pane" id="payments">
+   <div class="wrapper-form panel-body" >
 
       <!-- Start payments option -->
-<div class="payment-shop well">
+    <div class="payment-shop well">
             <div><br><h4>Payment method</h4></div>
  
     <!-- Start Bank Tranfer -->
@@ -134,6 +134,9 @@ jQuery(document).ready(function() {
   </form>
     </div>
     <!-- End Credit Card -->
-</div> 
+  </div> 
       <!-- End payments option -->
-      <!-- End payments -->
+ </div>
+  <!-- End wraper-form -->
+</div>
+  <!-- End Tab -->

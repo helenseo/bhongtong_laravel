@@ -30,7 +30,7 @@
           <div class="input-group">
            {{Form::captcha()}}
           </div>
-        <a href="paymentcreateshop">{{ Form::submit('Create Shop', array('class'=>'btn btn-large btn-primary btn-block'))}}</a>
+         {{ Form::submit('Create Shop', array('class'=>'btn btn-large btn-primary btn-block'))}}
           {{ Form::close() }}
     </div>
    </div>

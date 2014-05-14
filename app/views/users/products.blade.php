@@ -1,16 +1,5 @@
-<style type="text/css">
-      .container {
-        width: 90%; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
-      }
-      .carousel-inner{
-        margin-top: 10%;
-      }
-      .well{
-        padding: 10%;
-      }
-</style>
 
-<div class="container">
+<div class="product-wrap">
 
 <!-- Start location bar -->
         <ul class="breadcrumb">
@@ -54,11 +43,9 @@
 
              <!-- Start Product Detail -->
               <div class="well">
-                 <div class"col-md-12">
+                 <div>
                 
-                  <span>
                     <h4>Detail Product</h4>
-                  </span>
                   <div class="span6">
                     <p>Detail of Product01</p>
                   </div>
@@ -66,7 +53,7 @@
                 
                 <div class="cleaner_h10"></div>
 
-                <div class"col-md-12">
+                <div>
                 
                 <span>
                   <b>Item Location:</b>
@@ -105,10 +92,9 @@
                 <div>
                   <span class="col-sm-6" style="margin-top:30px;"></span>
 
-                  <span class="span5">
                       <h4 style="display:inline;">TH ฿10,000.00</h4> &nbsp;&nbsp;
                       <button class="btn primary">Add to Cart</button><br>
-                  </span><!-- end of row well -->
+                
                 </div>
 
                 
@@ -124,4 +110,7 @@
               </div><!-- end of right side content - price and basic description -->
             </div>
 
-    </div>
+       </div>
+       <!--end well -->
+      </div>
+      <!--end wrapper -->

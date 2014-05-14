@@ -1,3 +1,4 @@
+
 <!-- Start Disable Submit -->
 <script type="text/javascript">
     $(function() {
@@ -18,7 +19,7 @@
 </script>
 <!-- End Disable Submit -->
 <!-- Start Date Picker -->
-<link href="css/datepicker.css" rel="stylesheet">
+
 
       <script type="text/javascript" src="js/google-code-prettify/prettify.js"></script>
       <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>

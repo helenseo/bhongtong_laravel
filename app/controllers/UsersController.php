@@ -265,6 +265,7 @@ class UsersController extends \BaseController {
       if($password !="" || !empty($password)) {
       $password = Hash::make($password);
       $user->password = $password;
+      $is_changed_pw = true;
       } 
 
       $current_password_auth = Auth::user()->password;
@@ -293,9 +294,21 @@ class UsersController extends \BaseController {
       }   /* End have uploaded image */
    
           /* Update profile */
-              $user->update();
-              return Redirect::to('users/dashboard');
-          /* End update profile */
+       if($user->update()) {
+          if($is_changed_pw) {
+             Auth::logout();
+             return Redirect::to('users/login')->with('message', 'คุณได้ทำการเปลี่ยนรหัสผ่านใหม่! กรุณาล็อคอินเข้าสู่ระบบอีกครั้ง')
+                                      ->with('message-type','warning');
+          } else {
+            return Redirect::to('users/dashboard');
+          }
+              
+        } //No errors when updating data in database
+        else {
+          return Redirect::to('users/dashboard')->withErrors('เกิดข้อผิดพลาด! ไม่สามารถอัพเดทข้อมูลของคุณได้');;
+        }
+
+       
 
     }else{
 

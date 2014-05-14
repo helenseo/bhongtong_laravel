@@ -1,3 +1,11 @@
+/*Global*/
+img {
+  width:100%;
+  max-width: 100%;
+}
+.input-group {
+  margin-bottom:10px;
+}
 /*Custom Stylesheet*/
 .bg-success {
 	padding:15px !important;
@@ -392,4 +400,105 @@ width: 50% !important;
 
 .my_planFeature i.my_check {
     color: green;
+}
+
+.pricing-table-wrap, .plan-wrap {
+   margin-bottom:20px;
+}
+
+
+/* Product */
+
+.product-wrap {
+   width: 90%; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+}
+.product-wrap .carousel-inner{
+  margin-top: 10%;
+}
+.product-wrap .well{
+  padding: 10%;
+}
+
+/* Service */
+
+.service-wrap {
+  padding-bottom:30px;
+}
+.gallery .gallery-item {
+  padding-bottom:30px;
+}
+
+/* Shop type */
+
+.shoptype .container{
+width: 95%;
+}
+/**** LAYOUT ****/
+.shoptype .list-inline>li {
+    padding: 0 10px 0 0;
+}
+.shoptype .container-pad {
+    padding: 30px 15px;
+}
+
+
+/**** MODULE ****/
+.shoptype .bgc-fff {
+    background-color: #fff!important;
+}
+.shoptype .box-shad {
+    -webkit-box-shadow: 1px 1px 0 rgba(0,0,0,.2);
+    box-shadow: 1px 1px 0 rgba(0,0,0,.2);
+}
+.shoptype .brdr {
+    border: 1px solid #ededed;
+}
+
+/* Font changes */
+.shoptype .fnt-smaller {
+    font-size: .9em;
+}
+.shoptype .fnt-lighter {
+    color: #bbb;
+}
+
+/* Padding - Margins */
+.shoptype .pad-10 {
+    padding: 10px!important;
+}
+.shoptype .mrg-0 {
+    margin: 0!important;
+}
+.shoptype .btm-mrg-10 {
+    margin-bottom: 10px!important;
+}
+.shoptype .btm-mrg-20 {
+    margin-bottom: 20px!important;
+}
+
+/* Color  */
+.shoptype .clr-535353 {
+    color: #535353;
+}
+
+
+
+
+/**** MEDIA QUERIES ****/
+@media only screen and (max-width: 991px) {
+    .shoptype #listings .listing {
+        padding: 5px!important;
+    }
+   .shoptype #listings .listing a {
+        margin: 0;
+    }
+   .shoptype #listings .listing .media-body {
+        padding: 10px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+   .shoptype #listings .listing img {
+        max-width: 180px;
+    }
 }

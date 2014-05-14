@@ -1,0 +1,307 @@
+@import 'base.less';
+
+/*==========  Global  ==========*/
+html{
+	height: 100%;
+}
+body {
+	height: 100%;
+}
+textarea {
+    resize: none;
+}
+
+.bg-success {
+	padding:15px !important;
+}
+.form-register .input-group-addon {
+min-width: 170px;
+max-width: 256px;
+text-align: left;
+}
+.wrapper-form {
+ padding-top:30px;
+}
+.wrapper-form .input-group {
+ margin-bottom: 25px;
+}
+.forgot-password-div {
+ float:right; 
+ font-size: 80%; 
+ position: relative; 
+ top:-10px;
+}
+.profile-pic {
+ max-width: 200px;
+ max-height: 200px;
+ width:100%;
+}
+.phist-start-d, .phist-end-d {
+  display: inline-block;
+  width: 40%;
+}
+.nav-tabs >li>a {
+  background-color: @tab-bar-color;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  background-color:#fff;
+}
+
+/*Setting page */
+
+.settings-page, .payment-shop {
+	.layer1 {
+		margin: 0;
+        padding: 0;
+        width: 500px;
+	}
+	.heading {
+		margin: 1px;
+        color: #fff;
+        padding: 1% 2%;
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        background-color:#428bca;
+	}
+	.content {
+		padding: 5px 10px;
+        background-color:#fafafa;
+
+        input[type="submit"] {
+        	text-align:center;
+            width: 55%;
+            margin: auto;
+        }
+	}
+	p {
+		padding: 5px 0;
+	}
+	.input-group-addon {
+		width:30%;
+	}
+	.input-group .form-control {
+		width:70%
+	}
+}
+
+/* End Setting page */
+
+
+/* Shop */
+
+    .products-list, .services-list {
+    	.thumbnail {
+    		margin-top: 20px;
+            padding: 1px 1px 1px 1px;
+
+            img {
+            	min-width:100%;
+                max-width: 100%;
+            }
+    	}
+
+    	.caption {
+    		min-height: 120px;
+    	}
+    	.ratings {
+    		padding-bottom: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
+    	}
+    	input[type=submit].btn-block, 
+    	input[type=reset].btn-block,
+    	input[type=button].btn-block {
+    		width: 96%;
+    		margin: auto;
+    	}
+
+    }
+
+  /* Select shop */
+
+  .packages{
+  float: left;
+  width: 19%;
+  /*
+   .col-md-4 {
+   	margin: 0 8% 0 6%;
+   }
+   .col-sm-4 {
+   	margin: 1 10% 0 0;
+   }
+   .col-sm-offset-4{
+    margin-left: 50% !important;
+   }
+   .col-xs-12 {
+    width: 50% !important;
+   }
+   .packages .col-xs-4 {
+    width: 50% !important;
+   }
+   */
+ }
+.pricing-table-wrap {
+  margin-bottom:20px;
+ .pricing-table {
+ 	.plan {
+ 		padding: 20px;
+ 		margin-left:0px;
+        border-radius: 5px;
+        text-align: center;
+        background-color: #f3f3f3;
+        -moz-box-shadow: 0 0 6px 2px #b0b2ab;
+        -webkit-box-shadow: 0 0 6px 2px #b0b2ab;
+        box-shadow: 0 0 6px 2px #b0b2ab;
+
+        &:hover {
+        	background-color: #fff;
+            -moz-box-shadow: 0 0 12px 3px #b0b2ab;
+            -webkit-box-shadow: 0 0 12px 3px #b0b2ab;
+            box-shadow: 0 0 12px 3px #b0b2ab;
+        }
+
+        .plan-name-bronze {
+        	 padding: 20px;
+             color: #fff;
+             background-color: #665D1E;
+            -moz-border-radius: 5px 5px 0 0;
+            -webkit-border-radius: 5px 5px 0 0;
+            border-radius: 5px 5px 0 0;
+        }
+        .plan-name-silver {
+        	padding: 20px;
+            color: #fff;
+            background-color: #C0C0C0;
+           -moz-border-radius: 5px 5px 0 0;
+           -webkit-border-radius: 5px 5px 0 0;
+           border-radius: 5px 5px 0 0;
+        }
+        .plan-name span {
+        	font-size:20px;
+        }
+        ul {
+        	list-style: none;
+            -moz-border-radius: 0 0 5px 5px;
+            -webkit-border-radius: 0 0 5px 5px;
+            border-radius: 0 0 5px 5px;
+            margin: 0px; 
+            padding: 0px;
+
+            li {
+
+            	&.plan-feature {
+            		 padding: 15px 10px;
+                     border-top: 1px solid #c5c8c0;
+            	}
+            }
+        }
+        .btn-plan-select {
+        	padding: 8px 25px;
+           font-size: 18px;
+        }
+ 	}
+  }
+ }
+
+
+.pricing-three-column {
+  margin: 0 auto;
+  width: 100%;
+}
+ 
+.pricing-variable-height .plan {
+  float: none;
+  margin-left: 2%;
+  vertical-align: bottom;
+  display: inline-block;
+  zoom:1;
+  *display:inline;
+}
+
+/* --- Plans ---------------------------- */
+.plan-wrap {
+	margin-bottom:20px;
+ .my_planHeader {
+    text-align: center;
+    color: white;
+    padding-top:0.2em;
+    padding-bottom:0.2em;
+ }
+.my_planTitle {
+    font-size:2em;
+    font-weight: bold;
+}
+.my_planPrice {
+    font-size:1.4em;
+    font-weight: bold;    
+}
+.my_planDuration {
+    margin-top: -0.6em;
+}
+
+@media (max-width: 768px) {
+    .my_planTitle {
+        font-size:small;
+    }    
+}
+
+
+/* --- Features ------------------------- */
+
+.my_feature {
+    line-height:2.8em;   
+}
+
+@media (max-width: 768px) {
+    .my_feature {
+        text-align: center
+    }
+ }
+
+.my_featureRow {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    border: 0.1em solid rgb(163, 163, 163);
+}    
+
+/* --- Plan 1 --------------------------- */
+ .my_plan1 {
+    background: rgb(224,234,242);
+ }
+
+ .my_planHeader.my_plan1 a {
+    background: rgb(72, 109, 139);
+    color:white;
+ }
+
+ .my_planHeader.my_plan1 {
+    background: rgb(105, 153, 193);
+    border-bottom: thick solid rgb(72, 109, 139);
+ }
+
+/* --- Plan 2 --------------------------- */
+ .my_plan2 {
+    background: rgb(230,235,218);
+ }
+
+ .my_planHeader.my_plan2 a {
+    background: rgb(108, 131, 62);
+    color:white;
+ }
+
+ .my_planHeader.my_plan2 {
+    background: rgb(134, 162, 77);
+    border-bottom: thick solid rgb(108, 131, 62);
+ }
+
+
+ .my_planFeature {
+    text-align: center;
+    font-size: 2em;
+ }
+
+ .my_planFeature i.my_check {
+    color: green;
+ }
+}

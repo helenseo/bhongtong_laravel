@@ -1,17 +1,4 @@
-    <style type="text/css">
-    .thumbnail{
-        margin-top: 20px;
-        min-height: 280px;
-        padding: 1px 1px 1px 1px;
-    }
-
-    input[type=submit].btn-block, input[type=reset].btn-block, input[type=button].btn-block{
-        width: 96%;
-        margin: auto;
-    }
-
-    </style>
-    
+  
     <div class="container">
         <div class="services-list row">
 
@@ -22,8 +9,8 @@
                     <a href="#" class="list-group-item">Contact</a>
                     <a href="#" class="list-group-item">Services</a>
                     <a href="#" class="list-group-item">Promotions</a><br/>
-                    <h4>Map<h4/>
-                    <iframe width="100%" height="280" frameborder="1" scrolling="yes" marginheight="0" marginwidth="0" src=""></iframe>
+                    <h4>Map</h4>
+                    <iframe height="280" style="width:100%;"></iframe>
                 </div>
             </div>
 
@@ -58,13 +45,14 @@
             <!-- start Services -->
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
+                              {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
                             <a href="services"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
+                          
                             <div class="caption">
                                 <h4 class="pull-right">฿ 500.00</h4>
                                 <h4><a href="services">First Services</a>
                                 </h4>
-                                <p id="pname">Details for First Services</p>
+                                <p class="pdetail">Details for First Services</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="services">reviews</a></p>
@@ -83,13 +71,14 @@
 
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
+                             {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
                             <a href="services"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
+                           
                             <div class="caption">
                                 <h4 class="pull-right">฿ 500.00</h4>
                                 <h4><a href="services">Second Services</a>
                                 </h4>
-                                <p id="pname">Details for Second Services</p>
+                                <p class="pdetail">Details for Second Services</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="services">reviews</a></p>
@@ -108,13 +97,14 @@
 
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
+                           {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
                             <a href="services"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
+                            
                             <div class="caption">
                                 <h4 class="pull-right">฿ 500.00</h4>
                                 <h4><a href="services">Third Services</a>
                                 </h4>
-                                <p id="pname">Details for Third Services</p>
+                                <p class="pdetail">Details for Third Services</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="services">reviews</a></p>
@@ -126,19 +116,22 @@
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                 </p>
                                 {{ Form::submit('Booking Now', array('class'=>'btn btn-large btn-primary btn-block'))}}
+                                 
                             </div>
+                            {{ Form::close() }} 
                         </div>
                     </div>
 
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
+                              {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
                             <a href="services"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
+                          
                             <div class="caption">
                                 <h4 class="pull-right">฿ 500.00</h4>
                                 <h4><a href="services">Fourth Services</a>
                                 </h4>
-                                <p id="pname">Details for Fourth Services</p>
+                                <p id="pdetail">Details for Fourth Services</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="services">reviews</a></p>
@@ -157,13 +150,14 @@
 
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <a href="services"><img src="http://placehold.it/320x150" alt=""></a>
                             {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-services')) }}
+                            <a href="services"><img src="http://placehold.it/320x150" alt=""></a>
+                          
                             <div class="caption">
                                 <h4 class="pull-right">฿ 500.00</h4>
                                 <h4><a href="services">Fifth Services</a>
                                 </h4>
-                                <p id="pname">Details for Fifth Services</p>
+                                <p class="pdetail">Details for Fifth Services</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="services">reviews</a></p>
