@@ -25,3 +25,12 @@ Route::controller('users', 'UsersController');
 //Route::controller('users', 'UsersController',array('only'=>array('login')));
 //Route::resource('users', 'Userscontroller', array('only' => array('edit','show','create', 'store', 'update', 'destroy')));
 
+Route::get('/form', function()
+{
+ return View::make('users.form');
+});
+
+Route::post('index','IndexController@index');
+
+
+

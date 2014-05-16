@@ -195,19 +195,19 @@ jQuery(document).ready(function() {
     <p class="heading">Credit Card</p> 
     <div class="content"> 
     <fieldset>
-      <div class="form-group">
+      <div class="input-group col-sm-12">
         <label class="col-sm-3 control-label" for="card-holder-name">Name on Card</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name='creditcard["creditcard_name"]' id="creditcard_name" placeholder="Card Holder's Name" value="{{{@$setting_value->creditcard->creditcard_name}}}">
         </div>
       </div>
-      <div class="form-group">
+      <div class="input-group col-sm-12">
         <label class="col-sm-3 control-label" for="card-number">Card Number</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name='creditcard["creditcard_no"]' id="card-number" placeholder="Debit/Credit Card Number" value="{{{@$setting_value->creditcard->creditcard_no}}}">
         </div>
       </div>
-      <div class="form-group">
+      <div class="input-group col-sm-12">
         <label class="col-sm-3 control-label" for="expiry-month">Expiration Date</label>
         <div class="col-sm-9">
           <div class="row">
@@ -222,7 +222,7 @@ jQuery(document).ready(function() {
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="input-group col-sm-12">
         <label class="col-sm-3 control-label" for="cvv">Card CVV</label>
         <div class="col-sm-3">
           <input type="text" class="form-control" name='creditcard["creditcard_cvv"]' id="cvv" placeholder="Security Code" value="{{{@$setting_value->creditcard->creditcard_cvv}}}">

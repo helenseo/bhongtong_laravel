@@ -6,8 +6,8 @@
 
     	<title>{{{@($title) ? $title : "บ่องตง Bhongtong.com"}}}</title>
 
-    	{{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
-      {{ HTML::style('packages/bootstrap/css/styles.css') }}
+    	
+      {{ HTML::style('assets/stylesheets/frontend.css') }}
       {{ HTML::script('//code.jquery.com/jquery-1.10.2.min.js') }}
     	{{ HTML::script('packages/bootstrap/js/bootstrap.min.js') }}
 
