@@ -1,16 +1,23 @@
-<?php
-//print_r($setting_value);
-?>
 <script type="text/javascript">
-jQuery(document).ready(function() {
-  jQuery(".content").hide();
+$(document).ready(function(){
+  $(".content").hide();
   //toggle the componenet with class msg_body
-  jQuery(".heading").click(function()
+  $(".heading").click(function()
   {
-    jQuery(this).next(".content").slideToggle(500);
+   $(this).next(".content").slideToggle(500);
   });
+  // For Purchase order history button
+   $("#purchase-his-btn").click(function(){
+    var start_date = $("#dpd1").val();
+    var end_date = $("#dpd2").val();
+    $.post("/orders/search/10/",{'start_date':start_date,'end_date':end_date},function(result){
+      $("#purchase-his-result").html(result);
+    });
+  });
+
 });
 </script>
+
 <!-- Stare Date Picker -->
 <link href="css/datepicker.css" rel="stylesheet">
 
@@ -242,9 +249,9 @@ jQuery(document).ready(function() {
               <div class="phist-end-d"><b>End date:</b> {{ Form::text('end_date', null,  array('id'=>'dpd2', 'class'=>'form-control')) }}</div>  
             </div>
 
-            <div>0 Results</div><br/>
+            <div id="purchase-his-result">0 Results</div><br/>
          
-          {{ Form::button('View', array('class'=>'btn btn-primary'))}}
+          {{ Form::button('View', array('class'=>'btn btn-primary','id'=>'purchase-his-btn'))}}
               </div>
             </div>  
       <!-- End payments -->

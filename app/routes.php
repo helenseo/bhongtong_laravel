@@ -32,5 +32,7 @@ Route::get('/form', function()
 
 Route::post('index','IndexController@index');
 
+Route::post('orders/search/{userid}','orderscontroller@search');
+
 
 
