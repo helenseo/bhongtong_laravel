@@ -19,9 +19,8 @@ class UsersController extends \BaseController {
     public function __construct() {
 
       Input::merge(array_map('trim', Input::all()));
-
       $this->beforeFilter('csrf', array('on'=>'post'));
-    $this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile','postUpdateprofile','getSettings','postSettings')));
+      $this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile','postUpdateprofile','getSettings','postSettings')));
   }
   public function index()
   {
@@ -266,7 +265,9 @@ class UsersController extends \BaseController {
       $password = Hash::make($password);
       $user->password = $password;
       $is_changed_pw = true;
-      } 
+      } else {
+      $is_changed_pw = false;
+      }
 
       $current_password_auth = Auth::user()->password;
 
@@ -319,6 +320,7 @@ class UsersController extends \BaseController {
 
   public function getLogin() {
     if(!Auth::check()) {
+    $this->layout->header = View::make('layouts.header');
     $this->layout->content = View::make('users.login');
     //$this->layout->title = "User Login";
      } else {
@@ -365,13 +367,15 @@ class UsersController extends \BaseController {
   }
 
   public function getDashboard() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.dashboard');
       $this->layout->title = "User Dashboard";
   }
   
   public function getEditprofile() {
       $province = Provinces::makeProvinceRegion();
-
+      
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.editprofile',compact('province'));
       $this->layout->title = "Editprofile";
   }
@@ -383,6 +387,7 @@ class UsersController extends \BaseController {
   }
 
   public function getForgotpassword(){
+    $this->layout->header = View::make('layouts.header');
     $this->layout->content = View::make('users.forgotpassword');
     $this->layout->title = "Forgot your password?";
   }
@@ -460,6 +465,7 @@ class UsersController extends \BaseController {
 
      if($forgot_pass_query->count()) {
       Session::put('forgot_pass_token', $token);
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.resetpassword');
      } else {
       return Redirect::to('users/login')
@@ -527,7 +533,7 @@ class UsersController extends \BaseController {
 
     if(!Auth::check()) {
     $province = Provinces::makeProvinceRegion();
-
+    $this->layout->header = View::make('layouts.header');
     $this->layout->content = View::make('users.register',compact('province'));
     } else {
      return Redirect::to('users/dashboard');
@@ -562,10 +568,11 @@ class UsersController extends \BaseController {
 
  //  print_r($setting_value);
   
-
-  $this->layout->content = View::make('users.settings',compact('setting_value'));
+       $this->layout->header = View::make('layouts.header');
+       $this->layout->content = View::make('users.settings',compact('setting_value'));
 
        } else {
+     $this->layout->header = View::make('layouts.header');
      $this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
      }
    
@@ -640,46 +647,55 @@ class UsersController extends \BaseController {
   }
 
  public function getSelectshop() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.selectshop');
       $this->layout->title = "Selectshop";
   }
 
   public function getCreateshop() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.createShop');
       $this->layout->title = "Create Shop";
   }  
 
   public function getCreateclassified() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.createclassified');
       $this->layout->title = "Create classified Shop";
   }  
 
   public function postPaymentcreateshop() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.paymentcreateshop');
       $this->layout->title = "Payment Create Shop";
   } 
 
   public function getShoptype() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.shoptype');
       $this->layout->title = "Shoptype";
   }  
 
   public function getShop() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.shop');
       $this->layout->title = "Shop Name";
   }
 
   public function getClassified() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.classified');
       $this->layout->title = "Classified Name";
   } 
 
   public function getProducts() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.products');
       $this->layout->title = "products Name";
   } 
 
   public function getServices() {
+      $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('users.services');
       $this->layout->title = "services Name";
   }

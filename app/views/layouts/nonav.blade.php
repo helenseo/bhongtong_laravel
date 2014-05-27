@@ -43,8 +43,7 @@
   	</head>
 
   	<body>
-     {{@$header}} 
-
+     
        <div class="wrapper">
 	    <div class="container">
 	    	@if(Session::has('message'))
