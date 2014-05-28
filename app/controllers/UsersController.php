@@ -17,7 +17,6 @@ class UsersController extends \BaseController {
 
 
     public function __construct() {
-
       Input::merge(array_map('trim', Input::all()));
       $this->beforeFilter('csrf', array('on'=>'post'));
       $this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile','postUpdateprofile','getSettings','postSettings')));
@@ -547,6 +546,7 @@ class UsersController extends \BaseController {
    if($user->count()) {
    $settings = User_settings::where('user_id','=',$user_id);
 
+   $this->layout->header = View::make('layouts.header');
 
    if($settings->count()) {
    $settings = $settings->get(array('users_setting_key','users_setting_value'));
@@ -568,13 +568,11 @@ class UsersController extends \BaseController {
 
  //  print_r($setting_value);
   
-       $this->layout->header = View::make('layouts.header');
        $this->layout->content = View::make('users.settings',compact('setting_value'));
 
-       } else {
-     $this->layout->header = View::make('layouts.header');
-     $this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
-     }
+  } else {
+       $this->layout->content = View::make('users.settings',array('setting_value'=>'empty'));
+  }
    
   
 
@@ -676,10 +674,13 @@ class UsersController extends \BaseController {
       $this->layout->title = "Shoptype";
   }  
 
-  public function getShop() {
+  public function getShop($shop_id) {
+      $shop = Shops::find($shop_id);
+      $products = Products::where('shop_id','=',$shop_id)->get();
+
       $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('users.shop');
-      $this->layout->title = "Shop Name";
+      $this->layout->content = View::make('users.shop',compact('products'));
+      $this->layout->title = "Shop - ".$shop->shop_name;
   }
 
   public function getClassified() {
@@ -688,10 +689,16 @@ class UsersController extends \BaseController {
       $this->layout->title = "Classified Name";
   } 
 
-  public function getProducts() {
+  public function getProducts($product_id) {
+
+      $product = Products::find($product_id);
+
+      $shop = Shops::find($product->shop_id);
+      $shop_address = $shop->shop_address;
+
       $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('users.products');
-      $this->layout->title = "products Name";
+      $this->layout->content = View::make('users.products',array('product'=>$product,'shop_address'=>$shop_address));
+      $this->layout->title = $product->product_name;
   } 
 
   public function getServices() {

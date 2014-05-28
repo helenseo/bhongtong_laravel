@@ -5,13 +5,13 @@
         <ul class="breadcrumb">
             <li><a href="dashboard">Home</a> <span class="divider"></span></li>
             <li><a href="shoptype">Shoptype</a> <span class="divider"></span></li>
-            <li><a href="shop">shop</a> <span class="divider"></span></li>
+            <li><a href="../shop/{{$product->shop_id}}">shop</a> <span class="divider"></span></li>
             <li><b>products</b> <span class="divider"></span></li>
         </ul>
 <!-- End location bar -->
 
               <!-- Title & Description -->
-              <h1>Product 01</h1>
+              <h1>{{$product->product_name}}</h1>
 
               <div class="col-md-6">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -38,8 +38,7 @@
                                 <span class="glyphicon glyphicon-chevron-right"></span>
                             </a>
                         </div>
-                    </div><br/>
-
+                    </div>
 
              <!-- Start Product Detail -->
               <div class="well">
@@ -47,7 +46,13 @@
                 
                     <h4>Detail Product</h4>
                   <div class="span6">
-                    <p>Detail of Product01</p>
+                    <p>
+                      @if(isset($product->product_detail))
+                      {{$product->product_detail}}
+                      @else 
+                        No detail
+                      @endif
+                    </p>
                   </div>
 
                 
@@ -59,54 +64,45 @@
                   <b>Item Location:</b>
                 </span>
                 <span class="span6">
-                  Chiang Mai, Thailand
+                 {{$shop_address}}
                 </span>
                 
                 <div class="cleaner_h10"></div>                
                 
                
                   <span class="span2">
-                    <b>Time left:</b>
+                    <b>Added DateTime:</b>
                   </span>
-                  <span class="time-left">1d 13h</span> (Apr 04, 2014 00:00:00 )
+                  <span class="time">{{$product->added_date}}</span>
                 
                 <div class="cleaner_h10"></div>
                 
                   <span class="span2">
                     <b>Product Status:</b>
                   </span>
-                    <span class="status">Status</span>
+                    <span class="status">
+                    @if($product->is_soldout) 
+                    Sold out
+                    @else 
+                      @if($product->is_approved) 
+                       Available
+                       @endif
+
+                    @endif
+                    </span>
                 
                 <div class="cleaner_h10"></div>
-                                
-                
-                  <span class="span2">
-                    <b>Guarantee:</b>
-                  </span>
-                  <span class="span6">
-                    1 Year
-                  </span>
-
-                  <div class="cleaner_h10"></div>
 
                 <div>
                   <span class="col-sm-6" style="margin-top:30px;"></span>
 
-                      <h4 style="display:inline;">TH ฿10,000.00</h4> &nbsp;&nbsp;
+                      <h4 style="display:inline;">฿{{$product->price}}</h4> &nbsp;&nbsp;
                       <button class="btn primary">Add to Cart</button><br>
                 
                 </div>
 
-                
-
                 <!-- End Product Detail -->
-                
-                
 
-
-                    
-                
-                
               </div><!-- end of right side content - price and basic description -->
             </div>
 

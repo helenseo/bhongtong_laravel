@@ -50,15 +50,16 @@
                         </div>
                     </div>
             <!-- start Products -->
-                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    @foreach($products as $product)
+                      <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <a href="products"><img src="http://placehold.it/320x150" alt=""></a>
+                            <a href="../products/{{$product->product_id}}"><img src="http://placehold.it/320x150" alt=""></a>
                             {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-products')) }}
                             <div class="caption">
-                                <h4 class="pull-right">฿ 100.00</h4>
-                                <h4><a href="products">First Product</a></h4>
+                                <h4 class="pull-right">฿ {{$product->price}}</h4>
+                                <h4><a href="../products/{{$product->product_id}}">{{$product->product_name}}</a></h4>
                                 
-                                <p class="pdetail">Details for First Product</p>
+                                <p class="pdetail">{{$product->product_detail}}</p>
                             </div>
                             <div class="ratings">
                                 <p class="pull-right"><a href="products">reviews</a></p>
@@ -73,157 +74,11 @@
                             </div>
                             {{ Form::close() }}
                         </div>
-                    </div>
+                      </div>
+                          
 
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <a href="products"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-products')) }}
-                            <div class="caption">
-                                <h4 class="pull-right">฿ 100.00</h4>
-                                <h4><a href="products">Second Product</a></h4>
-                                
-                                <p class="pdetail">Details for Second Product</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right"><a href="products">reviews</a></p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                                {{ Form::submit('Add to Cart', array('class'=>'btn btn-large btn-primary btn-block'))}}
-                            </div>
-                            {{ Form::close() }} 
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <a href="products"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-products')) }}
-                            <div class="caption">
-                                <h4 class="pull-right">฿ 100.00</h4>
-                                <h4><a href="products">Third Product</a>
-                                </h4>
-                                <p class="pdetail">Details for Third Product</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right"><a href="products">reviews</a></p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                                {{ Form::submit('Add to Cart', array('class'=>'btn btn-large btn-primary btn-block'))}}
-                            </div>
-                            {{ Form::close() }} 
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <a href="products"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-products')) }}
-                            <div class="caption">
-                                <h4 class="pull-right">฿ 100.00</h4>
-                                <h4><a href="products">Fourth Product</a>
-                                </h4>
-                                <p class="pdetail">Details for Fourth Product</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right"><a href="products">reviews</a></p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                                {{ Form::submit('Add to Cart', array('class'=>'btn btn-large btn-primary btn-block'))}}
-                            </div>
-                            {{ Form::close() }} 
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <a href="products"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-products')) }}
-                            <div class="caption">
-                                <h4 class="pull-right">฿ 100.00</h4>
-                                <h4><a href="products">Fifth Product</a>
-                                </h4>
-                                <p class="pdetail">Details for Fifth Product</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right"><a href="products">reviews</a></p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                                {{ Form::submit('Add to Cart', array('class'=>'btn btn-large btn-primary btn-block'))}}
-                            </div>
-                            {{ Form::close() }} 
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <a href="products"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-products')) }}
-                            <div class="caption">
-                                <h4 class="pull-right">฿ 100.00</h4>
-                                <h4><a href="products">Sixth Product</a>
-                                </h4>
-                                <p class="pdetail">Details for Sixth Product</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right"><a href="products">reviews</a></p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                                {{ Form::submit('Add to Cart', array('class'=>'btn btn-large btn-primary btn-block'))}}
-                            </div>
-                            {{ Form::close() }} 
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <a href="products"><img src="http://placehold.it/320x150" alt=""></a>
-                            {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-products')) }}
-                            <div class="caption">
-                                <h4 class="pull-right">฿ 100.00</h4>
-                                <h4><a href="products">Seventh Product</a>
-                                </h4>
-                                <p class="pdetail">Details for Seventh Product</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="pull-right"><a href="products">reviews</a></p>
-                                <p>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </p>
-                                {{ Form::submit('Add to Cart', array('class'=>'btn btn-large btn-primary btn-block'))}}
-                            </div>
-                            {{ Form::close() }} 
-                        </div>
-                    </div>
+                    @endforeach
+                   
             <!-- End Product -->
                 </div>
             </div>
