@@ -1,3 +1,15 @@
+<script type="text/javascript">
+function addtocart(id) {
+ $.post("/cart/add/"+id,{},function(result){
+   if(result=="Done") {
+    $.post("/cart/check/",{},function(result){
+     $("#check-cart").html(result);
+    });
+   }
+ });
+}
+</script>
+
 <!-- Start location bar -->
     <div class="container">
         <ul class="breadcrumb">
@@ -10,7 +22,14 @@
         <div class="row">
 
             <div class="col-md-3">
-                <p class="lead">Shop Name</p>
+                 <div class="list-group" id="check-cart">
+                 @if(null!==Session::get('cart')) 
+                   <a href="/cart/view/" title="view cart" target="_blank">View Cart </a>
+                 @else 
+                   Empty Cart
+                 @endif
+                </div>
+                <p class="lead">{{$shop->shop_name}}</p>
                 <div class="list-group">
                     <a href="#" class="list-group-item">About us</a>
                     <a href="#" class="list-group-item">Contact</a>
@@ -19,6 +38,8 @@
                     <h4>Map</h4>
                      <iframe height="280" style="width:100%;"></iframe>
                </div>
+
+
             </div>
 
             <div class="col-md-9">
@@ -70,7 +91,9 @@
                                     <span class="glyphicon glyphicon-star"></span>
                                     <span class="glyphicon glyphicon-star"></span>
                                 </p>
-                                {{ Form::submit('Add to Cart', array('class'=>'btn btn-large btn-primary btn-block'))}}
+                                <button type="button" class="btn btn-large btn-primary btn-block" onclick="addtocart({{$product->product_id}});">
+                                Add to Cart</button>
+                               
                             </div>
                             {{ Form::close() }}
                         </div>

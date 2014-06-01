@@ -10,7 +10,7 @@ $(document).ready(function(){
    $("#purchase-his-btn").click(function(){
     var start_date = $("#dpd1").val();
     var end_date = $("#dpd2").val();
-    $.post("/orders/search/10/",{'start_date':start_date,'end_date':end_date},function(result){
+    $.post("/orders/search/{{Auth::user()->user_id}}",{'start_date':start_date,'end_date':end_date},function(result){
       $("#purchase-his-result").html(result);
     });
   });

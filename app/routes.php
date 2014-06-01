@@ -35,5 +35,7 @@ Route::post('index','IndexController@index');
 Route::post('orders/search/{userid}','orderscontroller@search');
 Route::get('orders/detail/{orderid}','orderscontroller@detail');
 
-
-
+Route::post('cart/add/{productid}','CartController@add');
+Route::get('cart/view','CartController@view');
+Route::any('cart/check','CartController@check');
+Route::any('cart/empty','CartController@emptycart');

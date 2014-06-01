@@ -679,7 +679,7 @@ class UsersController extends \BaseController {
       $products = Products::where('shop_id','=',$shop_id)->get();
 
       $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('users.shop',compact('products'));
+      $this->layout->content = View::make('users.shop',array('products'=>$products,'shop'=>$shop));
       $this->layout->title = "Shop - ".$shop->shop_name;
   }
 
