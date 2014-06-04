@@ -23,7 +23,7 @@ function addtocart(id) {
 
             <div class="col-md-3">
                  <div class="list-group" id="check-cart">
-                 @if(null!==Session::get('cart')) 
+                 @if(count(Session::get('cart'))>0) 
                    <a href="/cart/view/" title="view cart" target="_blank">View Cart </a>
                  @else 
                    Empty Cart
