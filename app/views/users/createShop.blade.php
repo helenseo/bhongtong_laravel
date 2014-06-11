@@ -8,23 +8,23 @@
            {{ Form::open(array('url'=>'users/paymentcreateshop', 'class'=>'form-register')) }}
              <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i> ประเภทร้านค้า / shop type:</span>
-           {{ Form::text('firstname', null, array('id'=>'Fname','class'=>'form-control', 'placeholder'=>'ประเภทร้านค้า / shop type')) }}
+          {{ Form::select('shop_type_id', $shop_type_id, 'เลือกประเภทร้านค้า',array('class'=>'form-control')) }}
            </div>
            <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i> ชื่อร้านค้า / shop name:</span>
-          {{ Form::text('lastname', null,  array('id'=>'Lname', 'class'=>'form-control', 'placeholder'=>'ชื่อร้านค้า / shop name')) }}
+          {{ Form::text('shop_name', null,  array('id'=>'Lname', 'class'=>'form-control', 'placeholder'=>'ชื่อร้านค้า / shop name')) }}
           </div>
           <div class="input-group">
-             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i> รายระเอียด / detail:</span>
-          {{ Form::text('email', null,  array('id'=>'email', 'class'=>'form-control', 'placeholder'=>'รายระเอียด / detail')) }}
+             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i> รายละเอียด / detail:</span>
+          {{ Form::textarea('shop_detail', null,  array('id'=>'email', 'class'=>'form-control', 'placeholder'=>'รายละเอียด / detail')) }}
           </div>
           <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i> ที่อยู่ / address:</span>
-          {{ Form::text('username', null,  array('id'=>'username', 'class'=>'form-control', 'placeholder'=>'ที่อยู่ / address')) }}
+          {{ Form::textarea('shop_address', null,  array('id'=>'username', 'class'=>'form-control', 'placeholder'=>'ที่อยู่ / address')) }}
           </div>
           <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i> จังหวัด / province:</span>
-          {{ Form::password('password',  array('id'=>'password', 'class'=>'form-control', 'placeholder'=>'จังหวัด / province')) }}
+               {{ Form::select('province', $province, 'เลือกจังหวัด / select province',array('class'=>'form-control')) }}
           </div>
                     
           <div class="input-group">

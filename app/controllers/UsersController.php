@@ -167,6 +167,7 @@ class UsersController extends \BaseController {
 
     //Input::merge(array_map('trim', Input::all()));
     $input = Input::all();
+    $enterprise_register = @$input['enterprise_register'];
 
     $rules = array(
       'firstname' => 'required',
@@ -181,6 +182,10 @@ class UsersController extends \BaseController {
       'agree' => 'required'
 
       );
+
+    if(isset($enterprise_register)) {
+          $rules['company_name'] = 'required';
+    }
 
     $this->error_messages = array(
     'password.regex' => 'Password ต้องขึ้นต้นด้วย A-Z หรือ a-z หรือ 0-9 และต้องประกอบด้วย A-Z หรือ a-z หรือ 0-9 หรืออักขระพิเศษ !@#$%-_[ ] โดยมีความยาวขั้นต่ำ 6 ตัวอักษร แต่ไม่เกิน 12 ตัวอักษร ',
@@ -206,6 +211,12 @@ class UsersController extends \BaseController {
       $user->zipcode = $input['zipcode'];
       $user->birthdate = $input['birthday'];
       $user->user_type_id = 1;
+      if(isset($enterprise_register)) {
+        $company_name = $input['company_name'];
+        $user->company_name = $company_name;
+        $user->is_enterprise = 1;
+
+      }
       $user->save();
 
       return Redirect::to('users/login');
@@ -219,7 +230,7 @@ class UsersController extends \BaseController {
 
   public function postUpdateprofile(){
     $input = Input::all();
-
+    $enterprise_register = @$input['enterprise_register'];
     $password = $input['password'];
     $current_password = $input['current-password'];
 
@@ -239,7 +250,10 @@ class UsersController extends \BaseController {
          $rules['password'] = 'regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
          $rules['current-password'] = 'required|regex:/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{6,12}$/';
         }
-
+      
+        if(Auth::user()->is_enterprise) {
+          $rules['company_name'] = 'required';
+        }
         
        // echo Input::file('image');
 
@@ -258,6 +272,13 @@ class UsersController extends \BaseController {
       $user->province_id = $input['province'];
       $user->zipcode = $input['zipcode'];
       $user->birthdate = $input['birthday'];
+
+      if(isset($enterprise_register)) {
+        $user->is_enterprise = 1;
+      }
+
+      $user->company_name = @$input['company_name'];
+
       //$user->profile_image = $input['profile_image'];
       $file_uploaded = Input::file('image');
       if($password !="" || !empty($password)) {
@@ -651,9 +672,18 @@ class UsersController extends \BaseController {
   }
 
   public function getCreateshop() {
+
+      if(Auth::user()->is_enterprise) {
+      $province = Provinces::makeProvinceRegion();
+      $shop_type_selector = Shop_types::makeShoptypes_list();
+
       $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('users.createShop');
+      $this->layout->content = View::make('users.createShop',array('province'=>$province,'shop_type_id'=>$shop_type_selector));
       $this->layout->title = "Create Shop";
+     } else {
+      $error_message = "กรุณาสมัครเป็น Enterprise เพื่อสมัครใช้บริการ Shop / Classified , โดยติ๊ก สมัครเป็น Enterprise ในแบบฟอร์มด้านล่าง";
+      return Redirect::to('users/editprofile')->withErrors($error_message);
+     }
   }  
 
   public function getCreateclassified() {
@@ -663,9 +693,45 @@ class UsersController extends \BaseController {
   }  
 
   public function postPaymentcreateshop() {
-      $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('users.paymentcreateshop');
-      $this->layout->title = "Payment Create Shop";
+         $input = Input::all();
+
+         $rules = array(
+            'shop_type_id' =>'Required|not_in:0',
+            'shop_name' =>'Required',
+            'shop_address'=>'Required|min:10',
+            'province'=>'Required|not_in:0',
+            'recaptcha_response_field' => 'required|recaptcha'
+        );
+
+       $validator=Validator::make($input, $rules);
+
+       if($validator->passes()) {
+        $shop = new Shops();
+        $current_date_time = date('Y-m-d H:i:s');
+
+        $shop->shop_type_id = $input['shop_type_id'];
+        $shop->shop_name = $input['shop_name'];
+        $shop->shop_detail = $input['shop_detail'];
+        $shop->shop_address = $input['shop_address'];
+        $shop->province_id = $input['province'];
+        $shop->ent_id = Auth::user()->user_id;
+        $shop->is_approved = 0;
+        $shop->started_date = $current_date_time;
+        $shop->updated_date = $current_date_time;
+        
+        $shop->save();
+
+        $this->layout->header = View::make('layouts.header');
+        $this->layout->content = View::make('users.paymentcreateshop');
+        $this->layout->title = "Payment Create Shop";
+
+       } else {
+        return Redirect::to('users/createshop')
+            ->withErrors($validator)
+            ->withInput();
+       }
+
+
   } 
 
   public function getShoptype() {

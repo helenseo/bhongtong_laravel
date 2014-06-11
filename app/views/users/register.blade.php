@@ -6,6 +6,20 @@
        document.getElementById('register-button').disabled = true;
        document.getElementById('agree').checked = false;
 
+        if($('#enterprise_register').is(':checked')) {
+         $('#company_name_wrap').show();
+        } else {
+        $('#company_name_wrap').hide();
+        }
+
+      $('#enterprise_register').click(function() {
+        if($('#enterprise_register').is(':checked')) {
+         $('#company_name_wrap').show();
+        } else {
+        $('#company_name_wrap').hide();
+        }
+        
+      });
 
     });
 
@@ -96,6 +110,16 @@
 
             {{ Form::select('province', $province, 'เลือกจังหวัด / select province',array('class'=>'form-control')) }}
           </div>
+          <div class="input-group">
+                          {{ Form::checkbox('enterprise_register', 1 ,null,array('id'=>'enterprise_register'))}}
+                          สมัคร Enterprise ?
+                         </div>
+
+          <div id="company_name_wrap" class="input-group">
+                          <p><b> Company name:</b></p>
+                            {{ Form::text('company_name', null, array('id'=>'company_name','class'=>'form-control')) }}
+          </div>
+          
           <div class="input-group">
              <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i> ข้อตกลงในการให้บริการ</span>
           {{ Form::textarea('detail', '

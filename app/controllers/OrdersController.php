@@ -7,7 +7,7 @@ class OrdersController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-    //  protected $layout = "layouts.main";
+     protected $layout = "layouts.main";
 	public function index()
 	{
 		//
@@ -110,5 +110,12 @@ class OrdersController extends \BaseController {
         echo $q->count()." Results";
         
 	}
+
+	public function getSummary() {
+      $this->layout->header = View::make('layouts.header');
+      $this->layout->content = View::make('orders.summary');
+      $this->layout->title = "Order Summary";
+  	} 
+
 
 }

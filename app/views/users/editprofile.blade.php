@@ -11,9 +11,24 @@
  <script type="text/javascript">
   
     $(function(){
-      
+
       $('#dpd1').datepicker({
         format: 'yyyy-mm-dd'
+      });
+
+      if($('#enterprise_register').is(':checked')) {
+         $('#company_name_wrap').show();
+        } else {
+        $('#company_name_wrap').hide();
+        }
+
+      $('#enterprise_register').click(function() {
+        if($('#enterprise_register').is(':checked')) {
+         $('#company_name_wrap').show();
+        } else {
+        $('#company_name_wrap').hide();
+        }
+        
       });
       
     });
@@ -82,7 +97,18 @@
                           <p><b><i class="glyphicon glyphicon-map-marker"></i> จังหวัด:</b></p>
                             {{ Form::select('province', $province, Auth::user()->province_id ? Auth::user()->province_id: 'เลือกจังหวัด / select province',array('class'=>'form-control')) }}
                          </div>
-                        
+                         @if(!Auth::user()->is_enterprise) 
+                         <div class="input-group">
+                          {{ Form::checkbox('enterprise_register', 1 ,null,array('id'=>'enterprise_register'))}}
+                          สมัคร Enterprise ?
+                         </div>
+                         <div id="company_name_wrap" class="input-group">
+                         @else
+                         <div class="input-group">
+                         @endif
+                          <p><b> Company name:</b></p>
+                            {{ Form::text('company_name', Auth::user()->company_name, array('id'=>'company_name','class'=>'form-control')) }}
+                        </div>
                        <!-- Start Profile Pic -->    
                 </div>
                 <div class="col-sm-6 col-md-6">
