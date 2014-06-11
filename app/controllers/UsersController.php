@@ -772,6 +772,12 @@ class UsersController extends \BaseController {
       $this->layout->content = View::make('users.services');
       $this->layout->title = "services Name";
   }
+
+  public function getShipping($shop_id) {
+     $shipping_method_list = Shops_have_ship_methods::makeShipping_methods_list($shop_id);
+
+     print_r($shipping_method_list);
+  }
   
 
 }
