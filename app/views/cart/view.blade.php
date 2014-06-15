@@ -1,5 +1,3 @@
-<!-- Start JS -->
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script type="application/javascript">
 jQuery(document).ready(function(){
     // This button will increment the value
@@ -44,9 +42,11 @@ jQuery(document).ready(function(){
 <div>
  <h3>SHOPPING CART</h3>
 </div>
+
 @if(count($products)>0)
  {{ Form::open(array('url'=>'cart/update')) }}
- <table class="table table-bordered">
+ <div class="table-responsive">
+ <table class="shopping-cart-table table table-bordered">
  <thead>
 	<tr><th>No.</th><th>Product Name</th><th>Price</th><th>Amount</th><th></th></tr>
  </thead>
@@ -63,9 +63,13 @@ jQuery(document).ready(function(){
      <td><a href="/users/products/{{$product['id']}}" target="_blank">{{ $product['product_name'] }}</a><input name="product_id[]" type="hidden" value="{{$product['id']}}" /></td>
      <td>{{ $total_price}}</td>
      <td>
-     	<input type="text" id="amount_input_{{$i}}" name="product_amount[]" type="text" class="qty" value="{{ Input::old('product_amount')[$j]? Input::old('product_amount')[$j]: $product['amount']}}" />
-     	<button value="-" field="amount_input_{{$i}}" class="qtyminus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
-	    <button type="button" value="+" field="amount_input_{{$i}}" class="qtyplus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+        <div class="amount_input_wrap">
+     	 <input type="text" class="amount_input" id="amount_input_{{$i}}" name="product_amount[]" type="text" class="qty" value="{{ Input::old('product_amount')[$j]? Input::old('product_amount')[$j]: $product['amount']}}" size="5" />
+        </div>
+     	<div>
+         <button value="-" field="amount_input_{{$i}}" class="qtyminus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
+	     <button type="button" value="+" field="amount_input_{{$i}}" class="qtyplus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
      </td>
 
      <td align="center">
@@ -83,6 +87,7 @@ jQuery(document).ready(function(){
  </tr>
 </tbody>
 </table>
+</div>
  {{ Form::close() }}
 
 <div>

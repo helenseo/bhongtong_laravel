@@ -117,5 +117,32 @@ class OrdersController extends \BaseController {
       $this->layout->title = "Order Summary";
   	} 
 
+  	public function getAddress() {
+  		$province = Provinces::makeProvinceRegion();
+      $this->layout->header = View::make('layouts.header');
+      $this->layout->content = View::make('orders.address',compact('province'));
+      $this->layout->title = "Order Address";
+  	} 
+
+  	public function getShipping() {
+  		$province = Provinces::makeProvinceRegion();
+      $this->layout->header = View::make('layouts.header');
+      $this->layout->content = View::make('orders.shipping',compact('province'));
+      $this->layout->title = "Shipping";
+  	}
+
+  	public function getPaymentmethod() {
+      $this->layout->header = View::make('layouts.header');
+      $this->layout->content = View::make('orders.paymentmethod');
+      $this->layout->title = "Payment Methods";
+  	}  
+
+  	public function getPayment() {
+      $this->layout->header = View::make('layouts.header');
+      $this->layout->content = View::make('orders.payment');
+      $this->layout->title = "Order Payment";
+  	} 
+
+
 
 }
