@@ -162,12 +162,7 @@ class CartController extends \BaseController {
     		$product = Products::find($product_id);
 
     		$products[] = array('product_name'=>$product->product_name,'price'=>$product->price,'amount'=>$total,'id'=>$product_id);
-    		
-          //echo "ID:".$product_id."&nbsp;Name: ".$product->product_name."&nbsp;Total:".$total."<br />";
-    	}
-    	//print_r($products);
-    	
-         
+    	  }
     	
        } //if session "cart" is defined 
 

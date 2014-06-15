@@ -86,13 +86,14 @@ jQuery(document).ready(function(){
                     <h1>Summary</h1>
                 </div>
                 </span>
+            @if(count($products)>0)
+             {{ Form::open(array('url'=>'orders/updatesummary')) }}
               <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
                         <tr>
                           	<th class="text-center">Product</th>
                             <th class="text-center">Description</th>
-                            <th class="text-center">Avail.</th>
                             <th class="text-center">Unit Price</th>
                             <th class="text-center">Quantity</th>
                             <th class="text-center">Total</th>
@@ -100,48 +101,28 @@ jQuery(document).ready(function(){
                         </tr>
                     </thead>
                     <tbody>
+                {{-- */$i=0;$total_price_all=0;/* --}}
+                @foreach ($products as $product)
+                <?php
+                $total_price = $product['price']*$product['amount'];
+
+                $total_price_all =$total_price_all + $total_price;
+               ?>
                         <tr>
                           <td class="col-md-7 text-center"><em><img class="thumbnail-image" src="http://placehold.it/100x120" alt="" /></em></td>
-                            <td class="col-md-5"><em>Product 01</em></td>
-                            <td class="col-md-2" style="text-align: center"> 2 </td>
-                            <td class="col-md-2 text-center">130<strong>฿</strong></td>
-							<td class="col-md-2 text-center"><?php $i = 1; ?><?php $j = 1; ?>
-						     	<input type='text' id="amount_input_{{$i}}" name="product_amount[]" type="text" class="qty" value="1" />
+                            <td class="col-md-5"><a href="/users/products/{{$product['id']}}" target="_blank">{{ $product['product_name'] }}</a><input name="product_id[]" type="hidden" value="{{$product['id']}}" /></td>
+                            <td class="col-md-2 text-center">{{ $product['price']}}<strong>THB</strong></td>
+							<td class="col-md-2 text-center">
+						     	<input type='text' id="amount_input_{{$i}}" name="product_amount[]" type="text" class="qty" value="{{ Input::old('product_amount')[$i]? Input::old('product_amount')[$i]: $product['amount']}}" />
 						     	<button value='-' field='amount_input_{{$i}}' class="qtyminus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
 							    <button type='button' value='+' field='amount_input_{{$i}}' class="qtyplus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
 						    </td>
-                            <td class="col-md-2 text-center">260<strong>฿</strong></td>
+                            <td class="col-md-2 text-center">{{$total_price}}<strong>THB</strong></td>
                             <td class="col-md-2 text-center">
-                            <button class="btn btn-default btn-success"><span class="glyphicon glyphicon-trash"></span></button></td>
+                            <a href="/orders/deletesummary/{{$product['id']}}" class="btn btn-default btn-success"><span class="glyphicon glyphicon-trash"></span></a></td>
                         </tr>
-                        <tr>
-                          <td class="col-md-7 text-center"><em><img class="thumbnail-image" src="http://placehold.it/100x120" alt="" /></em></td>
-                            <td class="col-md-5"><em>Product 02</em></td>
-                            <td class="col-md-2" style="text-align: center"> 1 </td>
-                            <td class="col-md-2 text-center">8<strong>0฿</strong></td>
-                            <td class="col-md-2 text-center"><?php $i = 2; ?><?php $j = 2; ?>
-						     	<input type='text' id="amount_input_{{$i}}" name="product_amount[]" type="text" class="qty" value="1" />
-						     	<button value='-' field='amount_input_{{$i}}' class="qtyminus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
-							    <button type='button' value='+' field='amount_input_{{$i}}' class="qtyplus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
-						    </td>
-                            <td class="col-md-2 text-center">260<strong>฿</strong></td>
-                            <td class="col-md-2 text-center">
-                            <button class="btn btn-default btn-success"><span class="glyphicon glyphicon-trash"></span></button></td>
-                        </tr>
-                        <tr>
-                          <td class="col-md-7 text-center"><em><img class="thumbnail-image" src="http://placehold.it/100x120" alt="" /></em></td>
-                            <td class="col-md-5"><em>Product 03</em></td>
-                            <td class="col-md-2" style="text-align: center"> 3 </td>
-                            <td class="col-md-2 text-center">160<strong>฿</strong></td>
-                            <td class="col-md-2 text-center"><?php $i = 3; ?><?php $j = 3; ?>
-						     	<input type='text' id="amount_input_{{$i}}" name="product_amount[]" type="text" class="qty" value="1" />
-						     	<button value='-' field='amount_input_{{$i}}' class="qtyminus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
-							    <button type='button' value='+' field='amount_input_{{$i}}' class="qtyplus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
-						    </td>
-                            <td class="col-md-2 text-center">260<strong>฿</strong></td>
-                            <td class="col-md-2 text-center">
-                            <button class="btn btn-default btn-success"><span class="glyphicon glyphicon-trash"></span></button></td>
-                        </tr>
+                @endforeach
+                        
                         <tr>
                           <td>&nbsp;</td>
                             <td>   </td>
@@ -152,10 +133,11 @@ jQuery(document).ready(function(){
                             </p>
                             <p>
                                 <strong>Tax: </strong>
-                            </p></td>
+                            </p>
+                           </td>
                             <td class="text-center">&nbsp;</td>
-                            <td class="text-center"><p><strong>600.00฿</strong> </p>
-                          <p> <strong>60.94฿</strong></p></td>
+                            <td class="text-center"><p><strong>{{$total_price_all}} THB</strong> </p>
+                          <p> <strong>-</strong></p></td>
                             <td class="text-center">
                             <p>&nbsp;</p></td>
                         </tr>
@@ -165,15 +147,20 @@ jQuery(document).ready(function(){
                             <td>   </td>
                             <td class="text-right"><h4><strong>Total: </strong></h4></td>
                             <td class="text-center text-danger">&nbsp;</td>
-                            <td class="text-center text-danger"><strong>660.94฿</strong></td>
+                            <td class="text-center text-danger"><strong>{{$total_price_all}} THB</strong></td>
                             <td class="text-center text-danger"><h4>&nbsp;</h4></td>
                         </tr>
                     </tbody>
                 </table>
                </div>
+               {{ Form::submit('Update', array('class'=>'btn btn-success btn-lg btn-block'))}}
                 <button type="button" class="btn btn-success btn-lg btn-block">
                     Pay Now   <span class="glyphicon glyphicon-chevron-right"></span>
                 </button>
+              {{ Form::close() }}
+              @else 
+              No item
+              @endif
             </div>
         </div>
     </div>

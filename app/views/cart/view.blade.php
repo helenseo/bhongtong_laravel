@@ -64,7 +64,7 @@ jQuery(document).ready(function(){
      <td>{{ $total_price}}</td>
      <td>
         <div class="amount_input_wrap">
-     	 <input type="text" class="amount_input" id="amount_input_{{$i}}" name="product_amount[]" type="text" class="qty" value="{{ Input::old('product_amount')[$j]? Input::old('product_amount')[$j]: $product['amount']}}" size="5" />
+     	 <input type="text" class="amount_input qty" id="amount_input_{{$i}}" name="product_amount[]" value="{{ Input::old('product_amount')[$j]? Input::old('product_amount')[$j]: $product['amount']}}" size="5" />
         </div>
      	<div>
          <button value="-" field="amount_input_{{$i}}" class="qtyminus btn btn-default btn-success btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
@@ -72,7 +72,7 @@ jQuery(document).ready(function(){
         </div>
      </td>
 
-     <td align="center">
+     <td>
      	<a href="/cart/delete/{{$product['id']}}" class="btn btn-default btn-success"><span class="glyphicon glyphicon-trash"></span>
      	</a>
      </td>

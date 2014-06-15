@@ -66,6 +66,47 @@ class OrdersController extends \BaseController {
 		//
 	}
 
+	public function postUpdatesummary() {
+		 $input = Input::all();
+
+       $products_id = $input['product_id'];
+       $products_amount = $input['product_amount'];
+       
+       $i=0;
+
+        $cart = Session::get('cart');
+
+       while($i<count($products_id)) {
+       
+        $product_id = $products_id[$i];
+        $product_amount = $products_amount[$i];
+        if(is_numeric($product_amount)) {
+        	$product_amount=(int)$product_amount;
+        }
+       	if(is_int($product_amount)) {
+
+         if($product_amount > 0) {
+        	
+         $cart[$product_id]=$product_amount;
+         }else {
+       	unset($cart[$product_id]);
+         } 
+      
+       } else {
+       	 return Redirect::to('orders/summary')->withInput()->withErrors('Please input only number!');
+   
+       }
+
+
+
+       $i++;
+       }
+
+        Session::put('cart', $cart);
+
+        return Redirect::to('orders/summary');
+	}
+
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -112,8 +153,20 @@ class OrdersController extends \BaseController {
 	}
 
 	public function getSummary() {
+	  $cart = Session::get('cart');
+        $products = array();
+    	if(isset($cart)) {
+    	 
+         foreach($cart as $product_id => $total) {
+         	
+    		$product = Products::find($product_id);
+
+    		$products[] = array('product_name'=>$product->product_name,'price'=>$product->price,'amount'=>$total,'id'=>$product_id);
+     	}
+    	
+       } //if session "cart" is defined 
       $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('orders.summary');
+      $this->layout->content = View::make('orders.summary',compact('products'));
       $this->layout->title = "Order Summary";
   	} 
 
@@ -142,6 +195,17 @@ class OrdersController extends \BaseController {
       $this->layout->content = View::make('orders.payment');
       $this->layout->title = "Order Payment";
   	} 
+
+  	public function getDeletesummary($product_id) {
+  		$cart = Session::get('cart');
+    	if(isset($cart[$product_id])) {
+    		unset($cart[$product_id]);
+    		Session::put('cart', $cart);
+    		return Redirect::to('orders/summary');
+    	} else {
+    		return Redirect::to('orders/summary')->withErrors("Have no this product");
+    	}
+  	}
 
 
 
