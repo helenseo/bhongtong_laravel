@@ -21,12 +21,15 @@
 					<!--
 
 				    -->
-                    @if(Auth::check())
+           @if(Auth::check())
 				     <div class="pull-right">
                        <ul class="nav navbar-nav pull-right">
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, {{Auth::user()->username}} <b class="caret"></b></a>
                            <ul class="dropdown-menu">
                             <li><a href="settings"><i class="icon-envelope"></i> User Settings</a></li>
+                            @if(Auth::user()->is_enterprise)
+                            <li><a href="/shop/dashboard"><i class="icon-envelope"></i> Shop Dashboard</a></li>
+                            @endif
                             <li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>
                             <li class="divider"></li>
                             <li><a href="{{URL::to('users/logout')}}"><i class="icon-off"></i> Logout</a></li>
@@ -34,7 +37,7 @@
                         </li>
                        </ul>
                      </div>
-                    @endif
+          @endif
                    </div>
 
                 <!--

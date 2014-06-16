@@ -9,6 +9,11 @@ class ShopController extends \BaseController {
 	 */
 
 	protected $layout = "layouts.main";
+	public function __construct() {
+	  $this->beforeFilter('csrf', array('on'=>'post'));
+      $this->beforeFilter('auth', array('only'=>array('getDashboard','getManage','getManageproducts')));
+
+	}
 	public function index()
 	{
 		//
@@ -79,25 +84,55 @@ class ShopController extends \BaseController {
 	}
 
 	public function getDashboard() {
+	  if(Auth::user()->is_enterprise) {
 	  $shop_list = Shops::where('ent_id','=',Auth::user()->user_id)->get();
 
 	  
       $this->layout->header = View::make('layouts.header');
       $this->layout->content = View::make('shop.dashboard',compact('shop_list'));
       $this->layout->title = "Shop Dashboard"; 
+      } else {
+      	echo "You are not enterprise, please register enterprise firstly";
+      }
     }
 
     public function getManage($shop_id) {
-      $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('shop.manage',array('shop_id'=>$shop_id));
-      $this->layout->title = "Manage Shop"; 
+     $shop = Shops::find($shop_id);
+
+     if($shop) { //check if shop id is exist
+     
+      if($shop->is_approved) {
+     
+       $this->layout->header = View::make('layouts.header');
+       $this->layout->content = View::make('shop.manage',array('shop_id'=>$shop_id));
+       $this->layout->title = "Manage Shop"; 
+      } else {
+     	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Shop <b>'.$shop->shop_name.'</b> has not approved yet'));
+      }
+     } else {
+    	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Have no shop id: '.$shop_id));
+     } 
+
     }
 
     public function getManageproducts($shop_id) {
-      $product_list = Products::where('shop_id','=',$shop_id)->get();
-      $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('shop.manageproducts',compact('product_list'));
-      $this->layout->title = "Manage Products"; 
+      $shop = Shops::find($shop_id);
+      if($shop) { //check if shop id is exist
+       if($shop->is_approved) {
+        $product_list = Products::where('shop_id','=',$shop_id)->get();
+        $this->layout->header = View::make('layouts.header');
+        $this->layout->content = View::make('shop.manageproducts',compact('product_list'));
+        $this->layout->title = "Manage Products"; 
+        } else {
+        	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Shop <b>'.$shop->shop_name.'</b> has not approved yet'));
+        }
+      } else {
+      	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Have no shop id: '.$shop_id));
+      }
     }
 
 }

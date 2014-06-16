@@ -19,7 +19,7 @@ class UsersController extends \BaseController {
     public function __construct() {
       Input::merge(array_map('trim', Input::all()));
       $this->beforeFilter('csrf', array('on'=>'post'));
-      $this->beforeFilter('auth', array('only'=>array('getDashboard','getLogout','getEditprofile','postUpdateprofile','getSettings','postSettings')));
+      $this->beforeFilter('auth', array('only'=>array('getCreateshop','getCreateclassified','postPaymentcreateshop','getDashboard','getLogout','getEditprofile','postUpdateprofile','getSettings','postSettings')));
   }
   public function index()
   {
