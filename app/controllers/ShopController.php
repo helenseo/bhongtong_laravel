@@ -7,6 +7,8 @@ class ShopController extends \BaseController {
 	 *
 	 * @return Response
 	 */
+
+	protected $layout = "layouts.main";
 	public function index()
 	{
 		//
@@ -76,13 +78,26 @@ class ShopController extends \BaseController {
 		//
 	}
 
-	public function getShop($shop_id) {
-      $shop = Shops::find($shop_id);
-      $products = Products::where('shop_id','=',$shop_id)->get();
+	public function getDashboard() {
+	  $shop_list = Shops::where('ent_id','=',Auth::user()->user_id)->get();
 
+	  
       $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('users.shop',array('products'=>$products,'shop'=>$shop));
-      $this->layout->title = "Shop - ".$shop->shop_name;
+      $this->layout->content = View::make('shop.dashboard',compact('shop_list'));
+      $this->layout->title = "Shop Dashboard"; 
+    }
+
+    public function getManage($shop_id) {
+      $this->layout->header = View::make('layouts.header');
+      $this->layout->content = View::make('shop.manage',array('shop_id'=>$shop_id));
+      $this->layout->title = "Manage Shop"; 
+    }
+
+    public function getManageproducts($shop_id) {
+      $product_list = Products::where('shop_id','=',$shop_id)->get();
+      $this->layout->header = View::make('layouts.header');
+      $this->layout->content = View::make('shop.manageproducts',compact('product_list'));
+      $this->layout->title = "Manage Products"; 
     }
 
 }

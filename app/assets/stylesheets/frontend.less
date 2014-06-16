@@ -42,9 +42,11 @@ text-align: left;
   display: inline-block;
   width: 40%;
 }
-
 .nav-tabs>li>a {
   background-color:@tab-bar-color;
+}
+.disabled {
+  .opacity(0.5);
 }
 /*Override bootstrap class*/
 .table-responsive {
@@ -683,6 +685,13 @@ textarea {
  }
 }
 
-
+/*Shop Manage */
+.shop-manage {
+  .panel-body {
+    .btn:not(.btn-block) {
+      width:120px;margin-bottom:10px;
+    }
+  }
+}
 
 

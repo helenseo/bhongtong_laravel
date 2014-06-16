@@ -43,3 +43,4 @@ Route::any('cart/empty','CartController@emptycart');
 Route::any('cart/delete/{product_id}','CartController@deleteitem');
 
 Route::controller('orders', 'OrdersController');
+Route::controller('shop', 'ShopController');
