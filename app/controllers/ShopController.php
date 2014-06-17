@@ -117,19 +117,30 @@ class ShopController extends \BaseController {
 
     }
 
+    private function makeproductcategories($product_id) {
+     $product_categories = array();
+     $product_cats = Products_have_categories::where('product_id','=',$product_id)->get();
+        	foreach($product_cats as $product_cat) {
+        		$product_categories[]=$product_cat->cat_id;
+            }
+
+        return $product_categories;
+    }
+    
     public function getManageproducts($shop_id) {
       $shop = Shops::find($shop_id);
       if($shop) { //check if shop id is exist
        if($shop->is_approved) {
         $product_list = Products::where('shop_id','=',$shop_id)->get();
         foreach($product_list as $product) {
+        	
         	$product_cats = Products_have_categories::with('category')->where('product_id','=',$product->product_id)->get();
         	foreach($product_cats as $product_cat) {
         		$product_categories[$product->product_id][]=$product_cat->category->cat_name;
         	}
+        	
         }
 
-        //print_r($product_categories);
         $this->layout->header = View::make('layouts.header');
         $this->layout->content = View::make('shop.manageproducts',array('product_list'=>$product_list,'product_categories'=>$product_categories));
         $this->layout->title = "Manage Products"; 
@@ -141,6 +152,15 @@ class ShopController extends \BaseController {
       	return Redirect::to('shop/dashboard')
                     ->withErrors(array('Have no shop id: '.$shop_id));
       }
+    }
+    public function getEditproduct($product_id) {
+    	$product_categories = Product_categories::all();
+    	$product = Products::find($product_id)->first();
+    	$product_has_categories = self::makeproductcategories($product_id);
+    	
+    	$this->layout->header = View::make('layouts.header');
+        $this->layout->content = View::make('shop.editproduct',array('product'=>$product,'product_has_categories'=>$product_has_categories,'product_categories'=>$product_categories));
+        $this->layout->title = "Edit Product"; 
     }
 
 }
