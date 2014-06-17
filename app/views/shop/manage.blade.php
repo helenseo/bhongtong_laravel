@@ -14,7 +14,7 @@
                         <div class="col-xs-6 col-md-12">
                           <a href="/shop/manageproducts/{{$shop_id}}" class="btn btn-danger btn-lg" role="button"><span class="glyphicon glyphicon-list-alt"></span> <br/>Products</a>
                           <a href="#" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-signal"></span> <br/>Reports</a>
-                          <a href="#" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-comment"></span> <br/>Settings</a>
+                          <a href="#" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-cog"></span> <br/>Settings</a>
                         </div>
                         <div class="col-xs-6 col-md-12">
                           <a href="#" class="btn btn-success btn-lg" role="button"><span class="glyphicon glyphicon-user"></span> <br/>Users</a>
