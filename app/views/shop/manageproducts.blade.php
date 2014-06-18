@@ -1,6 +1,7 @@
 <div>
  <h3>Manage Products</h3>
 </div>
+<div><a href="/shop/addproduct/{{$shop_id}}" title="add product">Add product</a></div>
 <div class="table-responsive">
  <table class="shopping-cart-table table table-bordered">
  <thead>
