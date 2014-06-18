@@ -155,7 +155,7 @@ class ShopController extends \BaseController {
     }
     public function getEditproduct($product_id) {
     	$product_categories = Product_categories::all();
-    	$product = Products::find($product_id)->first();
+    	$product = Products::find($product_id);
     	$product_has_categories = self::makeproductcategories($product_id);
     	
     	$this->layout->header = View::make('layouts.header');
