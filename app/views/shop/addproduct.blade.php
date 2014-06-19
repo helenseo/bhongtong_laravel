@@ -33,7 +33,7 @@
                         {{ Form::checkbox('category[]', $cat->cat_id ,null)}} {{$cat->cat_name}}</div> 
                       @endforeach
                  </div>
-                 <div class="input-group">{{ Form::submit('Edit Product', array('class'=>'btn btn-primary btn-lg'))}}
+                 <div class="input-group">{{ Form::submit('Add Product', array('class'=>'btn btn-primary btn-lg'))}}
                  </div>
               </div>
                

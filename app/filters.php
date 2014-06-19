@@ -44,6 +44,13 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+Route::filter('isenterprise',function() {
+    if(!Auth::user()->is_enterprise) {
+      $error_message = "กรุณาสมัครเป็น Enterprise เพื่อสมัครใช้บริการ Shop / Classified , โดยติ๊ก สมัครเป็น Enterprise ในแบบฟอร์มด้านล่าง";
+      return Redirect::to('users/editprofile')->withErrors($error_message);
+    }
+});
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter

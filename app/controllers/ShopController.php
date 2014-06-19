@@ -12,6 +12,7 @@ class ShopController extends \BaseController {
 	public function __construct() {
 	  $this->beforeFilter('csrf', array('on'=>'post'));
       $this->beforeFilter('auth', array('only'=>array('getDashboard','getManage','getManageproducts','getEditproduct','postUpdateproduct','getAddproduct','postInsertproduct')));
+      $this->beforeFilter('isenterprise', array('only'=>array('getDashboard','getManage','getManageproducts','getEditproduct','postUpdateproduct','getAddproduct','postInsertproduct')));
 
 	}
 	public function index()
@@ -97,7 +98,8 @@ class ShopController extends \BaseController {
     }
 
     public function getManage($shop_id) {
-     $shop = Shops::find($shop_id);
+     $shop = Shops::where('shop_id','=',$shop_id)
+                     ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
 
      if($shop) { //check if shop id is exist
      
@@ -112,23 +114,14 @@ class ShopController extends \BaseController {
       }
      } else {
     	return Redirect::to('shop/dashboard')
-                    ->withErrors(array('Have no shop id: '.$shop_id));
+                    ->withErrors(array('The Shop ID: '.$shop_id. ' is invalid or you have no access to this shop'));
      } 
 
     }
-
-    private function makeproductcategories($product_id) {
-     $product_categories = array();
-     $product_cats = Products_have_categories::where('product_id','=',$product_id)->get();
-        	foreach($product_cats as $product_cat) {
-        		$product_categories[]=$product_cat->cat_id;
-            }
-
-        return $product_categories;
-    }
     
     public function getManageproducts($shop_id) {
-      $shop = Shops::find($shop_id);
+       $shop = Shops::where('shop_id','=',$shop_id)
+                     ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
       if($shop) { //check if shop id is exist
        if($shop->is_approved) {
         $product_list = Products::where('shop_id','=',$shop_id)->get();
@@ -139,7 +132,6 @@ class ShopController extends \BaseController {
     	     $product_cats = json_decode($product->categories);
     	     }
 
-        	//$product_cats = Products_have_categories::with('category')->where('product_id','=',$product->product_id)->get();
         	foreach($product_cats as $product_cat) {
         		$product_category = Product_categories::find($product_cat);
         		$product_categories[$product->product_id][]=$product_category->cat_name;
@@ -156,22 +148,53 @@ class ShopController extends \BaseController {
         }
       } else {
       	return Redirect::to('shop/dashboard')
-                    ->withErrors(array('Have no shop id: '.$shop_id));
+                    ->withErrors(array('The Shop ID: '.$shop_id. ' is invalid or you have no access to this shop'));
       }
     }
-    public function getEditproduct($product_id) {
-    	$product_categories = Product_categories::all();
-    	$product = Products::find($product_id);
-    	$product_has_categories = array();
-    	if($product->categories !=NULL) {
-    	$product_has_categories = json_decode($product->categories);
-    	}
+    public function getEditproduct($shop_id,$product_id) {
+    	//$product = Products::find($product_id);
+      $shop = Shops::where('shop_id','=',$shop_id)
+                     ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
+      if($shop) { //check if shop id is exist
+       if($shop->is_approved) {
+    	$product = Products::where('product_id','=',$product_id)
+                         ->where('shop_id','=',$shop_id,'AND')->first();
+        if($product) {
+        	  $product_categories = Product_categories::all();
+    	 $product_has_categories = array();
+    	 if($product->categories !=NULL) {
+    	 $product_has_categories = json_decode($product->categories);
+    	 }
     	$this->layout->header = View::make('layouts.header');
         $this->layout->content = View::make('shop.editproduct',array('product'=>$product,'product_has_categories'=>$product_has_categories,'product_categories'=>$product_categories));
         $this->layout->title = "Edit Product"; 
+        } else {
+        	return Redirect::to('shop/manageproducts/'.$shop_id)
+                   ->withInput()->withErrors('Invalid Product Id');
+        }
+        //end shop approved
+       }  else {
+        	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Shop <b>'.$shop->shop_name.'</b> has not approved yet'));
+        }
+      } //end check shop 
+      else {
+      	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('The Shop ID: '.$shop_id. ' is invalid or you have no access to this shop'));
+      }
     }
 
-    public function postUpdateproduct($product_id) {
+    public function postUpdateproduct($shop_id,$product_id) {
+
+    $shop = Shops::where('shop_id','=',$shop_id)
+                     ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
+    if($shop) { //check if shop id is exist
+     if($shop->is_approved) {
+      $product = Products::where('product_id','=',$product_id)
+                         ->where('shop_id','=',$shop_id,'AND')->first();
+      // $product = Products::find($product_id);
+       if($product) {
+
        $input = Input::all();
        $rules = array('product_name'=>'required',
                       'price'=>'required|regex:/^\d+(?:\.\d{2})?$/',
@@ -180,7 +203,7 @@ class ShopController extends \BaseController {
         $v = Validator::make($input, $rules);
 
         if($v->passes()){
-            $product = Products::find($product_id);
+            
             $product->product_name = $input['product_name'];
             $product->price = $input['price'];
             $product->product_detail = $input['product_detail'];
@@ -198,16 +221,47 @@ class ShopController extends \BaseController {
         	return Redirect::to('shop/editproduct/'.$product_id)
                    ->withInput()->withErrors($v);
         }
+       } else {
+       	  return Redirect::to('shop/manageproducts/'.$shop_id)
+                   ->withInput()->withErrors('Invalid Product Id');
+       }
+      } // end check shop approved
+      else {
+        	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Shop <b>'.$shop->shop_name.'</b> has not approved yet'));
+        }
+     } //end check shop 
+      else {
+      	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('The Shop ID: '.$shop_id. ' is invalid or you have no access to this shop'));
+      }
     }
 
     public function getAddproduct($shop_id) {
+      $shop = Shops::where('shop_id','=',$shop_id)
+                     ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
+      if($shop) { //check if shop id is exist
+       if($shop->is_approved) {
     	$product_categories = Product_categories::all();
     	$this->layout->header = View::make('layouts.header');
         $this->layout->content = View::make('shop.addproduct',array('shop_id'=>$shop_id,'product_categories'=>$product_categories));
         $this->layout->title = "Add Product"; 
+        } else {
+        	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Shop <b>'.$shop->shop_name.'</b> has not approved yet'));
+        }
+      } else {
+      	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('The Shop ID: '.$shop_id. ' is invalid or you have no access to this shop'));
+      }
     }
 
     public function postInsertproduct($shop_id) {
+
+      $shop = Shops::where('shop_id','=',$shop_id)
+                     ->where('ent_id','=',Auth::user()->ent_id,'AND')->first();
+      if($shop) { //check if shop is not null
+       if($shop->is_approved) { //if shop is approved 
         $input = Input::all();
         $rules = array('product_name'=>'required',
                       'price'=>'required|regex:/^\d+(?:\.\d{2})?$/',
@@ -236,7 +290,15 @@ class ShopController extends \BaseController {
         	return Redirect::to('shop/addproduct/'.$shop_id)
                    ->withInput()->withErrors($v);
         }
-
+       } 
+       else { //shop is not approved
+        	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Shop <b>'.$shop->shop_name.'</b> has not approved yet'));
+        }
+      } else { //shop is null
+      	return Redirect::to('shop/dashboard')
+                    ->withErrors(array('The Shop ID: '.$shop_id. 'is invalid or you have no access to this shop'));
+      }
     }
 
 }

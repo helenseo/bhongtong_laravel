@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-   {{ Form::open(array('url'=>'shop/updateproduct/'.$product->product_id, 'class'=>'form-updateproduct','enctype'=>'multipart/form-data')) }}
+   {{ Form::open(array('url'=>'shop/updateproduct/'.$product->shop_id.'/'.$product->product_id, 'class'=>'form-updateproduct','enctype'=>'multipart/form-data')) }}
    <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="well well-sm">
             <div class="row">
