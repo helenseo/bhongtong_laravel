@@ -10,7 +10,7 @@
  {{-- */$i=1;/* --}}
 @foreach ($products as $product)
     <tr>
-     <td>{{$i}}</td><td>{{ $product->product->product_name }}</td><td>{{ $product->amount}}</td>
+     <td>{{$i}}</td><td>{{ $product->product_name }}</td><td>{{ $product->amount}}</td>
     </tr>
   {{-- */$i++;/* --}}
 @endforeach

@@ -118,12 +118,20 @@ class OrdersController extends \BaseController {
 		//
 	}
 	public function detail($orderid) {
-		$q = Orders_have_products::with('product')->where('order_id','=',$orderid)->get();
+		//$q = Orders_have_products::with('product')->where('order_id','=',$orderid)->get();
+         $orders = Orders::find($orderid);
+         $order_products = json_decode($orders->products); 
 
+          foreach($order_products as $products) {
+        	$product = Products::where('product_id','=',$products->product_id)->get(array('product_name'))->first(); 	
+            
+            $products->product_name = $product->product_name;
+
+            //echo $products->product_name ;
+        }
          $this->layout = View::make('layouts.main');
-		 $this->layout->content = View::make('orders.detail',array('products'=>$q,'order_id'=>$orderid));
-         $this->layout->title = "Order Detail";
-         
+		 $this->layout->content = View::make('orders.detail',array('products'=>$order_products,'order_id'=>$orderid));
+         $this->layout->title = "Order Detail"; 
 	}
 	public function search($userid) {
 
