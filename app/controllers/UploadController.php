@@ -28,27 +28,27 @@
     $size = $file->getSize();
     // looking for format and size validity
     $name = time()."-".$file->getClientOriginalName();
-    if (in_array($ext, $valid_exts) AND $size < $max_size)
-    {
+     if (in_array($ext, $valid_exts) AND $size < $max_size)
+     {
     // move uploaded file from temp to uploads directory
-    if($type=="profile") {
+      if($type=="profile") {
        $image_uploaded=Image::make($file->getRealPath())->resize(200, 200, true, false)->save($path.$name);
-    } else {
+      } else {
         $image_uploaded = $file->move($path,$name);
-    }
+      }
     
-    if ($image_uploaded)
-    {
-    $status = 'Image successfully uploaded!';
-    $fileName = $path_uploaded.$name;
-    }
-    else {
-    $status = 'Upload Fail: Unknown error occurred!';
-    }
-    }
-    else {
-    $status = 'Upload Fail: Unsupported file format or It is too large to upload!';
-    }
+      if ($image_uploaded)
+      {
+      $status = 'Image successfully uploaded!';
+      $fileName = $path_uploaded.$name;
+      }
+      else {
+      $status = 'Upload Fail: Unknown error occurred!';
+      }
+     }
+     else {
+     $status = 'Upload Fail: Unsupported file format or It is too large to upload!';
+     }
     }
     else {
     $status = 'Bad request!';

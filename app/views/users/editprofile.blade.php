@@ -117,7 +117,7 @@
                 
                         <div class="span3">
                             <div id="validation-errors"></div>
-                             {{Form::file('image')}}
+                             {{Form::file('image',array('data-field'=>'uploadimg'))}}
                        </div>
                     
                 </div>

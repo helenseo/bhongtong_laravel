@@ -165,8 +165,12 @@ class ShopController extends \BaseController {
     	 if($product->categories !=NULL) {
     	 $product_has_categories = json_decode($product->categories);
     	 }
+       $product_images =array();
+       if($product->images !=NULL) {
+        $product_images = json_decode($product->images);
+       }
     	$this->layout->header = View::make('layouts.header');
-        $this->layout->content = View::make('shop.editproduct',array('product'=>$product,'product_has_categories'=>$product_has_categories,'product_categories'=>$product_categories));
+        $this->layout->content = View::make('shop.editproduct',array('product'=>$product,'product_has_categories'=>$product_has_categories,'product_categories'=>$product_categories,'product_images'=>$product_images));
         $this->layout->title = "Edit Product"; 
         } else {
         	return Redirect::to('shop/manageproducts/'.$shop_id)
@@ -214,15 +218,39 @@ class ShopController extends \BaseController {
             else {
             	$product->categories = NULL;
             }
+
+            $input_product_images = array_filter(Input::file('image'));
+           /*If have uploaded image */
+           if(count($input_product_images)) {
+            $product_images = array();
+            $i=0;
+            foreach ($input_product_images as $input_product_image) {
+              $upload_img = UploadController::upload($input_product_image,null,null,null,'/uploads/products/');
+              $upload_img = json_decode($upload_img);
+
+             if($upload_img->filename && !empty($upload_img->filename)) {
+               $product_images[$i] = $upload_img->filename;
+
+               $i++;
+              
+             } else {
+              return Redirect::to('shop/editproduct/'.$shop_id.'/'.$product_id)->withInput()->withErrors($upload_img->status);
+             }
+            }
            
+            $product_images_merge = array_merge((array)json_decode($product->images), $product_images);
+            $product->images = json_encode($product_images_merge);
+           }
+           /* End have uploaded image */
+          
             $product->update();
-            return Redirect::to('shop/manageproducts/'.$product->shop_id);
+            return Redirect::to('shop/manageproducts/'.$shop_id);
         } else {
         	return Redirect::to('shop/editproduct/'.$product_id)
                    ->withInput()->withErrors($v);
         }
        } else {
-       	  return Redirect::to('shop/manageproducts/'.$shop_id)
+       	  return Redirect::to('shop/manageproducts/'.$shop_id.'/'.$product_id)
                    ->withInput()->withErrors('Invalid Product Id');
        }
       } // end check shop approved
@@ -259,7 +287,8 @@ class ShopController extends \BaseController {
     public function postInsertproduct($shop_id) {
 
       $shop = Shops::where('shop_id','=',$shop_id)
-                     ->where('ent_id','=',Auth::user()->ent_id,'AND')->first();
+                     ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
+
       if($shop) { //check if shop is not null
        if($shop->is_approved) { //if shop is approved 
         $input = Input::all();
@@ -281,9 +310,34 @@ class ShopController extends \BaseController {
         if(count(@$input['category'])) {
           $product->categories = json_encode($input['category']);
          }
-         else {
+        else {
            $product->categories = NULL;
-          }
+        }
+
+        $input_product_images = array_filter(Input::file('image'));
+        /*If have uploaded image */
+        if(count($input_product_images)) {
+          $product_images = array();
+          $i=0;
+            foreach ($input_product_images as $input_product_image) {
+              $upload_img = UploadController::upload($input_product_image,null,null,null,'/uploads/products/');
+              $upload_img = json_decode($upload_img);
+
+             if($upload_img->filename && !empty($upload_img->filename)) {
+               $product_images[$i] = $upload_img->filename;
+
+               $i++;
+              
+             } else {
+              return Redirect::to('shop/editproduct/'.$shop_id.'/'.$product_id)->withInput()->withErrors($upload_img->status);
+             }
+            }
+
+            $product->images = json_encode($product_images);
+           } else {
+            $product->images = NULL;
+           }
+           /* End have uploaded image */
          $product->save();
          return Redirect::to('shop/manageproducts/'.$shop_id);
         } else {

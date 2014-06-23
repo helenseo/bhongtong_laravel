@@ -1,3 +1,7 @@
+ <!-- For Image uploading -->
+      {{ HTML::script('packages/bootstrap/js/upload.js') }}
+     
+<!-- End Image uploading -->
 <div class="container">
   <div class="row">
    {{ Form::open(array('url'=>'shop/insertproduct/'.$shop_id, 'class'=>'form-updateproduct','enctype'=>'multipart/form-data')) }}
@@ -33,10 +37,64 @@
                         {{ Form::checkbox('category[]', $cat->cat_id ,null)}} {{$cat->cat_name}}</div> 
                       @endforeach
                  </div>
-                 <div class="input-group">{{ Form::submit('Add Product', array('class'=>'btn btn-primary btn-lg'))}}
-                 </div>
+                
               </div>
+               <div class="col-sm-6 col-md-6">
+                  <div><p><b>Product Images</b></p></div>
+                  <div>
+                    <img src="http://placehold.it/380x500" id="uploadimg_1" alt="" class="profile-pic img-rounded img-responsive" ><br/>
+                    <!-- Post Footer -->
+                
+                        <div class="span3">
+                           
+                            {{Form::file('image[]',array('data-field'=>'uploadimg_1'))}}
+                       </div>
+                  </div>
+
+                   <div>
+                    <img src="http://placehold.it/380x500" id="uploadimg_2" alt="" class="profile-pic img-rounded img-responsive" ><br/>
+                    <!-- Post Footer -->
+                
+                        <div class="span3">
+                         
+                           {{Form::file('image[]',array('data-field'=>'uploadimg_2'))}}
+                       </div>
+                  </div>
+
+                   <div>
+                    <img src="http://placehold.it/380x500" id="uploadimg_3" alt="" class="profile-pic img-rounded img-responsive" ><br/>
+                    <!-- Post Footer -->
+                
+                        <div class="span3">
+                         
+                             {{Form::file('image[]',array('data-field'=>'uploadimg_3'))}}
+                       </div>
+                  </div>
+
+                   <div>
+                    <img src="http://placehold.it/380x500" id="uploadimg_4" alt="" class="profile-pic img-rounded img-responsive" ><br/>
+                    <!-- Post Footer -->
+                
+                        <div class="span3">
+                            
+                            {{Form::file('image[]',array('data-field'=>'uploadimg_4'))}}
+                       </div>
+                  </div>
+
+                   <div>
+                    <img src="http://placehold.it/380x500" id="uploadimg_5" alt="" class="profile-pic img-rounded img-responsive" ><br/>
+                    <!-- Post Footer -->
+                
+                        <div class="span3">
+                            
+                            {{Form::file('image[]',array('data-field'=>'uploadimg_5'))}}
+                       </div>
+                  </div>
+
+                </div>
                
+            </div>
+             <div class="input-group">{{ Form::submit('Add Product', array('class'=>'btn btn-primary btn-lg'))}}
             </div>
         </div>
     </div>

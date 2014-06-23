@@ -11,6 +11,9 @@ $(function()
 	// Grab the files and set them to our variable
 	function prepareUpload(event)
 	{
+      // Get the field name
+    fieldID = $(this).attr('data-field');
+
 		files = event.target.files;
         size  = files[0]['size'];
         type  = files[0]['type'];
@@ -23,7 +26,7 @@ $(function()
        if (files && files[0]) {
                var reader = new FileReader();
                reader.onload = function(e) {
-                   $('#uploadimg').attr('src', e.target.result);
+                   $('#'+fieldID).attr('src', e.target.result);
                }
  
                reader.readAsDataURL(event.target.files[0]);
