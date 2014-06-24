@@ -238,7 +238,7 @@ class ShopController extends \BaseController {
              }
             }
            
-            $product_images_merge = array_merge((array)json_decode($product->images), $product_images);
+            $product_images_merge = $product_images + (array)json_decode($product->images);
             $product->images = json_encode($product_images_merge);
            }
            /* End have uploaded image */
