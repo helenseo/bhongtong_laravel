@@ -744,8 +744,18 @@ class UsersController extends \BaseController {
       $shop = Shops::find($shop_id);
       $products = Products::where('shop_id','=',$shop_id)->get();
 
+      foreach($products as $product) {
+        $product_images = json_decode($product->images);
+        if($product_images) {
+          $product_thumbs[$product->product_id] = $product_images[0];
+        } else {
+          $product_thumbs[$product->product_id] ='';
+        }
+
+      }
+
       $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('users.shop',array('products'=>$products,'shop'=>$shop));
+      $this->layout->content = View::make('users.shop',array('products'=>$products,'product_thumbs'=>$product_thumbs,'shop'=>$shop));
       $this->layout->title = "Shop - ".$shop->shop_name;
   }
 
@@ -762,8 +772,12 @@ class UsersController extends \BaseController {
       $shop = Shops::find($product->shop_id);
       $shop_address = $shop->shop_address;
 
+      $product_images =array();
+       if($product->images !=NULL) {
+        $product_images = json_decode($product->images);
+       }
       $this->layout->header = View::make('layouts.header');
-      $this->layout->content = View::make('users.products',array('product'=>$product,'shop_address'=>$shop_address));
+      $this->layout->content = View::make('users.products',array('product'=>$product,'shop_address'=>$shop_address,'product_images'=>$product_images));
       $this->layout->title = $product->product_name;
   } 
 

@@ -74,7 +74,13 @@ function addtocart(id) {
                     @foreach($products as $product)
                       <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <a href="../products/{{$product->product_id}}"><img src="http://placehold.it/320x150" alt=""></a>
+                            <a href="../products/{{$product->product_id}}">
+                               @if(!empty($product_thumbs[$product->product_id]))
+                                <img src="{{{$product_thumbs[$product->product_id]}}}" alt="">
+                               @else
+                                <img src="http://placehold.it/320x150" alt="">
+                                @endif
+                            </a>
                             {{ Form::open(array('url'=>'users/addtocart', 'class'=>'form-products')) }}
                             <div class="caption">
                                 <h4 class="pull-right">฿ {{$product->price}}</h4>

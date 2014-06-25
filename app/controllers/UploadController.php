@@ -34,7 +34,8 @@
       if($type=="profile") {
        $image_uploaded=Image::make($file->getRealPath())->resize(200, 200, true, false)->save($path.$name);
       } else {
-        $image_uploaded = $file->move($path,$name);
+        //$image_uploaded = $file->move($path,$name);
+        $image_uploaded=Image::make($file->getRealPath())->resize(600, 400, true, false)->save($path.$name);
       }
     
       if ($image_uploaded)

@@ -1,3 +1,14 @@
+<script type="text/javascript">
+function addtocart(id) {
+ $.post("/cart/add/"+id,{},function(result){
+   if(result=="Done") {
+    $.post("/cart/check/",{},function(result){
+     $("#check-cart").html(result);
+    });
+   }
+ });
+}
+</script>
 
 <div class="product-wrap">
 
@@ -12,24 +23,38 @@
 
               <!-- Title & Description -->
               <h1>{{$product->product_name}}</h1>
+               <div class="list-group" id="check-cart">
+                 @if(count(Session::get('cart'))>0) 
+                   <a href="/cart/view/" title="view cart" target="_blank">View Cart </a>
+                 @else 
+                   Empty Cart
+                 @endif
+                </div>
+            
 
+             <!-- Start Product Detail -->
+              <div class="well col-md-12">
+                  @if($product_images)
               <div class="col-md-6">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
-                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                              {{-- */$i=1;/* --}}
+                              @foreach($product_images as $product_image) 
+                                  <li {{$i==1?'class="active"':''}} data-target="#carousel-example-generic" data-slide-to="0"></li>
+                               {{-- */$i++;/* --}}
+                              @endforeach
+                               
                             </ol>
+                            
                             <div class="carousel-inner">
-                                <div class="item active">
-                                    <img class="slide-image" src="http://placehold.it/600x400" alt="">
+                              {{-- */$i=1;/* --}}
+                              @foreach($product_images as $product_image) 
+                                <div class="item {{$i==1?'active':''}}">
+                                    <img class="slide-image" src="{{$product_image}}" alt="">
                                 </div>
-                                <div class="item">
-                                    <img class="slide-image" src="http://placehold.it/600x400" alt="">
-                                </div>
-                                <div class="item">
-                                    <img class="slide-image" src="http://placehold.it/600x400" alt="">
-                                </div>
+                              {{-- */$i++;/* --}}
+                              @endforeach
+                               
                             </div>
                             <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
                                 <span class="glyphicon glyphicon-chevron-left"></span>
@@ -39,10 +64,8 @@
                             </a>
                         </div>
                     </div>
-
-             <!-- Start Product Detail -->
-              <div class="well">
-                 <div>
+                 @endif
+                 <div class="col-md-6">
                 
                     <h4>Detail Product</h4>
                   <div class="span6">
@@ -97,7 +120,7 @@
                   <span class="col-sm-6" style="margin-top:30px;"></span>
 
                       <h4 style="display:inline;">฿{{$product->price}}</h4> &nbsp;&nbsp;
-                      <button class="btn primary">Add to Cart</button><br>
+                      <button class="btn primary" onclick="addtocart({{$product->product_id}});">Add to Cart</button><br>
                 
                 </div>
 
