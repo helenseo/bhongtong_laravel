@@ -1,20 +1,20 @@
 $(function()
 {
-	// Variable to store your files
-	var files;
+  // Variable to store your files
+  var files;
     var allowtypes = ['gif','jpg','jpeg','png'];
     var maxsize = 2000*1024;
 
-	// Add events
-	$('input[type=file]').on('change', prepareUpload);
+  // Add events
+  $('input[type=file]').on('change', prepareUpload);
 
-	// Grab the files and set them to our variable
-	function prepareUpload(event)
-	{
+  // Grab the files and set them to our variable
+  function prepareUpload(event)
+  {
       // Get the field name
     fieldID = $(this).attr('data-field');
 
-		files = event.target.files;
+    files = event.target.files;
         size  = files[0]['size'];
         type  = files[0]['type'];
 
@@ -36,7 +36,7 @@ $(function()
       } else {
          alert("Image type should be jpg, jpeg, gif, or png. and Image size should be less or equal 2MB");
       }
-	}
+  }
 
    
 });

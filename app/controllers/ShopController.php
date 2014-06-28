@@ -8,7 +8,7 @@ class ShopController extends \BaseController {
 	 * @return Response
 	 */
 
-	protected $layout = "layouts.main";
+	//protected $layout = "layouts.main";
 	public function __construct() {
 	  $this->beforeFilter('csrf', array('on'=>'post'));
       $this->beforeFilter('auth', array('only'=>array('getDashboard','getManage','getManageproducts','getEditproduct','postUpdateproduct','getAddproduct','postInsertproduct')));
@@ -85,6 +85,7 @@ class ShopController extends \BaseController {
 	}
 
 	public function getDashboard() {
+     $this->layout = View::make('layouts.main');
 	  if(Auth::user()->is_enterprise) {
 	  $shop_list = Shops::where('ent_id','=',Auth::user()->user_id)->get();
 
@@ -98,6 +99,7 @@ class ShopController extends \BaseController {
     }
 
     public function getManage($shop_id) {
+      $this->layout = View::make('layouts.main');
      $shop = Shops::where('shop_id','=',$shop_id)
                      ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
 
@@ -120,6 +122,8 @@ class ShopController extends \BaseController {
     }
     
     public function getManageproducts($shop_id) {
+        $this->layout = View::make('layouts.main');
+
        $shop = Shops::where('shop_id','=',$shop_id)
                      ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
       if($shop) { //check if shop id is exist
@@ -138,7 +142,7 @@ class ShopController extends \BaseController {
         	}
         	
         }
-
+        
         $this->layout->header = View::make('layouts.header');
         $this->layout->content = View::make('shop.manageproducts',array('shop_id'=>$shop_id,'product_list'=>$product_list,'product_categories'=>$product_categories));
         $this->layout->title = "Manage Products"; 
@@ -152,6 +156,7 @@ class ShopController extends \BaseController {
       }
     }
     public function getEditproduct($shop_id,$product_id) {
+       $this->layout = View::make('layouts.main');
     	//$product = Products::find($product_id);
       $shop = Shops::where('shop_id','=',$shop_id)
                      ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
@@ -189,6 +194,7 @@ class ShopController extends \BaseController {
     }
 
     public function postUpdateproduct($shop_id,$product_id) {
+       $this->layout = View::make('layouts.main');
 
     $shop = Shops::where('shop_id','=',$shop_id)
                      ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
@@ -220,26 +226,38 @@ class ShopController extends \BaseController {
             }
 
             $input_product_images = array_filter(Input::file('image'));
+            $number_uploads = count($input_product_images);
+
+            $current_product_images = (array)json_decode($product->images);
+            $limited_uploads = 5 - count($current_product_images);
            /*If have uploaded image */
-           if(count($input_product_images)) {
+           if($number_uploads>0) {
+            if($number_uploads<=$limited_uploads) {
+
             $product_images = array();
             $i=0;
+             $current_product_images = (array)json_decode($product->images);
             foreach ($input_product_images as $input_product_image) {
               $upload_img = UploadController::upload($input_product_image,null,null,null,'/uploads/products/');
               $upload_img = json_decode($upload_img);
 
              if($upload_img->filename && !empty($upload_img->filename)) {
-               $product_images[$i] = $upload_img->filename;
+               //$product_images[$i] = $upload_img->filename;
 
-               $i++;
+               //$i++;
+               array_push($current_product_images,$upload_img->filename);
               
              } else {
               return Redirect::to('shop/editproduct/'.$shop_id.'/'.$product_id)->withInput()->withErrors($upload_img->status);
              }
             }
            
-            $product_images_merge = $product_images + (array)json_decode($product->images);
-            $product->images = json_encode($product_images_merge);
+            $product->images = json_encode($current_product_images);
+
+             } // check if not more than limited
+             else {
+               return Redirect::to('shop/editproduct/'.$shop_id.'/'.$product_id)->withInput()->withErrors('Product photos already reached up 5 photos!');
+             }
            }
            /* End have uploaded image */
           
@@ -266,6 +284,7 @@ class ShopController extends \BaseController {
     }
 
     public function getAddproduct($shop_id) {
+       $this->layout = View::make('layouts.main');
       $shop = Shops::where('shop_id','=',$shop_id)
                      ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
       if($shop) { //check if shop id is exist
@@ -354,5 +373,69 @@ class ShopController extends \BaseController {
                     ->withErrors(array('The Shop ID: '.$shop_id. 'is invalid or you have no access to this shop'));
       }
     }
+
+    public function getDeleteproductimg($product_id,$image_index) {
+        if(!empty($product_id)) {
+            $product = Products::where('product_id','=',$product_id)->first();
+            $product_images = array();
+
+             if($product->images !=NULL) {
+              $product_images = json_decode($product->images);
+               
+               File::delete(public_path().''.$product_images[$image_index]);
+               unset($product_images[$image_index]);
+               
+               $product_images  = array_values($product_images);
+
+               $product->images = json_encode($product_images);
+
+               $product->update();
+
+               echo "Done";
+
+              }
+        }
+    }
+
+    public function getRemainproductimg($product_id) {
+         if(!empty($product_id)) {
+            $product = Products::where('product_id','=',$product_id)->first();
+
+            if($product) {
+            $product_images = array();
+            $product_images = json_decode($product->images);
+            
+            echo 5-count($product_images);
+           } else {
+            echo "Invalid product id";
+           }
+          } else {
+            echo "Please provide product id";
+          }
+    }
+
+    public function getListproductimages($product_id) {
+     if(!empty($product_id)) {
+            $product = Products::where('product_id','=',$product_id)->first();
+            if($product) {
+            $product_images = array();
+            $product_images = json_decode($product->images);
+             if($product_images) {
+              $i=0;
+             foreach($product_images as $product_image) {
+               echo '<div>
+                     <img class="profile-pic img-rounded img-responsiv" src="'.$product_image.'" />
+                      <a href="#" onclick="deleteimg('.$product->product_id.','.$i.');" class="btn btn-default btn-success">
+                      <span class="glyphicon glyphicon-trash"></span></a><br>
+                  </div>';
+                $i++;
+               }
+             } //if product images are more than 1
+             else {
+              echo "No any current product images";
+             }
+            } //if product is valid
+          } //if product_id not null
+     }  
 
 }

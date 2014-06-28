@@ -1,5 +1,106 @@
  <!-- For Image uploading -->
-      {{ HTML::script('packages/bootstrap/js/upload.js') }}
+<script type="text/javascript">
+max_photos =0;
+$(function()
+{
+  // Variable to store your files
+    var files;
+    var allowtypes = ['gif','jpg','jpeg','png'];
+    var maxsize = 2000*1024;
+     
+   
+  // Add events
+   var input_upload = $('#upload-file');
+   var input_upload_wrap = $('#upload-file-wrap');
+   input_upload.on('change', prepareUpload);
+
+   $.get("/shop/remainproductimg/{{{$product->product_id}}}",{},function(result){
+        if(!isNaN(result)) {
+          max_photos = result;
+        }
+    });
+
+
+  // Grab the files and set them to our variable
+  function prepareUpload(event)
+  {
+
+    var files = event.target.files;
+    var output = document.getElementById("upload-result");
+
+     output.innerHTML ='';
+
+     if(files.length<=max_photos) {
+         
+         for(var i = 0; i< files.length; i++)
+            {
+                var file = files[i];
+                
+                //var  sp_type = files[i]['type'].split('images/').pop().toLowerCase();
+
+                 sp_type = files[i]['type'].split('image/').pop().toLowerCase();
+
+                 size = files[i]['size'];
+                //Only pics
+                
+                  if(jQuery.inArray(sp_type, allowtypes)!=-1 && size<=maxsize) {
+
+                    
+                       var reader = new FileReader();
+                      reader.onload = function(e) {
+
+                      //$('#'+fieldID).attr('src', e.target.result);
+                       var picFile = e.target;
+                    
+                    var div = document.createElement("div");
+                    
+                    div.innerHTML = "<img class='profile-pic img-rounded img-responsive'  src='" + picFile.result + "'" +
+                            "title=''/>";
+                    
+                    output.insertBefore(div);  
+
+                       }
+                      reader.readAsDataURL(file);
+                      
+       // $("#uploadimg").attr('src',files);
+       
+               } else {
+
+                  alert("Image type should be jpg, jpeg, gif, or png. and Image size should be less or equal 2MB");
+               }    
+   }
+
+ } //if not more than 5 images
+ else {
+  // alert(max_photos);
+   input_upload.val('');
+
+  alert("The number of photos already reached 5 photos, please delete some photos for adding new ones");
+ }
+}
+
+
+   
+});
+
+function deleteimg(product_id,image_index) {
+   $.get("/shop/deleteproductimg/"+product_id+"/"+image_index,{},function(result){
+   if(result=="Done") {
+        $.get("/shop/remainproductimg/{{{$product->product_id}}}",{},function(result){
+         if(!isNaN(result)) {
+          max_photos = result;
+         // alert(max_photos);
+         }
+        });
+       $.get("/shop/listproductimages/"+product_id,{},function(result){
+         $("#current-product-images").html(result);
+        });
+   }
+ });
+
+
+}
+</script>
 <div class="container">
   <div class="row">
    {{ Form::open(array('url'=>'shop/updateproduct/'.$product->shop_id.'/'.$product->product_id, 'class'=>'form-updateproduct','enctype'=>'multipart/form-data')) }}
@@ -39,56 +140,37 @@
               </div>
 
               <div class="col-sm-6 col-md-6">
-                  <div><p><b>Product Images</b></p></div>
-                  <div>
-                    <img src="{{{ !empty($product_images[0]) ? $product_images[0] : 'http://placehold.it/380x500'}}}" id="uploadimg_1" alt="" class="profile-pic img-rounded img-responsive" ><br/>
-                    <!-- Post Footer -->
-                
-                        <div class="span3">
+                  <div><p><b>Current Product Images</b></p></div>
+                  <div id="current-product-images">
+                   @if($product_images)
+                   <?php 
+                   $i=0;
+                   ?>
+                    @foreach($product_images as $product_image)
+                    <div>
+                     <img class="profile-pic img-rounded img-responsiv" src="{{{$product_image}}}" />
+                      <a href="#" onclick="deleteimg({{{$product->product_id}}},{{{$i}}});" class="btn btn-default btn-success"><span class="glyphicon glyphicon-trash"></span></a><br>
+                    </div>
+                    <?php 
+                    $i++;
+                    ?>
+                    @endforeach
+                   @else 
+                   No any product images
+                   @endif
+                  </div>
+                  <div><p><b>Select images: </b></p></div>
+                  <div id="upload-result">
+                   
+                  </div>
+                  <div>    
+                        <div id="upload-file-wrap">
                            
-                            {{Form::file('image[]',array('data-field'=>'uploadimg_1'))}}
+                            {{Form::file('image[]',array('id'=>'upload-file','data-field'=>'uploadimg_1','multiple'=>true))}}
                        </div>
                   </div>
 
-                   <div>
-                    <img src="{{{ !empty($product_images[1]) ? $product_images[1] : 'http://placehold.it/380x500'}}}" id="uploadimg_2" alt="" class="profile-pic img-rounded img-responsive" ><br/>
-                    <!-- Post Footer -->
-                
-                        <div class="span3">
-                         
-                           {{Form::file('image[]',array('data-field'=>'uploadimg_2'))}}
-                       </div>
-                  </div>
-
-                   <div>
-                    <img src="{{{ !empty($product_images[2]) ? $product_images[2] : 'http://placehold.it/380x500'}}}" id="uploadimg_3" alt="" class="profile-pic img-rounded img-responsive" ><br/>
-                    <!-- Post Footer -->
-                
-                        <div class="span3">
-                         
-                             {{Form::file('image[]',array('data-field'=>'uploadimg_3'))}}
-                       </div>
-                  </div>
-
-                   <div>
-                    <img src="{{{ !empty($product_images[3]) ? $product_images[3] :'http://placehold.it/380x500'}}}" id="uploadimg_4" alt="" class="profile-pic img-rounded img-responsive" ><br/>
-                    <!-- Post Footer -->
-                
-                        <div class="span3">
-                            
-                            {{Form::file('image[]',array('data-field'=>'uploadimg_4'))}}
-                       </div>
-                  </div>
-
-                   <div>
-                    <img src="{{{ !empty($product_images[4]) ? $product_images[4] : 'http://placehold.it/380x500'}}}" id="uploadimg_5" alt="" class="profile-pic img-rounded img-responsive" ><br/>
-                    <!-- Post Footer -->
-                
-                        <div class="span3">
-                            
-                            {{Form::file('image[]',array('data-field'=>'uploadimg_5'))}}
-                       </div>
-                  </div>
+                   
 
                 </div>
 
