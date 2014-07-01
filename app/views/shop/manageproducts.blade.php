@@ -21,7 +21,7 @@
           <p>Uncategorized</p>
         @endif
         </td>
- 		<td><a href="/shop/editproduct/{{$shop_id}}/{{$product->product_id}}" target="_blank" title="Edit product">Edit product</a></td>
+ 		<td><a href="/shop/editproduct/{{$shop_id}}/{{$product->product_id}}" target="_blank" title="Edit product">Edit product</a>&nbsp;&nbsp;<a href="/shop/deleteproduct/{{$shop_id}}/{{$product->product_id}}" class="btn btn-default btn-success"><span class="glyphicon glyphicon-trash"></span></a></td>
  	</tr>
  	@endforeach
  </tbody>

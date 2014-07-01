@@ -11,8 +11,8 @@ class ShopController extends \BaseController {
 	//protected $layout = "layouts.main";
 	public function __construct() {
 	  $this->beforeFilter('csrf', array('on'=>'post'));
-      $this->beforeFilter('auth', array('only'=>array('getDashboard','getManage','getManageproducts','getEditproduct','postUpdateproduct','getAddproduct','postInsertproduct')));
-      $this->beforeFilter('isenterprise', array('only'=>array('getDashboard','getManage','getManageproducts','getEditproduct','postUpdateproduct','getAddproduct','postInsertproduct')));
+      $this->beforeFilter('auth', array('only'=>array('getDashboard','getManage','getManageproducts','getEditproduct','postUpdateproduct','getAddproduct','postInsertproduct','getDeleteproductimg','getRemainproductimg','getDeleteproduct','getListproductimages')));
+      $this->beforeFilter('isenterprise', array('only'=>array('getDashboard','getManage','getManageproducts','getEditproduct','postUpdateproduct','getAddproduct','postInsertproduct','getDeleteproduct','getDeleteproductimg','getRemainproductimg','getListproductimages')));
 
 	}
 	public function index()
@@ -437,5 +437,33 @@ class ShopController extends \BaseController {
             } //if product is valid
           } //if product_id not null
      }  
+
+     public function getDeleteproduct($shop_id,$product_id) {
+
+       $shop = Shops::where('shop_id','=',$shop_id)
+                     ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
+      if($shop) { //check if shop id is exist
+       if($shop->is_approved) {
+         $product = Products::where('product_id','=',$product_id)
+                         ->where('shop_id','=',$shop_id,'AND')->first();
+        if($product) {
+          $product->delete();
+                return Redirect::to('shop/manageproducts/'.$shop_id)->with('message', 'Deleted successfully!');;
+        } else {
+          return Redirect::to('shop/manageproducts/'.$shop_id)
+                   ->withInput()->withErrors('Invalid Product Id');
+        }
+        //end shop approved
+       }  else {
+          return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Shop <b>'.$shop->shop_name.'</b> has not approved yet'));
+        }
+      } //end check shop 
+      else {
+        return Redirect::to('shop/dashboard')
+                    ->withErrors(array('The Shop ID: '.$shop_id. ' is invalid or you have no access to this shop'));
+      }
+
+     }
 
 }
