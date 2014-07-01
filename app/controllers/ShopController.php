@@ -466,4 +466,31 @@ class ShopController extends \BaseController {
 
      }
 
+      public function getManagecategories($shop_id) {
+        $this->layout = View::make('layouts.main');
+
+       $shop = Shops::where('shop_id','=',$shop_id)
+                     ->where('ent_id','=',Auth::user()->user_id,'AND')->first();
+      if($shop) { //check if shop id is exist
+       if($shop->is_approved) {
+          $categories_list = Product_categories::where('shop_id','=',$shop_id)->get();
+
+          foreach($categories_list as $cat) {
+            $parent_cat_name = Product_categories::where('cat_id','=',$cat->parent_cat)->first();
+            $cat->parent_cat_name= $parent_cat_name->cat_name;
+          }
+          
+          $this->layout->header = View::make('layouts.header');
+          $this->layout->content = View::make('shop.managecategories',array('shop_id'=>$shop_id,'categories_list'=>$categories_list));
+          $this->layout->title = "Manage Categories"; 
+                  } else {
+          return Redirect::to('shop/dashboard')
+                    ->withErrors(array('Shop <b>'.$shop->shop_name.'</b> has not approved yet'));
+               }
+      } else {
+        return Redirect::to('shop/dashboard')
+                    ->withErrors(array('The Shop ID: '.$shop_id. ' is invalid or you have no access to this shop'));
+      }
+    }
+
 }

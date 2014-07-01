@@ -13,6 +13,7 @@
                     <div class="row">
                         <div class="col-xs-6 col-md-12">
                           <a href="/shop/manageproducts/{{$shop_id}}" class="btn btn-danger btn-lg" role="button"><span class="glyphicon glyphicon-list-alt"></span> <br/>Products</a>
+                           <a href="/shop/managecategories/{{$shop_id}}" class="btn btn-danger btn-lg" role="button"><span class="glyphicon glyphicon-th-large"></span> <br/>Categories</a>
                           <a href="#" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-signal"></span> <br/>Reports</a>
                           <a href="#" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-cog"></span> <br/>Settings</a>
                         </div>
