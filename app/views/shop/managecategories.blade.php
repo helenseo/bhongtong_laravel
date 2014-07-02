@@ -1,7 +1,7 @@
 <div>
  <h3>Manage Categories</h3>
 </div>
-<div><a href="/shop/addproduct/{{$shop_id}}" title="add product">Add Category</a></div>
+<div><a href="/shop/addcategory/{{$shop_id}}" title="add category">Add Category</a></div>
 <div class="table-responsive">
  <table class="shopping-cart-table table table-bordered">
  <thead>
